@@ -1,11 +1,11 @@
-module Page.Home exposing (Model, Msg, view, init, update)
+module Page.Mindstorms exposing (Model, Msg, view, init, update)
 
-import Browser
+
+import Browser 
 import Route exposing (Route)
 import Article exposing (Article, ArticleCard, Image)
 import TestArticle exposing (article)
 import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
-
 
 
 -- MODEL
@@ -20,7 +20,6 @@ init : (Model, Cmd msg)
 init =
     ( { articles = 
         [ Article.getCard TestArticle.article
-        , Article.getCard TestArticle.article
         , Article.getCard TestArticle.article
         ]
       }

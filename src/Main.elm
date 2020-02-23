@@ -6,6 +6,9 @@ import Browser.Navigation as Nav
 import Route exposing (Route)
 import Url exposing (Url)
 import Page.Home as Home
+import Page.Mindstorms as Mindstorms
+import Page.Projects as Projects
+import Page.About as About
 import Page as Page exposing (view, viewNotFound)
 
 
@@ -34,11 +37,17 @@ type alias Model =
 type Page 
     = NotFoundPage
     | HomePage Home.Model
+    | MindstormsPage Mindstorms.Model
+    | ProjectsPage Projects.Model
+    | AboutPage About.Model
 
 
 
 type Msg
     = HomeMsg Home.Msg
+    | MindstormsMsg Mindstorms.Msg
+    | ProjectsMsg Projects.Msg
+    | AboutMsg About.Msg
     ---
     | LinkClicked UrlRequest
     | UrlChanged Url
@@ -49,7 +58,6 @@ type Msg
 init : () -> Url -> Nav.Key -> (Model, Cmd Msg)
 init _ url navKey =
     let 
-        debug = Debug.log (Debug.toString <| Route.fromUrl url)
         model =
             { route = Route.fromUrl url
             , page = NotFoundPage
@@ -74,22 +82,28 @@ initCurrentPage (model, existingCmds) =
                     ( HomePage pageModel, Cmd.map HomeMsg pageCmd )
 
                 Route.Mindstorms ->
-                    ( NotFoundPage, Cmd.none )
+                    let
+                        ( pageModel, pageCmd ) = Mindstorms.init
+                    in
+                    ( MindstormsPage pageModel, Cmd.map MindstormsMsg pageCmd )
 
-                Route.MindstormsArticle _ ->
+                Route.MindstormsArticle articleString ->
                     ( NotFoundPage, Cmd.none )
 
                 Route.Projects ->
-                    ( NotFoundPage, Cmd.none )
+                    let 
+                        ( pageModel, pageCmd ) = Projects.init
+                    in 
+                    ( ProjectsPage pageModel, Cmd.map ProjectsMsg pageCmd )
 
                 Route.ProjectsArticle _ ->
                     ( NotFoundPage, Cmd.none )
 
                 Route.About ->
-                    ( NotFoundPage, Cmd.none )
-
-
-
+                    let 
+                        ( pageModel, pageCmd ) = About.init
+                    in
+                    ( AboutPage pageModel, Cmd.map AboutMsg pageCmd )
 
     in
     ( { model| page = currentPage }
@@ -106,7 +120,20 @@ view model =
             Page.viewNotFound
 
         HomePage pageModel ->
-            Page.view model.route (Home.view pageModel)
+            --Page.view model.route (Home.view pageModel |> Html.map HomeMsg)
+            Home.view model.route pageModel
+
+        MindstormsPage pageModel ->
+            --Page.view model.route (Mindstorms.view pageModel |> Html.map MindstormsMsg)
+            Mindstorms.view model.route pageModel
+
+        ProjectsPage pageModel ->
+            Page.view model.route (Projects.view pageModel |> Html.map ProjectsMsg)
+
+        AboutPage pageModel ->
+            Page.view model.route (About.view pageModel |> Html.map AboutMsg )
+
+
 
 -- UPDATE
 
@@ -121,6 +148,57 @@ update msg model =
             ( { model | page = HomePage updatedPageModel } 
             , Cmd.map HomeMsg updatedCmd
             )
+
+
+        ( MindstormsPage pageModel, MindstormsMsg subMsg ) ->
+            let
+                ( updatedPageModel, updatedCmd ) =
+                    Mindstorms.update subMsg pageModel
+            in
+            ( { model | page = MindstormsPage updatedPageModel }
+            , Cmd.map MindstormsMsg updatedCmd
+            )
+
+
+        ( ProjectsPage pageModel, ProjectsMsg subMsg ) ->
+            let 
+                ( updatedPageModel, updatedCmd ) =
+                    Projects.update subMsg pageModel
+            in
+            ( { model | page = ProjectsPage updatedPageModel }
+            , Cmd.map ProjectsMsg updatedCmd 
+            )
+
+
+        ( AboutPage pageModel, AboutMsg subMsg ) ->
+            let 
+                ( updatedPageModel, updatedCmd ) =
+                    About.update subMsg pageModel
+            in
+            ( { model | page = AboutPage updatedPageModel }
+            , Cmd.map AboutMsg updatedCmd
+            )
+
+
+
+        ( _ , UrlChanged url ) ->
+            let
+                newRoute = Route.fromUrl url
+            in
+            ( { model | route = newRoute }, Cmd.none )
+                |> initCurrentPage
+
+
+        ( _ , LinkClicked urlRequest ) ->
+            case urlRequest of 
+                Browser.Internal url ->
+                    ( model
+                    , Nav.pushUrl model.navKey (Url.toString url)
+                    )
+
+                Browser.External url ->
+                    ( model, Nav.load url )
+
 
         ( _, _ ) -> 
             ( model, Cmd.none )

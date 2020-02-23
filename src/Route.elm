@@ -44,11 +44,11 @@ pushUrl route navKey =
         |> Nav.pushUrl navKey
 
 
-routeToString : Route -> String
-routeToString page =
-    case page of 
+routeToPieces : Route -> String
+routeToPieces route =
+    case route of 
         Home ->
-            "/"
+            ""
 
         Mindstorms ->
             "/mindstorms"
@@ -69,13 +69,9 @@ routeToString page =
             "/not-found"
 
 
-
-
--- INTERNAL
-
---routeToString : Route -> String
---routeToString page =
---    "#/" ++ String.join "/" (routeToPieces page)
+routeToString : Route -> String
+routeToString page =
+    "#/" ++ (routeToPieces page)
 
 
 

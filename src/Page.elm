@@ -1,10 +1,19 @@
-module Page exposing (view, viewNotFound)
+module Page exposing 
+    ( view
+    , viewNotFound
+    , viewContent
+    , viewCards
+    , viewCard
+    , viewCardImage
+    , viewCardInfo
+    )
 
 import Browser 
 import Browser.Dom exposing (Viewport)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Route exposing (Route(..))
+import Article exposing (Article, ArticleCard, Image)
 
 
 view : Route -> Html msg -> Browser.Document msg
@@ -19,7 +28,9 @@ viewNotFound =
     { title = "Z Context"
     , body = 
             [ div [ id "page-not-found" ] 
-                [ h1 [] [ text "Page Not Found"] ] 
+                [ h1 [] [ text "Page Not Found"] 
+                , a [ href "/" ] [ text "Go to Home Page"]
+                ]
             ]
     }
 
@@ -91,6 +102,43 @@ viewContent : Html msg -> Html msg
 viewContent content =
     div [ id "content"]
         [ content ]
+
+
+viewCards :  List ArticleCard -> Html msg
+viewCards articles =
+    div [ id "view-cards" ] ( List.map viewCard articles )
+
+
+viewCard : ArticleCard -> Html msg
+viewCard article =
+    a 
+        [ class "view-card"
+        , href article.href
+        ]
+        [ viewCardImage article.image
+        , viewCardInfo article
+        ]
+
+
+viewCardImage : Image -> Html msg
+viewCardImage image =
+    div [ class "card-image-wrapper" ]
+        [ img 
+            [ class "card-image" 
+            , src image.src
+            , alt image.description
+            ]
+            []
+        ]
+
+
+viewCardInfo : ArticleCard -> Html msg
+viewCardInfo article =
+    div [ class "card-info" ]
+        [ h3 [ class "card-info-header" ] [ text article.title ]
+        , div [ class "card-info-date" ] [ text article.date]
+        ]
+    
 
 
 
