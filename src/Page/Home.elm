@@ -1,9 +1,9 @@
 module Page.Home exposing (Model, Msg, view, init, update)
 
 import Browser
-import Route exposing (Route)
+import Route.Route exposing (Route)
 import Article exposing (Article, ArticleCard, Image)
-import TestArticle exposing (article)
+import Mindstorms.TestArticle as TestArticle exposing (article)
 import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
 
 

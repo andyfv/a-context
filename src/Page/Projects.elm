@@ -1,13 +1,17 @@
 module Page.Projects exposing (Model, Msg, view, init, update)
 
 
+import Browser
+import Route.Route as Route exposing (Route(..))
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
-import Route exposing (Route(..))
 import Article exposing (Article, ArticleCard, Image)
-import TestArticle exposing (article)
 import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
+
+import Projects.NeighborhoodHere as NH
+import Projects.SymbolRecognition as SR
+import Projects.SailfishOS as SOS
+
 
 
 
@@ -16,16 +20,16 @@ import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
 
 type alias Model =
     { articles : List ArticleCard 
-    , displayArticle : Maybe Article
     }
 
 
 init : (Model, Cmd Msg)
 init =
     ( { articles = 
-        [ Article.getCard TestArticle.article
+        [ Article.getCard NH.article
+        , Article.getCard SR.article
+        , Article.getCard SOS.article
         ]
-      , displayArticle = Nothing
       }
     , Cmd.none    
     )
@@ -36,13 +40,13 @@ init =
 
 
 type Msg
-    = ClickedArticle
+    = NoOp
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        ClickedArticle ->
+        NoOp ->
             (model, Cmd.none)
 
 
@@ -50,11 +54,6 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Html Msg
-view model =
-    case model.displayArticle of 
-        Just article ->
-            text ""
-
-        Nothing ->
-            viewCards model.articles
+view : Route -> Model -> Browser.Document msg
+view route model =
+    Page.view Route.Projects (viewCards model.articles)

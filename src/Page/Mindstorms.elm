@@ -1,29 +1,31 @@
 module Page.Mindstorms exposing (Model, Msg, view, init, update)
 
-
-import Browser 
-import Route exposing (Route)
+import Browser
+import Browser.Navigation as Nav
+import Url exposing (Url)
+import Route.Route as Route exposing (Route)
 import Article exposing (Article, ArticleCard, Image)
-import TestArticle exposing (article)
-import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
+import Mindstorms.TestArticle as TestArticle exposing (article)
+import Mindstorms.Learning as Learning exposing (..)
+import Page as Page exposing (viewCards)
 
 
 -- MODEL
 
-
 type alias Model =
-    { articles : List ArticleCard 
+    { articles : List ArticleCard
     }
 
 
-init : (Model, Cmd msg)
+init : (Model, Cmd Msg)
 init =
     ( { articles = 
         [ Article.getCard TestArticle.article
         , Article.getCard TestArticle.article
+        , Article.getCard Learning.article
         ]
       }
-    , Cmd.none    
+    , Cmd.none
     )
 
 
@@ -35,7 +37,7 @@ type Msg
     = NoOp
 
 
-update : Msg -> Model -> (Model, Cmd msg)
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
         NoOp ->
@@ -48,4 +50,4 @@ update msg model =
 
 view : Route -> Model -> Browser.Document msg
 view route model =
-    Page.view route (viewCards model.articles)
+    Page.view Route.Mindstorms (viewCards model.articles)
