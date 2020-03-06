@@ -1,21 +1,37 @@
-module Article exposing (Article, Image, ArticleCard, getCard)
+module Article exposing 
+    ( Article
+    , ArticleStructure
+    , Image
+    , ArticleCard
+    , getArticle
+    , getSubtitle
+    , getTitle
+    , getDate
+    , getHref
+    , getSummary
+    , getImageSrc
+    , getCard
+    )
 
+
+import Browser
 import Html exposing (Html)
 import Url.Parser exposing (Parser, custom, string)
 import Markdown as Md exposing (..)
 
-type Msg
-    = LinkClicked
 
-type alias Article =
+type alias ArticleStructure =
     { title : String
     , subtitle : String
     , date : String
     , image : Image
-    , content : Html Msg
     , href : String
     , summary : String
     }
+
+
+type Article  = 
+    Article ArticleStructure
 
 
 type alias ArticleCard =
@@ -32,40 +48,51 @@ type alias Image =
     }
 
 
-type Content msg = Content (Html msg)
+-- OPERATIONS
+
+getArticle : ArticleStructure -> Article
+getArticle info =
+    Article info
+
+getTitle : Article -> String
+getTitle ( Article { title } ) =
+    title
+
+getSubtitle : Article -> String
+getSubtitle ( Article { subtitle } ) =
+    subtitle
+
+getDate : Article -> String
+getDate ( Article { date } ) =
+    date
+
+getHref : Article -> String
+getHref ( Article { href } ) =
+    href
+
+getSummary : Article -> String
+getSummary ( Article { summary } ) =
+    summary
+
+getImageSrc : Article -> String 
+getImageSrc ( Article { image } ) =
+    imageSrc image
+
+imageSrc : Image -> String
+imageSrc image =
+    image.src
+
+
+
+getCard : Article -> ArticleCard
+getCard (Article { title, date, image, href } ) =
+    ArticleCard
+        title
+        date
+        image
+        href
+
 
 --titleParser : Parser (String -> a) a
 --titleParser =
 --    custom "ARTICLE" <| \title -> Maybe.map string title
-
-
-getCard : Article -> ArticleCard
-getCard article =
-    ArticleCard
-        article.title
-        article.date
-        article.image
-        article.href
-
-
-
-
---type alias Article =
---    { title : String
---    , image : Image
---    , href : String
---    , summary : String
---    , date : String
---    }
-
---type alias Image =
---    { src : String
---    , description : String
---    }
---[ ArticleCard article "Testing my article" (Image "/img/turtle.png" "Alan Kay") "/mindstorms/test_arcticle" "Just some test text" "07 Feb 2020"
-        --, Article "Testing my article" (Image "/img/turtle.png" "Alan Kay") "/mindstorms/test_arcticle" "Just some test text" "07 Feb 2020"
-        --, Article "Testing my article" (Image "/img/turtle.png" "Alan Kay") "/mindstorms/test_arcticle" "Just some test text" "07 Feb 2020"
-        --, Article "Testing my article right now is not very good" (Image "/img/turtle.png" "Alan Kay") "/mindstorms/test_arcticle" "Just some test text" "07 Feb 2020"
-        --, Article "Testing my article" (Image "/img/turtle.png" "Alan Kay") "/mindstorms/test_arcticle" "Just some test text" "07 Feb 2020"
-        --, Article "Testing my article" (Image "/img/turtle.png" "Alan Kay") "/mindstorms/test_arcticle" "Just some test text" "07 Feb 2020"
-        --, Article "Testing my article right now is not very good" (Image "/img/turtle.png" "Alan Kay") "/mindstorms/test_arcticle" "Just some test text" "07 Feb 2020"
