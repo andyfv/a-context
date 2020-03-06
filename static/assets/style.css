@@ -71,12 +71,16 @@ img, embed, object, video {
     display : flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 12px 20px 0 0;
+    margin: 12px 12px 0 0;
     /**/
     counter-reset: none;
     list-style-type: none;
 }
 
+/*#nav-links span {
+    line-height: 480px;
+}
+*/
 
 #nav-links a {
     height: 48px;
@@ -84,11 +88,11 @@ img, embed, object, video {
     padding-right: 10px;
     display: inline-block;
     margin-left: 15px;
+    line-height: 49px;
 
     /* Fonts: */
     font-size: 24px;
     font-weight: 100;
-    line-height: 52px;
     text-decoration: none;
     color: rgb(77, 72, 71);
 }
@@ -96,14 +100,14 @@ img, embed, object, video {
 .selected-nav-link {
     box-shadow: inset 0px 0px 4px -1px rgba(0,0,0,0.9);
     background-color: rgb(255, 250, 240);
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 
 /* CONTENT */
 
 #content {
-    max-width: 820px;
+    max-width: 80ch;
     margin: 90px auto 0 auto;
     box-sizing: border-box;
 }
@@ -129,6 +133,7 @@ img, embed, object, video {
     max-height: 110px;
     overflow: hidden;
     cursor: pointer;
+    text-decoration: none;
     padding: 10px 10px 10px 13px;
     background-color: rgb(255, 250, 240);
     --webkit-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.75);
@@ -182,6 +187,7 @@ img, embed, object, video {
     overflow: hidden;
     padding: 10px;
     margin-left: 10px;
+    text-decoration: none;
     border-left: 2px solid rgb(253, 120, 120);
     /**/
     display: flex;
@@ -196,6 +202,7 @@ img, embed, object, video {
     font-family: "Helvetica";
     font-weight: 300;
     color: rgb(93,99,99);
+    
     /* mutli-line truncating */
     overflow: hidden;
     display: -webkit-box;
@@ -208,9 +215,47 @@ img, embed, object, video {
     color: rgb(123,139,139);
 }
 
-/* PAGE NOT FOUND*/
+/* PAGE NOT FOUND */
 #page-not-found {
     color : grey;
     text-align: center;
 }
+
+
+/* ABOUT */
+#about-page {
+    padding: 10px 20px 0 20px;
+    font-family: 'Helvetica';
+    font-size: 1.2em;
+    font-weight: 300;
+    color: #6B4000;
+}
+
+
+/* General styling for an Article */
+.article {
+    padding: 10px 20px 0 20px;
+    color: #6B4000;
+    font-size: 1.2em;
+    font-weight: 300;
+}
+
+.article > hr {
+    margin: 0;
+}
+
+.article-title,
+.article-subtitle {
+    text-align: center;
+    font-weight: 400;
+    margin: 10px;
+}
+
+
+.article-date {
+    text-align: left;
+    font-weight: 300;
+    margin: 10px;
+}
+
 

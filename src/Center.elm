@@ -1,6 +1,7 @@
 module Center exposing
   ( markdown
   , styles
+  , options
   )
 
 
