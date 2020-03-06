@@ -1,32 +1,21 @@
 module Page.About exposing (Model, Msg, view, init, update)
 
-
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
-import Route exposing (Route(..))
-import Article exposing (Article, ArticleCard, Image)
-import TestArticle exposing (article)
+import Browser
+import Center
+import Markdown
+import Html exposing (Html, div)
+import Html.Attributes exposing (id)
+import Route.Route exposing (Route(..))
 import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
 
 -- MODEL
 
 
-type alias Model =
-    { articles : List ArticleCard 
-    , displayArticle : Maybe Article
-    }
-
+type alias Model = {}
 
 init : (Model, Cmd Msg)
 init =
-    ( { articles = 
-        [ Article.getCard TestArticle.article
-        ]
-      , displayArticle = Nothing
-      }
-    , Cmd.none    
-    )
+    ({}, Cmd.none)
 
 
 
@@ -34,13 +23,13 @@ init =
 
 
 type Msg
-    = ClickedArticle
+    = NoOp
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        ClickedArticle ->
+        NoOp ->
             (model, Cmd.none)
 
 
@@ -48,11 +37,27 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Html Msg
-view model =
-    case model.displayArticle of 
-        Just article ->
-            text ""
+view : Route -> Model -> Browser.Document msg
+view route model =
+    Page.view route info
 
-        Nothing ->
-            viewCards model.articles
+
+info : Html msg
+info =
+    div [ id "about-page" ]
+        [ Markdown.toHtmlWith Center.options [] text ]
+
+
+text : String
+text = """
+
+Hi. 
+
+This is part of my point of view at a cross section of relative time.
+
+Interested in nothing specific and everything unspecified. Probably just a generalist.
+
+I like to read... and find language and symbols amusing.
+
+     
+"""
