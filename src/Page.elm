@@ -12,8 +12,9 @@ import Browser
 import Browser.Dom exposing (Viewport)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Route exposing (Route(..))
+import Route.Route exposing (Route(..))
 import Article exposing (Article, ArticleCard, Image)
+import Center
 
 
 view : Route -> Html msg -> Browser.Document msg
@@ -53,18 +54,11 @@ viewHeader : Route -> Html msg
 viewHeader page = 
     div [ class "header"] 
         [ logo
-        , nav [ id "nav-links" ]
-            [ ol []
-                [ viewLink page Home "Home" "/"
-                , viewLink page Mindstorms "Mindstorms" "/mindstorms"
-                , viewLink page Projects "Projects" "/projects"
-                , viewLink page About "About" "/about"
-                ]
-            ]
+        , viewNavBar page
         ]
 
 
-logo  : Html msg
+logo : Html msg
 logo =
     a [ href "/"]
         [ node "picture" [ id "header-icon" ]
@@ -81,6 +75,19 @@ logo =
             , img [ src "/img/icon_mobile_dark.svg", alt "logo"] []
             ] 
         ]
+
+
+viewNavBar : Route -> Html msg
+viewNavBar page =
+    nav [ id "nav-links" ]
+        [ ol []
+            [ viewLink page Home "Home" "/"
+            , viewLink page Mindstorms "Mindstorms" "/mindstorms"
+            , viewLink page Projects "Projects" "/projects"
+            , viewLink page About "About" "/about"
+            ]
+        ]
+
 
 
 viewLink : Route -> Route -> String -> String -> Html msg
@@ -135,11 +142,21 @@ viewCardImage image =
 viewCardInfo : ArticleCard -> Html msg
 viewCardInfo article =
     div [ class "card-info" ]
-        [ h3 [ class "card-info-header" ] [ text article.title ]
-        , div [ class "card-info-date" ] [ text article.date]
+        [ h3 [ class "card-info-header" ] [ text article.title ] 
+        , div [ class "card-info-date" ] [ text article.date ]
         ]
     
 
+{- Article Template -}
+
+viewArticle : Article -> Html msg
+viewArticle article =
+    div [ class "article" ]
+        [ h1 [] [ text (Article.getTitle article) ]
+        , h3 [] [ text (Article.getSubtitle article) ]
+        , h5 [] [ text (Article.getDate article) ]
+        --, Center.markdown "800px" articleText 
+        ]
 
 
 {- FOOTER -}
