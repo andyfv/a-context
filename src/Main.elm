@@ -3,11 +3,13 @@ module Main exposing (main)
 import Html exposing (..)
 import Browser exposing (UrlRequest, Document)
 import Browser.Navigation as Nav
-import Route exposing (Route)
+import Route.Route as Route exposing (Route)
 import Url exposing (Url)
 import Page.Home as Home
 import Page.Mindstorms as Mindstorms
+import Page.MindstormArticle as MindstormArticle
 import Page.Projects as Projects
+import Page.ProjectArticle as ProjectArticle
 import Page.About as About
 import Page as Page exposing (view, viewNotFound)
 
@@ -38,7 +40,9 @@ type Page
     = NotFoundPage
     | HomePage Home.Model
     | MindstormsPage Mindstorms.Model
+    | MindstormArticlePage MindstormArticle.Model
     | ProjectsPage Projects.Model
+    | ProjectArticlePage ProjectArticle.Model
     | AboutPage About.Model
 
 
@@ -46,7 +50,9 @@ type Page
 type Msg
     = HomeMsg Home.Msg
     | MindstormsMsg Mindstorms.Msg
+    | MindstormArticleMsg MindstormArticle.Msg
     | ProjectsMsg Projects.Msg
+    | ProjectArticleMsg ProjectArticle.Msg
     | AboutMsg About.Msg
     ---
     | LinkClicked UrlRequest
@@ -87,8 +93,12 @@ initCurrentPage (model, existingCmds) =
                     in
                     ( MindstormsPage pageModel, Cmd.map MindstormsMsg pageCmd )
 
-                Route.MindstormsArticle articleString ->
-                    ( NotFoundPage, Cmd.none )
+                Route.MindstormArticle articleString ->
+                    --( NotFoundPage, Cmd.none )
+                    let 
+                        ( pageModel, pageCmd ) = MindstormArticle.init articleString
+                    in
+                    ( MindstormArticlePage pageModel, Cmd.map MindstormArticleMsg pageCmd )
 
                 Route.Projects ->
                     let 
@@ -96,8 +106,12 @@ initCurrentPage (model, existingCmds) =
                     in 
                     ( ProjectsPage pageModel, Cmd.map ProjectsMsg pageCmd )
 
-                Route.ProjectsArticle _ ->
-                    ( NotFoundPage, Cmd.none )
+                Route.ProjectsArticle articleString ->
+                    let
+                        ( pageModel, pageCmd ) = ProjectArticle.init articleString
+                    in
+                    ( ProjectArticlePage pageModel, Cmd.map ProjectArticleMsg pageCmd )
+
 
                 Route.About ->
                     let 
@@ -106,7 +120,7 @@ initCurrentPage (model, existingCmds) =
                     ( AboutPage pageModel, Cmd.map AboutMsg pageCmd )
 
     in
-    ( { model| page = currentPage }
+    ( { model | page = currentPage }
     , Cmd.batch [ existingCmds, mappedPageCmds ]
     )
 
@@ -127,11 +141,17 @@ view model =
             --Page.view model.route (Mindstorms.view pageModel |> Html.map MindstormsMsg)
             Mindstorms.view model.route pageModel
 
+        MindstormArticlePage pageModel ->
+            MindstormArticle.view pageModel
+
         ProjectsPage pageModel ->
-            Page.view model.route (Projects.view pageModel |> Html.map ProjectsMsg)
+            Projects.view model.route pageModel
+
+        ProjectArticlePage pageModel ->
+            ProjectArticle.view pageModel
 
         AboutPage pageModel ->
-            Page.view model.route (About.view pageModel |> Html.map AboutMsg )
+            About.view model.route pageModel
 
 
 
@@ -159,6 +179,16 @@ update msg model =
             , Cmd.map MindstormsMsg updatedCmd
             )
 
+        ( MindstormArticlePage pageModel, MindstormArticleMsg subMsg ) ->
+            let 
+                ( updatedPageModel, updatedCmd ) =
+                    MindstormArticle.update subMsg pageModel
+            in
+            ( { model | page = MindstormArticlePage updatedPageModel }
+            , Cmd.map MindstormArticleMsg updatedCmd
+            )
+
+
 
         ( ProjectsPage pageModel, ProjectsMsg subMsg ) ->
             let 
@@ -167,6 +197,15 @@ update msg model =
             in
             ( { model | page = ProjectsPage updatedPageModel }
             , Cmd.map ProjectsMsg updatedCmd 
+            )
+
+        ( ProjectArticlePage pageModel, ProjectArticleMsg subMsg ) ->
+            let 
+                ( updatedPageModel, updatedCmd ) = 
+                    ProjectArticle.update subMsg pageModel
+            in
+            ( { model | page = ProjectArticlePage updatedPageModel }
+            , Cmd.map ProjectArticleMsg updatedCmd
             )
 
 
