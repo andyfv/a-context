@@ -1,33 +1,29 @@
 module Page.Mindstorms exposing (Model, Msg, view, init, update)
 
+import Url exposing (Url)
 import Browser
 import Browser.Navigation as Nav
-import Url exposing (Url)
-import Route.Route as Route exposing (Route)
 import Article exposing (Article, ArticleCard, Image)
-import Mindstorms.TestArticle as TestArticle exposing (article)
-import Mindstorms.Learning as Learning exposing (..)
+import Route.Route as Route exposing (Route)
 import Page as Page exposing (viewCards)
+
+import Mindstorms.Learning as Learning exposing (..)
 
 
 -- MODEL
 
 type alias Model =
-    { articles : List ArticleCard
-    }
+    { articles : List ArticleCard }
 
 
 init : (Model, Cmd Msg)
 init =
     ( { articles = 
-        [ Article.getCard TestArticle.article
-        , Article.getCard TestArticle.article
-        , Article.getCard Learning.article
+        [ Article.getCard Learning.article
         ]
       }
     , Cmd.none
     )
-
 
 
 -- UPDATE
