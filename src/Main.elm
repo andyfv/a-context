@@ -54,7 +54,8 @@ type Msg
     | ProjectsMsg Projects.Msg
     | ProjectArticleMsg ProjectArticle.Msg
     | AboutMsg About.Msg
-    ---
+
+    -- URL    
     | LinkClicked UrlRequest
     | UrlChanged Url
 
@@ -82,43 +83,24 @@ initCurrentPage (model, existingCmds) =
                     ( NotFoundPage, Cmd.none )
 
                 Route.Home ->
-                    let
-                        ( pageModel, pageCmd ) = Home.init
-                    in
-                    ( HomePage pageModel, Cmd.map HomeMsg pageCmd )
+                    updateWith HomePage HomeMsg Home.init
 
                 Route.Mindstorms ->
-                    let
-                        ( pageModel, pageCmd ) = Mindstorms.init
-                    in
-                    ( MindstormsPage pageModel, Cmd.map MindstormsMsg pageCmd )
+                    updateWith MindstormsPage MindstormsMsg Mindstorms.init
 
                 Route.MindstormArticle articleString ->
-                    --( NotFoundPage, Cmd.none )
-                    let 
-                        ( pageModel, pageCmd ) = MindstormArticle.init articleString
-                    in
-                    ( MindstormArticlePage pageModel, Cmd.map MindstormArticleMsg pageCmd )
+                    MindstormArticle.init articleString
+                    |> updateWith MindstormArticlePage MindstormArticleMsg
 
                 Route.Projects ->
-                    let 
-                        ( pageModel, pageCmd ) = Projects.init
-                    in 
-                    ( ProjectsPage pageModel, Cmd.map ProjectsMsg pageCmd )
+                    updateWith ProjectsPage ProjectsMsg Projects.init
 
                 Route.ProjectsArticle articleString ->
-                    let
-                        ( pageModel, pageCmd ) = ProjectArticle.init articleString
-                    in
-                    ( ProjectArticlePage pageModel, Cmd.map ProjectArticleMsg pageCmd )
-
+                    ProjectArticle.init articleString
+                    |> updateWith ProjectArticlePage ProjectArticleMsg 
 
                 Route.About ->
-                    let 
-                        ( pageModel, pageCmd ) = About.init
-                    in
-                    ( AboutPage pageModel, Cmd.map AboutMsg pageCmd )
-
+                    updateWith AboutPage AboutMsg About.init                    
     in
     ( { model | page = currentPage }
     , Cmd.batch [ existingCmds, mappedPageCmds ]
@@ -134,11 +116,9 @@ view model =
             Page.viewNotFound
 
         HomePage pageModel ->
-            --Page.view model.route (Home.view pageModel |> Html.map HomeMsg)
             Home.view model.route pageModel
 
         MindstormsPage pageModel ->
-            --Page.view model.route (Mindstorms.view pageModel |> Html.map MindstormsMsg)
             Mindstorms.view model.route pageModel
 
         MindstormArticlePage pageModel ->
@@ -161,72 +141,36 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case ( model.page, msg ) of 
         ( HomePage pageModel, HomeMsg subMsg ) ->
-            let 
-                ( updatedPageModel, updatedCmd ) =
-                    Home.update subMsg pageModel
-            in
-            ( { model | page = HomePage updatedPageModel } 
-            , Cmd.map HomeMsg updatedCmd
-            )
-
+            (Home.update subMsg pageModel)
+            |> updateWithModel HomePage HomeMsg model
 
         ( MindstormsPage pageModel, MindstormsMsg subMsg ) ->
-            let
-                ( updatedPageModel, updatedCmd ) =
-                    Mindstorms.update subMsg pageModel
-            in
-            ( { model | page = MindstormsPage updatedPageModel }
-            , Cmd.map MindstormsMsg updatedCmd
-            )
+            (Mindstorms.update subMsg pageModel)
+            |> updateWithModel MindstormsPage MindstormsMsg model
 
         ( MindstormArticlePage pageModel, MindstormArticleMsg subMsg ) ->
-            let 
-                ( updatedPageModel, updatedCmd ) =
-                    MindstormArticle.update subMsg pageModel
-            in
-            ( { model | page = MindstormArticlePage updatedPageModel }
-            , Cmd.map MindstormArticleMsg updatedCmd
-            )
-
-
+            (MindstormArticle.update subMsg pageModel)
+            |> updateWithModel MindstormArticlePage MindstormArticleMsg model            
 
         ( ProjectsPage pageModel, ProjectsMsg subMsg ) ->
-            let 
-                ( updatedPageModel, updatedCmd ) =
-                    Projects.update subMsg pageModel
-            in
-            ( { model | page = ProjectsPage updatedPageModel }
-            , Cmd.map ProjectsMsg updatedCmd 
-            )
+            (Projects.update subMsg pageModel)
+            |> updateWithModel ProjectsPage ProjectsMsg model
 
         ( ProjectArticlePage pageModel, ProjectArticleMsg subMsg ) ->
-            let 
-                ( updatedPageModel, updatedCmd ) = 
-                    ProjectArticle.update subMsg pageModel
-            in
-            ( { model | page = ProjectArticlePage updatedPageModel }
-            , Cmd.map ProjectArticleMsg updatedCmd
-            )
-
+            (ProjectArticle.update subMsg pageModel)
+            |> updateWithModel ProjectArticlePage ProjectArticleMsg model            
 
         ( AboutPage pageModel, AboutMsg subMsg ) ->
-            let 
-                ( updatedPageModel, updatedCmd ) =
-                    About.update subMsg pageModel
-            in
-            ( { model | page = AboutPage updatedPageModel }
-            , Cmd.map AboutMsg updatedCmd
-            )
+            (About.update subMsg pageModel)
+            |> updateWithModel AboutPage AboutMsg model            
 
-
-
+        -- URL UPDATES
         ( _ , UrlChanged url ) ->
             let
                 newRoute = Route.fromUrl url
             in
             ( { model | route = newRoute }, Cmd.none )
                 |> initCurrentPage
-
 
         ( _ , LinkClicked urlRequest ) ->
             case urlRequest of 
@@ -238,9 +182,19 @@ update msg model =
                 Browser.External url ->
                     ( model, Nav.load url )
 
-
         ( _, _ ) -> 
             ( model, Cmd.none )
 
 
 
+updateWith : (subModel -> Page) -> (subMsg -> Msg) -> (subModel, Cmd subMsg) -> (Page, Cmd Msg)
+updateWith toModel toMsg (subModel, subCmd) =
+    (toModel subModel, Cmd.map toMsg subCmd)
+
+
+
+updateWithModel : (subModel -> Page) -> (subMsg -> Msg) -> Model -> (subModel, Cmd subMsg) -> (Model, Cmd Msg)
+updateWithModel toModel toMsg model (subModel, subCmd) =
+    ( { model | page = toModel subModel }
+    , Cmd.map toMsg subCmd
+    )

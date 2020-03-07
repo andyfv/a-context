@@ -3,7 +3,6 @@ module Page.MindstormArticle exposing (Model, Msg, view, init, update)
 
 import Browser
 import Article exposing (Article, ArticleCard, Image)
-import Mindstorms.TestArticle exposing (article)
 import Mindstorms.Learning as Learning exposing (..)
 import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
 import Route.Route as Route exposing (Route)
@@ -52,10 +51,7 @@ initCurrentPage (model, existingCmds) =
                     ( NotFoundPage, Cmd.none )
 
                 MindstormsRoute.Learning ->
-                    let
-                        ( pageModel, pageCmd ) = Learning.init
-                    in
-                    ( LearningPage pageModel, Cmd.map LearningMsg pageCmd )
+                    updateWith LearningPage LearningMsg (Learning.init)
     in
     ( { model | page = currentPage }
     , Cmd.batch [ existingCmds, mappedPageCmds ]
@@ -71,7 +67,6 @@ view model =
             Page.viewNotFound
 
         LearningPage pageModel ->
-            --Page.view model.route (Home.view pageModel |> Html.map HomeMsg)
             Learning.view Route.Mindstorms pageModel
 
 
@@ -84,16 +79,22 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case ( model.page, msg ) of 
         ( LearningPage pageModel, LearningMsg subMsg ) ->
-            let 
-                ( updatedPageModel, updatedCmd ) =
-                    Learning.update subMsg pageModel
-            in
-            ( { model | page = LearningPage updatedPageModel } 
-            , Cmd.map LearningMsg updatedCmd
-            )
-
+            (Learning.update subMsg pageModel)
+            |> updateWithModel LearningPage LearningMsg model
 
         ( _, _ ) -> 
             ( model, Cmd.none )
 
 
+-- 
+updateWith : (subModel -> MindstormPage) -> (subMsg -> Msg) -> (subModel, Cmd subMsg) -> (MindstormPage, Cmd Msg)
+updateWith toModel toMsg (subModel, subCmd) =
+    (toModel subModel, Cmd.map toMsg subCmd)
+
+
+
+updateWithModel : (subModel -> MindstormPage) -> (subMsg -> Msg) -> Model -> (subModel, Cmd subMsg) -> (Model, Cmd Msg)
+updateWithModel toModel toMsg model (subModel, subCmd) =
+    ( { model | page = toModel subModel }
+    , Cmd.map toMsg subCmd
+    )

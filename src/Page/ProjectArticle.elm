@@ -45,8 +45,6 @@ init pageString =
             { route = ProjectsRoute.fromString pageString 
             , page = NotFoundPage
             }
-        _ = Debug.log "pageString" pageString
-        _ = Debug.log "route" (ProjectsRoute.fromString pageString)
     in
     initCurrentPage (model, Cmd.none)
 
@@ -60,26 +58,25 @@ initCurrentPage (model, existingCmds) =
                     ( NotFoundPage, Cmd.none )
 
                 ProjectsRoute.NeighborhoodHere ->
-                    let
-                        ( pageModel, pageCmd ) = NH.init
-                    in
-                    ( Neighborhood pageModel, Cmd.map NeighborhoodMsg pageCmd )
+                    updateWith Neighborhood NeighborhoodMsg NH.init
 
                 ProjectsRoute.SymbolRecognition ->
-                    let
-                        ( pageModel, pageCmd ) = SR.init
-                    in
-                    ( SymbolRecognition pageModel, Cmd.map SymbolRecognitionMsg pageCmd )
+                    updateWith SymbolRecognition SymbolRecognitionMsg SR.init
 
                 ProjectsRoute.SailfishOS ->
-                    let
-                        ( pageModel, pageCmd ) = SOS.init
-                    in
-                    ( SailfishOS pageModel, Cmd.map SailfishOSMsg pageCmd )
+                    updateWith SailfishOS SailfishOSMsg SOS.init
+
     in
     ( { model | page = currentPage }
     , Cmd.batch [ existingCmds, mappedPageCmds ]
     )
+
+
+updateWith : (subModel -> ProjectPage) -> (subMsg -> Msg) -> (subModel, Cmd subMsg) -> (ProjectPage, Cmd Msg)
+updateWith toModel toMsg (subModel, subCmd) =
+    (toModel subModel, Cmd.map toMsg subCmd)
+
+
 
 
 -- VIEW
@@ -94,7 +91,6 @@ view model =
             Page.viewNotFound
 
         Neighborhood pageModel ->
-            --Page.view model.route (Home.view pageModel |> Html.map HomeMsg)
             NH.view route pageModel
 
         SymbolRecognition pageModel ->
@@ -111,34 +107,25 @@ view model =
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case ( model.page, msg ) of 
-        ( Neighborhood pageModel, NeighborhoodMsg subMsg ) ->
-            let 
-                ( updatedPageModel, updatedCmd ) =
-                    NH.update subMsg pageModel
-            in
-            ( { model | page = Neighborhood updatedPageModel } 
-            , Cmd.map NeighborhoodMsg updatedCmd
-            )
+        ( Neighborhood pageModel, NeighborhoodMsg subMsg) ->
+            (NH.update subMsg pageModel)
+            |> updateWithModel Neighborhood NeighborhoodMsg model
 
         ( SymbolRecognition pageModel, SymbolRecognitionMsg subMsg ) ->
-            let 
-                ( updatedPageModel, updatedCmd ) =
-                    SR.update subMsg pageModel
-            in
-            ( { model | page = SymbolRecognition updatedPageModel } 
-            , Cmd.map SymbolRecognitionMsg updatedCmd
-            )
+            (SR.update subMsg pageModel)
+            |> updateWithModel SymbolRecognition SymbolRecognitionMsg model
 
         ( SailfishOS pageModel, SailfishOSMsg subMsg ) ->
-            let 
-                ( updatedPageModel, updatedCmd ) =
-                    SOS.update subMsg pageModel
-            in
-            ( { model | page = SailfishOS updatedPageModel } 
-            , Cmd.map SailfishOSMsg updatedCmd
-            )
+            (SOS.update subMsg pageModel)
+            |> updateWithModel SailfishOS SailfishOSMsg model
 
         ( _, _ ) -> 
             ( model, Cmd.none )
 
 
+
+updateWithModel : (subModel -> ProjectPage) -> (subMsg -> Msg) -> Model -> (subModel, Cmd subMsg) -> (Model, Cmd Msg)
+updateWithModel toModel toMsg model (subModel, subCmd) =
+    ( { model | page = toModel subModel }
+    , Cmd.map toMsg subCmd
+    )
