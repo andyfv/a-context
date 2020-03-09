@@ -4331,6 +4331,136 @@ function _Url_percentDecode(string)
 
 
 
+// STRINGS
+
+
+var _Parser_isSubString = F5(function(smallString, offset, row, col, bigString)
+{
+	var smallLength = smallString.length;
+	var isGood = offset + smallLength <= bigString.length;
+
+	for (var i = 0; isGood && i < smallLength; )
+	{
+		var code = bigString.charCodeAt(offset);
+		isGood =
+			smallString[i++] === bigString[offset++]
+			&& (
+				code === 0x000A /* \n */
+					? ( row++, col=1 )
+					: ( col++, (code & 0xF800) === 0xD800 ? smallString[i++] === bigString[offset++] : 1 )
+			)
+	}
+
+	return _Utils_Tuple3(isGood ? offset : -1, row, col);
+});
+
+
+
+// CHARS
+
+
+var _Parser_isSubChar = F3(function(predicate, offset, string)
+{
+	return (
+		string.length <= offset
+			? -1
+			:
+		(string.charCodeAt(offset) & 0xF800) === 0xD800
+			? (predicate(_Utils_chr(string.substr(offset, 2))) ? offset + 2 : -1)
+			:
+		(predicate(_Utils_chr(string[offset]))
+			? ((string[offset] === '\n') ? -2 : (offset + 1))
+			: -1
+		)
+	);
+});
+
+
+var _Parser_isAsciiCode = F3(function(code, offset, string)
+{
+	return string.charCodeAt(offset) === code;
+});
+
+
+
+// NUMBERS
+
+
+var _Parser_chompBase10 = F2(function(offset, string)
+{
+	for (; offset < string.length; offset++)
+	{
+		var code = string.charCodeAt(offset);
+		if (code < 0x30 || 0x39 < code)
+		{
+			return offset;
+		}
+	}
+	return offset;
+});
+
+
+var _Parser_consumeBase = F3(function(base, offset, string)
+{
+	for (var total = 0; offset < string.length; offset++)
+	{
+		var digit = string.charCodeAt(offset) - 0x30;
+		if (digit < 0 || base <= digit) break;
+		total = base * total + digit;
+	}
+	return _Utils_Tuple2(offset, total);
+});
+
+
+var _Parser_consumeBase16 = F2(function(offset, string)
+{
+	for (var total = 0; offset < string.length; offset++)
+	{
+		var code = string.charCodeAt(offset);
+		if (0x30 <= code && code <= 0x39)
+		{
+			total = 16 * total + code - 0x30;
+		}
+		else if (0x41 <= code && code <= 0x46)
+		{
+			total = 16 * total + code - 55;
+		}
+		else if (0x61 <= code && code <= 0x66)
+		{
+			total = 16 * total + code - 87;
+		}
+		else
+		{
+			break;
+		}
+	}
+	return _Utils_Tuple2(offset, total);
+});
+
+
+
+// FIND STRING
+
+
+var _Parser_findSubString = F5(function(smallString, offset, row, col, bigString)
+{
+	var newOffset = bigString.indexOf(smallString, offset);
+	var target = newOffset < 0 ? bigString.length : newOffset + smallString.length;
+
+	while (offset < target)
+	{
+		var code = bigString.charCodeAt(offset++);
+		code === 0x000A /* \n */
+			? ( col=1, row++ )
+			: ( col++, (code & 0xF800) === 0xD800 && offset++ )
+	}
+
+	return _Utils_Tuple3(newOffset, row, col);
+});
+
+
+
+
 // VIRTUAL-DOM WIDGETS
 
 
@@ -5221,16 +5351,20 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$application = _Browser_application;
-var $author$project$Main$NotFoundPage = {$: 'NotFoundPage'};
-var $author$project$Route$NotFound = {$: 'NotFound'};
-var $author$project$Route$About = {$: 'About'};
-var $author$project$Route$Home = {$: 'Home'};
-var $author$project$Route$Mindstorms = {$: 'Mindstorms'};
-var $author$project$Route$MindstormsArticle = function (a) {
-	return {$: 'MindstormsArticle', a: a};
+var $author$project$Main$HeaderMsg = function (a) {
+	return {$: 'HeaderMsg', a: a};
 };
-var $author$project$Route$Projects = {$: 'Projects'};
-var $author$project$Route$ProjectsArticle = function (a) {
+var $author$project$Main$NotFoundPage = {$: 'NotFoundPage'};
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $author$project$Route$Route$NotFound = {$: 'NotFound'};
+var $author$project$Route$Route$About = {$: 'About'};
+var $author$project$Route$Route$Home = {$: 'Home'};
+var $author$project$Route$Route$MindstormArticle = function (a) {
+	return {$: 'MindstormArticle', a: a};
+};
+var $author$project$Route$Route$Mindstorms = {$: 'Mindstorms'};
+var $author$project$Route$Route$Projects = {$: 'Projects'};
+var $author$project$Route$Route$ProjectsArticle = function (a) {
 	return {$: 'ProjectsArticle', a: a};
 };
 var $elm$url$Url$Parser$Parser = function (a) {
@@ -5377,35 +5511,35 @@ var $elm$url$Url$Parser$top = $elm$url$Url$Parser$Parser(
 		return _List_fromArray(
 			[state]);
 	});
-var $author$project$Route$matchRoute = $elm$url$Url$Parser$oneOf(
+var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 	_List_fromArray(
 		[
-			A2($elm$url$Url$Parser$map, $author$project$Route$Home, $elm$url$Url$Parser$top),
+			A2($elm$url$Url$Parser$map, $author$project$Route$Route$Home, $elm$url$Url$Parser$top),
 			A2(
 			$elm$url$Url$Parser$map,
-			$author$project$Route$Mindstorms,
+			$author$project$Route$Route$Mindstorms,
 			$elm$url$Url$Parser$s('mindstorms')),
 			A2(
 			$elm$url$Url$Parser$map,
-			$author$project$Route$MindstormsArticle,
+			$author$project$Route$Route$MindstormArticle,
 			A2(
 				$elm$url$Url$Parser$slash,
 				$elm$url$Url$Parser$s('mindstorms'),
 				$elm$url$Url$Parser$string)),
 			A2(
 			$elm$url$Url$Parser$map,
-			$author$project$Route$Projects,
+			$author$project$Route$Route$Projects,
 			$elm$url$Url$Parser$s('projects')),
 			A2(
 			$elm$url$Url$Parser$map,
-			$author$project$Route$ProjectsArticle,
+			$author$project$Route$Route$ProjectsArticle,
 			A2(
 				$elm$url$Url$Parser$slash,
 				$elm$url$Url$Parser$s('projects'),
 				$elm$url$Url$Parser$string)),
 			A2(
 			$elm$url$Url$Parser$map,
-			$author$project$Route$About,
+			$author$project$Route$Route$About,
 			$elm$url$Url$Parser$s('about'))
 		]));
 var $elm$url$Url$Parser$getFirstMatch = function (states) {
@@ -6038,15 +6172,28 @@ var $elm$url$Url$Parser$parse = F2(
 					url.fragment,
 					$elm$core$Basics$identity)));
 	});
-var $author$project$Route$fromUrl = function (url) {
-	var _v0 = A2($elm$url$Url$Parser$parse, $author$project$Route$matchRoute, url);
+var $author$project$Route$Route$fromUrl = function (url) {
+	var _v0 = A2($elm$url$Url$Parser$parse, $author$project$Route$Route$matchRoute, url);
 	if (_v0.$ === 'Just') {
 		var route = _v0.a;
 		return route;
 	} else {
-		return $author$project$Route$NotFound;
+		return $author$project$Route$Route$NotFound;
 	}
 };
+var $author$project$Header$ViewportSize = function (a) {
+	return {$: 'ViewportSize', a: a};
+};
+var $elm$browser$Browser$Dom$getViewport = _Browser_withWindow(_Browser_getViewport);
+var $author$project$Header$init = _Utils_Tuple2(
+	{
+		isMenuOpen: false,
+		viewport: {
+			scene: {height: 0, width: 0},
+			viewport: {height: 0, width: 0, x: 0, y: 0}
+		}
+	},
+	A2($elm$core$Task$perform, $author$project$Header$ViewportSize, $elm$browser$Browser$Dom$getViewport));
 var $author$project$Main$AboutMsg = function (a) {
 	return {$: 'AboutMsg', a: a};
 };
@@ -6059,11 +6206,23 @@ var $author$project$Main$HomeMsg = function (a) {
 var $author$project$Main$HomePage = function (a) {
 	return {$: 'HomePage', a: a};
 };
+var $author$project$Main$MindstormArticleMsg = function (a) {
+	return {$: 'MindstormArticleMsg', a: a};
+};
+var $author$project$Main$MindstormArticlePage = function (a) {
+	return {$: 'MindstormArticlePage', a: a};
+};
 var $author$project$Main$MindstormsMsg = function (a) {
 	return {$: 'MindstormsMsg', a: a};
 };
 var $author$project$Main$MindstormsPage = function (a) {
 	return {$: 'MindstormsPage', a: a};
+};
+var $author$project$Main$ProjectArticleMsg = function (a) {
+	return {$: 'ProjectArticleMsg', a: a};
+};
+var $author$project$Main$ProjectArticlePage = function (a) {
+	return {$: 'ProjectArticlePage', a: a};
 };
 var $author$project$Main$ProjectsMsg = function (a) {
 	return {$: 'ProjectsMsg', a: a};
@@ -6071,126 +6230,463 @@ var $author$project$Main$ProjectsMsg = function (a) {
 var $author$project$Main$ProjectsPage = function (a) {
 	return {$: 'ProjectsPage', a: a};
 };
-var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $author$project$Article$Article = F7(
-	function (title, subtitle, date, image, content, href, summary) {
-		return {content: content, date: date, href: href, image: image, subtitle: subtitle, summary: summary, title: title};
-	});
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $author$project$Page$About$init = _Utils_Tuple2(
+	{},
+	$elm$core$Platform$Cmd$none);
 var $author$project$Article$Image = F2(
 	function (src, description) {
 		return {description: description, src: src};
 	});
-var $elm$html$Html$div = _VirtualDom_node('div');
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
+var $author$project$Article$Article = function (a) {
+	return {$: 'Article', a: a};
+};
+var $author$project$Article$getArticle = function (info) {
+	return $author$project$Article$Article(info);
+};
+var $author$project$Projects$NeighborhoodHere$article = $author$project$Article$getArticle(
+	{
+		date: '2019',
+		href: 'projects/neighborhood-here',
+		image: A2($author$project$Article$Image, '/img/projects/neighborhood/desktop_250.png', 'Map'),
+		subtitle: 'Redo with Redux',
+		summary: '',
+		title: 'Neighborhood Map'
 	});
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $author$project$Center$options = {
-	defaultHighlighting: $elm$core$Maybe$Nothing,
-	githubFlavored: $elm$core$Maybe$Just(
-		{breaks: false, tables: false}),
-	sanitize: false,
-	smartypants: false
-};
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
-var $author$project$Center$styles = function (width) {
-	return _List_fromArray(
-		[
-			A2($elm$html$Html$Attributes$style, 'display', 'block'),
-			A2($elm$html$Html$Attributes$style, 'max-width', width),
-			A2($elm$html$Html$Attributes$style, 'margin', '0 auto')
-		]);
-};
-var $elm$core$Maybe$isJust = function (maybe) {
-	if (maybe.$ === 'Just') {
-		return true;
-	} else {
-		return false;
-	}
-};
-var $elm_explorations$markdown$Markdown$toHtmlWith = _Markdown_toHtml;
-var $author$project$Center$markdown = F2(
-	function (width, string) {
-		return A2(
-			$elm$html$Html$div,
-			A2(
-				$elm$core$List$cons,
-				$elm$html$Html$Attributes$class('content'),
-				$author$project$Center$styles(width)),
-			_List_fromArray(
-				[
-					A3($elm_explorations$markdown$Markdown$toHtmlWith, $author$project$Center$options, _List_Nil, string)
-				]));
+var $author$project$Projects$SailfishOS$article = $author$project$Article$getArticle(
+	{
+		date: '2018/2019',
+		href: 'projects/sailfish-design-study',
+		image: A2($author$project$Article$Image, '/img/projects/sailfish/SailFishOS_icon.svg', 'Turtle'),
+		subtitle: '',
+		summary: '',
+		title: 'Sailfish OS: UX Design Study'
 	});
-var $author$project$TestArticle$text = '\n        The eternal idea of knowledge.\n    ';
-var $author$project$TestArticle$content = A2(
-	$elm$html$Html$div,
-	_List_Nil,
-	_List_fromArray(
-		[
-			A2($author$project$Center$markdown, '600px', $author$project$TestArticle$text)
-		]));
-var $author$project$TestArticle$article = A7(
-	$author$project$Article$Article,
-	'Test Article',
-	'Just trying out what will happen',
-	'18 Feb 2020',
-	A2($author$project$Article$Image, '/img/turtle.png', 'Turtle'),
-	$author$project$TestArticle$content,
-	'mindstorms/test-article',
-	'');
+var $author$project$Projects$SymbolRecognition$article = $author$project$Article$getArticle(
+	{
+		date: '2019',
+		href: 'projects/symbol-recognition',
+		image: A2($author$project$Article$Image, '/img/projects/symbol-rec/table_250.png', 'Turtle'),
+		subtitle: 'Inspired by GRAIL',
+		summary: '',
+		title: 'Symbol Recognition'
+	});
 var $author$project$Article$ArticleCard = F4(
 	function (title, date, image, href) {
 		return {date: date, href: href, image: image, title: title};
 	});
-var $author$project$Article$getCard = function (article) {
-	return A4($author$project$Article$ArticleCard, article.title, article.date, article.image, article.href);
+var $author$project$Article$getCard = function (_v0) {
+	var title = _v0.a.title;
+	var date = _v0.a.date;
+	var image = _v0.a.image;
+	var href = _v0.a.href;
+	return A4($author$project$Article$ArticleCard, title, date, image, href);
 };
-var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Page$About$init = _Utils_Tuple2(
-	{
-		articles: _List_fromArray(
-			[
-				$author$project$Article$getCard($author$project$TestArticle$article)
-			]),
-		displayArticle: $elm$core$Maybe$Nothing
-	},
-	$elm$core$Platform$Cmd$none);
 var $author$project$Page$Home$init = _Utils_Tuple2(
 	{
 		articles: _List_fromArray(
 			[
-				$author$project$Article$getCard($author$project$TestArticle$article),
-				$author$project$Article$getCard($author$project$TestArticle$article),
-				$author$project$Article$getCard($author$project$TestArticle$article)
+				$author$project$Article$getCard($author$project$Projects$NeighborhoodHere$article),
+				$author$project$Article$getCard($author$project$Projects$SymbolRecognition$article),
+				$author$project$Article$getCard($author$project$Projects$SailfishOS$article)
 			])
 	},
 	$elm$core$Platform$Cmd$none);
+var $author$project$Page$MindstormArticle$NotFoundPage = {$: 'NotFoundPage'};
+var $author$project$Route$MindstormsRoute$NotFound = {$: 'NotFound'};
+var $author$project$Route$MindstormsRoute$Learning = {$: 'Learning'};
+var $elm$parser$Parser$ExpectingKeyword = function (a) {
+	return {$: 'ExpectingKeyword', a: a};
+};
+var $elm$parser$Parser$Advanced$Token = F2(
+	function (a, b) {
+		return {$: 'Token', a: a, b: b};
+	});
+var $elm$parser$Parser$Advanced$Bad = F2(
+	function (a, b) {
+		return {$: 'Bad', a: a, b: b};
+	});
+var $elm$parser$Parser$Advanced$Good = F3(
+	function (a, b, c) {
+		return {$: 'Good', a: a, b: b, c: c};
+	});
+var $elm$parser$Parser$Advanced$Parser = function (a) {
+	return {$: 'Parser', a: a};
+};
+var $elm$parser$Parser$Advanced$AddRight = F2(
+	function (a, b) {
+		return {$: 'AddRight', a: a, b: b};
+	});
+var $elm$parser$Parser$Advanced$DeadEnd = F4(
+	function (row, col, problem, contextStack) {
+		return {col: col, contextStack: contextStack, problem: problem, row: row};
+	});
+var $elm$parser$Parser$Advanced$Empty = {$: 'Empty'};
+var $elm$parser$Parser$Advanced$fromState = F2(
+	function (s, x) {
+		return A2(
+			$elm$parser$Parser$Advanced$AddRight,
+			$elm$parser$Parser$Advanced$Empty,
+			A4($elm$parser$Parser$Advanced$DeadEnd, s.row, s.col, x, s.context));
+	});
+var $elm$parser$Parser$Advanced$isSubChar = _Parser_isSubChar;
+var $elm$parser$Parser$Advanced$isSubString = _Parser_isSubString;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $elm$core$Basics$not = _Basics_not;
+var $elm$parser$Parser$Advanced$keyword = function (_v0) {
+	var kwd = _v0.a;
+	var expecting = _v0.b;
+	var progress = !$elm$core$String$isEmpty(kwd);
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s) {
+			var _v1 = A5($elm$parser$Parser$Advanced$isSubString, kwd, s.offset, s.row, s.col, s.src);
+			var newOffset = _v1.a;
+			var newRow = _v1.b;
+			var newCol = _v1.c;
+			return (_Utils_eq(newOffset, -1) || (0 <= A3(
+				$elm$parser$Parser$Advanced$isSubChar,
+				function (c) {
+					return $elm$core$Char$isAlphaNum(c) || _Utils_eq(
+						c,
+						_Utils_chr('_'));
+				},
+				newOffset,
+				s.src))) ? A2(
+				$elm$parser$Parser$Advanced$Bad,
+				false,
+				A2($elm$parser$Parser$Advanced$fromState, s, expecting)) : A3(
+				$elm$parser$Parser$Advanced$Good,
+				progress,
+				_Utils_Tuple0,
+				{col: newCol, context: s.context, indent: s.indent, offset: newOffset, row: newRow, src: s.src});
+		});
+};
+var $elm$parser$Parser$keyword = function (kwd) {
+	return $elm$parser$Parser$Advanced$keyword(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			kwd,
+			$elm$parser$Parser$ExpectingKeyword(kwd)));
+};
+var $elm$parser$Parser$Advanced$map = F2(
+	function (func, _v0) {
+		var parse = _v0.a;
+		return $elm$parser$Parser$Advanced$Parser(
+			function (s0) {
+				var _v1 = parse(s0);
+				if (_v1.$ === 'Good') {
+					var p = _v1.a;
+					var a = _v1.b;
+					var s1 = _v1.c;
+					return A3(
+						$elm$parser$Parser$Advanced$Good,
+						p,
+						func(a),
+						s1);
+				} else {
+					var p = _v1.a;
+					var x = _v1.b;
+					return A2($elm$parser$Parser$Advanced$Bad, p, x);
+				}
+			});
+	});
+var $elm$parser$Parser$map = $elm$parser$Parser$Advanced$map;
+var $elm$parser$Parser$Advanced$Append = F2(
+	function (a, b) {
+		return {$: 'Append', a: a, b: b};
+	});
+var $elm$parser$Parser$Advanced$oneOfHelp = F3(
+	function (s0, bag, parsers) {
+		oneOfHelp:
+		while (true) {
+			if (!parsers.b) {
+				return A2($elm$parser$Parser$Advanced$Bad, false, bag);
+			} else {
+				var parse = parsers.a.a;
+				var remainingParsers = parsers.b;
+				var _v1 = parse(s0);
+				if (_v1.$ === 'Good') {
+					var step = _v1;
+					return step;
+				} else {
+					var step = _v1;
+					var p = step.a;
+					var x = step.b;
+					if (p) {
+						return step;
+					} else {
+						var $temp$s0 = s0,
+							$temp$bag = A2($elm$parser$Parser$Advanced$Append, bag, x),
+							$temp$parsers = remainingParsers;
+						s0 = $temp$s0;
+						bag = $temp$bag;
+						parsers = $temp$parsers;
+						continue oneOfHelp;
+					}
+				}
+			}
+		}
+	});
+var $elm$parser$Parser$Advanced$oneOf = function (parsers) {
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s) {
+			return A3($elm$parser$Parser$Advanced$oneOfHelp, s, $elm$parser$Parser$Advanced$Empty, parsers);
+		});
+};
+var $elm$parser$Parser$oneOf = $elm$parser$Parser$Advanced$oneOf;
+var $author$project$Route$MindstormsRoute$matchRoute = $elm$parser$Parser$oneOf(
+	_List_fromArray(
+		[
+			A2(
+			$elm$parser$Parser$map,
+			function (_v0) {
+				return $author$project$Route$MindstormsRoute$Learning;
+			},
+			$elm$parser$Parser$keyword('learning'))
+		]));
+var $elm$parser$Parser$DeadEnd = F3(
+	function (row, col, problem) {
+		return {col: col, problem: problem, row: row};
+	});
+var $elm$parser$Parser$problemToDeadEnd = function (p) {
+	return A3($elm$parser$Parser$DeadEnd, p.row, p.col, p.problem);
+};
+var $elm$parser$Parser$Advanced$bagToList = F2(
+	function (bag, list) {
+		bagToList:
+		while (true) {
+			switch (bag.$) {
+				case 'Empty':
+					return list;
+				case 'AddRight':
+					var bag1 = bag.a;
+					var x = bag.b;
+					var $temp$bag = bag1,
+						$temp$list = A2($elm$core$List$cons, x, list);
+					bag = $temp$bag;
+					list = $temp$list;
+					continue bagToList;
+				default:
+					var bag1 = bag.a;
+					var bag2 = bag.b;
+					var $temp$bag = bag1,
+						$temp$list = A2($elm$parser$Parser$Advanced$bagToList, bag2, list);
+					bag = $temp$bag;
+					list = $temp$list;
+					continue bagToList;
+			}
+		}
+	});
+var $elm$parser$Parser$Advanced$run = F2(
+	function (_v0, src) {
+		var parse = _v0.a;
+		var _v1 = parse(
+			{col: 1, context: _List_Nil, indent: 1, offset: 0, row: 1, src: src});
+		if (_v1.$ === 'Good') {
+			var value = _v1.b;
+			return $elm$core$Result$Ok(value);
+		} else {
+			var bag = _v1.b;
+			return $elm$core$Result$Err(
+				A2($elm$parser$Parser$Advanced$bagToList, bag, _List_Nil));
+		}
+	});
+var $elm$parser$Parser$run = F2(
+	function (parser, source) {
+		var _v0 = A2($elm$parser$Parser$Advanced$run, parser, source);
+		if (_v0.$ === 'Ok') {
+			var a = _v0.a;
+			return $elm$core$Result$Ok(a);
+		} else {
+			var problems = _v0.a;
+			return $elm$core$Result$Err(
+				A2($elm$core$List$map, $elm$parser$Parser$problemToDeadEnd, problems));
+		}
+	});
+var $author$project$Route$MindstormsRoute$fromString = function (articleString) {
+	var _v0 = A2($elm$parser$Parser$run, $author$project$Route$MindstormsRoute$matchRoute, articleString);
+	if (_v0.$ === 'Ok') {
+		var article = _v0.a;
+		return article;
+	} else {
+		return $author$project$Route$MindstormsRoute$NotFound;
+	}
+};
+var $author$project$Page$MindstormArticle$LearningMsg = function (a) {
+	return {$: 'LearningMsg', a: a};
+};
+var $author$project$Page$MindstormArticle$LearningPage = function (a) {
+	return {$: 'LearningPage', a: a};
+};
+var $author$project$Mindstorms$Learning$init = _Utils_Tuple2(
+	{},
+	$elm$core$Platform$Cmd$none);
+var $elm$core$Platform$Cmd$map = _Platform_map;
+var $author$project$Page$MindstormArticle$updateWith = F3(
+	function (toModel, toMsg, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			toModel(subModel),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
+var $author$project$Page$MindstormArticle$initCurrentPage = function (_v0) {
+	var model = _v0.a;
+	var existingCmds = _v0.b;
+	var _v1 = function () {
+		var _v2 = model.route;
+		if (_v2.$ === 'NotFound') {
+			return _Utils_Tuple2($author$project$Page$MindstormArticle$NotFoundPage, $elm$core$Platform$Cmd$none);
+		} else {
+			return A3($author$project$Page$MindstormArticle$updateWith, $author$project$Page$MindstormArticle$LearningPage, $author$project$Page$MindstormArticle$LearningMsg, $author$project$Mindstorms$Learning$init);
+		}
+	}();
+	var currentPage = _v1.a;
+	var mappedPageCmds = _v1.b;
+	return _Utils_Tuple2(
+		_Utils_update(
+			model,
+			{page: currentPage}),
+		$elm$core$Platform$Cmd$batch(
+			_List_fromArray(
+				[existingCmds, mappedPageCmds])));
+};
+var $author$project$Page$MindstormArticle$init = function (pageString) {
+	var model = {
+		page: $author$project$Page$MindstormArticle$NotFoundPage,
+		route: $author$project$Route$MindstormsRoute$fromString(pageString)
+	};
+	return $author$project$Page$MindstormArticle$initCurrentPage(
+		_Utils_Tuple2(model, $elm$core$Platform$Cmd$none));
+};
 var $author$project$Page$Mindstorms$init = _Utils_Tuple2(
-	{
-		articles: _List_fromArray(
-			[
-				$author$project$Article$getCard($author$project$TestArticle$article),
-				$author$project$Article$getCard($author$project$TestArticle$article)
-			])
-	},
+	{articles: _List_Nil},
 	$elm$core$Platform$Cmd$none);
+var $author$project$Page$ProjectArticle$NotFoundPage = {$: 'NotFoundPage'};
+var $author$project$Route$ProjectsRoute$NotFound = {$: 'NotFound'};
+var $author$project$Route$ProjectsRoute$NeighborhoodHere = {$: 'NeighborhoodHere'};
+var $author$project$Route$ProjectsRoute$SailfishOS = {$: 'SailfishOS'};
+var $author$project$Route$ProjectsRoute$SymbolRecognition = {$: 'SymbolRecognition'};
+var $author$project$Route$ProjectsRoute$matchRoute = $elm$parser$Parser$oneOf(
+	_List_fromArray(
+		[
+			A2(
+			$elm$parser$Parser$map,
+			function (_v0) {
+				return $author$project$Route$ProjectsRoute$NeighborhoodHere;
+			},
+			$elm$parser$Parser$keyword('neighborhood-here')),
+			A2(
+			$elm$parser$Parser$map,
+			function (_v1) {
+				return $author$project$Route$ProjectsRoute$SymbolRecognition;
+			},
+			$elm$parser$Parser$keyword('symbol-recognition')),
+			A2(
+			$elm$parser$Parser$map,
+			function (_v2) {
+				return $author$project$Route$ProjectsRoute$SailfishOS;
+			},
+			$elm$parser$Parser$keyword('sailfish-design-study'))
+		]));
+var $author$project$Route$ProjectsRoute$fromString = function (articleString) {
+	var _v0 = A2($elm$parser$Parser$run, $author$project$Route$ProjectsRoute$matchRoute, articleString);
+	if (_v0.$ === 'Ok') {
+		var article = _v0.a;
+		return article;
+	} else {
+		return $author$project$Route$ProjectsRoute$NotFound;
+	}
+};
+var $author$project$Page$ProjectArticle$Neighborhood = function (a) {
+	return {$: 'Neighborhood', a: a};
+};
+var $author$project$Page$ProjectArticle$NeighborhoodMsg = function (a) {
+	return {$: 'NeighborhoodMsg', a: a};
+};
+var $author$project$Page$ProjectArticle$SailfishOS = function (a) {
+	return {$: 'SailfishOS', a: a};
+};
+var $author$project$Page$ProjectArticle$SailfishOSMsg = function (a) {
+	return {$: 'SailfishOSMsg', a: a};
+};
+var $author$project$Page$ProjectArticle$SymbolRecognition = function (a) {
+	return {$: 'SymbolRecognition', a: a};
+};
+var $author$project$Page$ProjectArticle$SymbolRecognitionMsg = function (a) {
+	return {$: 'SymbolRecognitionMsg', a: a};
+};
+var $author$project$Projects$NeighborhoodHere$init = _Utils_Tuple2(
+	{},
+	$elm$core$Platform$Cmd$none);
+var $author$project$Projects$SailfishOS$init = _Utils_Tuple2(
+	{},
+	$elm$core$Platform$Cmd$none);
+var $author$project$Projects$SymbolRecognition$init = _Utils_Tuple2(
+	{},
+	$elm$core$Platform$Cmd$none);
+var $author$project$Page$ProjectArticle$updateWith = F3(
+	function (toModel, toMsg, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			toModel(subModel),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
+var $author$project$Page$ProjectArticle$initCurrentPage = function (_v0) {
+	var model = _v0.a;
+	var existingCmds = _v0.b;
+	var _v1 = function () {
+		var _v2 = model.route;
+		switch (_v2.$) {
+			case 'NotFound':
+				return _Utils_Tuple2($author$project$Page$ProjectArticle$NotFoundPage, $elm$core$Platform$Cmd$none);
+			case 'NeighborhoodHere':
+				return A3($author$project$Page$ProjectArticle$updateWith, $author$project$Page$ProjectArticle$Neighborhood, $author$project$Page$ProjectArticle$NeighborhoodMsg, $author$project$Projects$NeighborhoodHere$init);
+			case 'SymbolRecognition':
+				return A3($author$project$Page$ProjectArticle$updateWith, $author$project$Page$ProjectArticle$SymbolRecognition, $author$project$Page$ProjectArticle$SymbolRecognitionMsg, $author$project$Projects$SymbolRecognition$init);
+			default:
+				return A3($author$project$Page$ProjectArticle$updateWith, $author$project$Page$ProjectArticle$SailfishOS, $author$project$Page$ProjectArticle$SailfishOSMsg, $author$project$Projects$SailfishOS$init);
+		}
+	}();
+	var currentPage = _v1.a;
+	var mappedPageCmds = _v1.b;
+	return _Utils_Tuple2(
+		_Utils_update(
+			model,
+			{page: currentPage}),
+		$elm$core$Platform$Cmd$batch(
+			_List_fromArray(
+				[existingCmds, mappedPageCmds])));
+};
+var $author$project$Page$ProjectArticle$init = function (pageString) {
+	var model = {
+		page: $author$project$Page$ProjectArticle$NotFoundPage,
+		route: $author$project$Route$ProjectsRoute$fromString(pageString)
+	};
+	return $author$project$Page$ProjectArticle$initCurrentPage(
+		_Utils_Tuple2(model, $elm$core$Platform$Cmd$none));
+};
 var $author$project$Page$Projects$init = _Utils_Tuple2(
 	{
 		articles: _List_fromArray(
 			[
-				$author$project$Article$getCard($author$project$TestArticle$article)
-			]),
-		displayArticle: $elm$core$Maybe$Nothing
+				$author$project$Article$getCard($author$project$Projects$NeighborhoodHere$article),
+				$author$project$Article$getCard($author$project$Projects$SymbolRecognition$article),
+				$author$project$Article$getCard($author$project$Projects$SailfishOS$article)
+			])
 	},
 	$elm$core$Platform$Cmd$none);
-var $elm$core$Platform$Cmd$map = _Platform_map;
+var $author$project$Main$updateWith = F3(
+	function (toModel, toMsg, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			toModel(subModel),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
 var $author$project$Main$initCurrentPage = function (_v0) {
 	var model = _v0.a;
 	var existingCmds = _v0.b;
@@ -6200,38 +6696,27 @@ var $author$project$Main$initCurrentPage = function (_v0) {
 			case 'NotFound':
 				return _Utils_Tuple2($author$project$Main$NotFoundPage, $elm$core$Platform$Cmd$none);
 			case 'Home':
-				var _v3 = $author$project$Page$Home$init;
-				var pageModel = _v3.a;
-				var pageCmd = _v3.b;
-				return _Utils_Tuple2(
-					$author$project$Main$HomePage(pageModel),
-					A2($elm$core$Platform$Cmd$map, $author$project$Main$HomeMsg, pageCmd));
+				return A3($author$project$Main$updateWith, $author$project$Main$HomePage, $author$project$Main$HomeMsg, $author$project$Page$Home$init);
 			case 'Mindstorms':
-				var _v4 = $author$project$Page$Mindstorms$init;
-				var pageModel = _v4.a;
-				var pageCmd = _v4.b;
-				return _Utils_Tuple2(
-					$author$project$Main$MindstormsPage(pageModel),
-					A2($elm$core$Platform$Cmd$map, $author$project$Main$MindstormsMsg, pageCmd));
-			case 'MindstormsArticle':
+				return A3($author$project$Main$updateWith, $author$project$Main$MindstormsPage, $author$project$Main$MindstormsMsg, $author$project$Page$Mindstorms$init);
+			case 'MindstormArticle':
 				var articleString = _v2.a;
-				return _Utils_Tuple2($author$project$Main$NotFoundPage, $elm$core$Platform$Cmd$none);
+				return A3(
+					$author$project$Main$updateWith,
+					$author$project$Main$MindstormArticlePage,
+					$author$project$Main$MindstormArticleMsg,
+					$author$project$Page$MindstormArticle$init(articleString));
 			case 'Projects':
-				var _v5 = $author$project$Page$Projects$init;
-				var pageModel = _v5.a;
-				var pageCmd = _v5.b;
-				return _Utils_Tuple2(
-					$author$project$Main$ProjectsPage(pageModel),
-					A2($elm$core$Platform$Cmd$map, $author$project$Main$ProjectsMsg, pageCmd));
+				return A3($author$project$Main$updateWith, $author$project$Main$ProjectsPage, $author$project$Main$ProjectsMsg, $author$project$Page$Projects$init);
 			case 'ProjectsArticle':
-				return _Utils_Tuple2($author$project$Main$NotFoundPage, $elm$core$Platform$Cmd$none);
+				var articleString = _v2.a;
+				return A3(
+					$author$project$Main$updateWith,
+					$author$project$Main$ProjectArticlePage,
+					$author$project$Main$ProjectArticleMsg,
+					$author$project$Page$ProjectArticle$init(articleString));
 			default:
-				var _v6 = $author$project$Page$About$init;
-				var pageModel = _v6.a;
-				var pageCmd = _v6.b;
-				return _Utils_Tuple2(
-					$author$project$Main$AboutPage(pageModel),
-					A2($elm$core$Platform$Cmd$map, $author$project$Main$AboutMsg, pageCmd));
+				return A3($author$project$Main$updateWith, $author$project$Main$AboutPage, $author$project$Main$AboutMsg, $author$project$Page$About$init);
 		}
 	}();
 	var currentPage = _v1.a;
@@ -6245,17 +6730,334 @@ var $author$project$Main$initCurrentPage = function (_v0) {
 				[existingCmds, mappedPageCmds])));
 };
 var $author$project$Main$init = F3(
-	function (_v0, url, navKey) {
-		var model = {
-			navKey: navKey,
-			page: $author$project$Main$NotFoundPage,
-			route: $author$project$Route$fromUrl(url)
-		};
+	function (flags, url, navKey) {
+		var route = $author$project$Route$Route$fromUrl(url);
+		var _v0 = $author$project$Header$init;
+		var headerModel = _v0.a;
+		var headerCmds = _v0.b;
+		var model = {headerModel: headerModel, navKey: navKey, page: $author$project$Main$NotFoundPage, route: route};
 		return $author$project$Main$initCurrentPage(
-			_Utils_Tuple2(model, $elm$core$Platform$Cmd$none));
+			_Utils_Tuple2(
+				model,
+				$elm$core$Platform$Cmd$batch(
+					_List_fromArray(
+						[
+							A2($elm$core$Platform$Cmd$map, $author$project$Main$HeaderMsg, headerCmds)
+						]))));
 	});
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$Header$ViewportChanged = {$: 'ViewportChanged'};
+var $elm$browser$Browser$Events$Window = {$: 'Window'};
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $elm$browser$Browser$Events$MySub = F3(
+	function (a, b, c) {
+		return {$: 'MySub', a: a, b: b, c: c};
+	});
+var $elm$browser$Browser$Events$State = F2(
+	function (subs, pids) {
+		return {pids: pids, subs: subs};
+	});
+var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
+	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
+var $elm$browser$Browser$Events$nodeToKey = function (node) {
+	if (node.$ === 'Document') {
+		return 'd_';
+	} else {
+		return 'w_';
+	}
+};
+var $elm$browser$Browser$Events$addKey = function (sub) {
+	var node = sub.a;
+	var name = sub.b;
+	return _Utils_Tuple2(
+		_Utils_ap(
+			$elm$browser$Browser$Events$nodeToKey(node),
+			name),
+		sub);
+};
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $elm$core$Process$kill = _Scheduler_kill;
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $elm$core$Dict$merge = F6(
+	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
+		var stepState = F3(
+			function (rKey, rValue, _v0) {
+				stepState:
+				while (true) {
+					var list = _v0.a;
+					var result = _v0.b;
+					if (!list.b) {
+						return _Utils_Tuple2(
+							list,
+							A3(rightStep, rKey, rValue, result));
+					} else {
+						var _v2 = list.a;
+						var lKey = _v2.a;
+						var lValue = _v2.b;
+						var rest = list.b;
+						if (_Utils_cmp(lKey, rKey) < 0) {
+							var $temp$rKey = rKey,
+								$temp$rValue = rValue,
+								$temp$_v0 = _Utils_Tuple2(
+								rest,
+								A3(leftStep, lKey, lValue, result));
+							rKey = $temp$rKey;
+							rValue = $temp$rValue;
+							_v0 = $temp$_v0;
+							continue stepState;
+						} else {
+							if (_Utils_cmp(lKey, rKey) > 0) {
+								return _Utils_Tuple2(
+									list,
+									A3(rightStep, rKey, rValue, result));
+							} else {
+								return _Utils_Tuple2(
+									rest,
+									A4(bothStep, lKey, lValue, rValue, result));
+							}
+						}
+					}
+				}
+			});
+		var _v3 = A3(
+			$elm$core$Dict$foldl,
+			stepState,
+			_Utils_Tuple2(
+				$elm$core$Dict$toList(leftDict),
+				initialResult),
+			rightDict);
+		var leftovers = _v3.a;
+		var intermediateResult = _v3.b;
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v4, result) {
+					var k = _v4.a;
+					var v = _v4.b;
+					return A3(leftStep, k, v, result);
+				}),
+			intermediateResult,
+			leftovers);
+	});
+var $elm$browser$Browser$Events$Event = F2(
+	function (key, event) {
+		return {event: event, key: key};
+	});
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$browser$Browser$Events$spawn = F3(
+	function (router, key, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var actualNode = function () {
+			if (node.$ === 'Document') {
+				return _Browser_doc;
+			} else {
+				return _Browser_window;
+			}
+		}();
+		return A2(
+			$elm$core$Task$map,
+			function (value) {
+				return _Utils_Tuple2(key, value);
+			},
+			A3(
+				_Browser_on,
+				actualNode,
+				name,
+				function (event) {
+					return A2(
+						$elm$core$Platform$sendToSelf,
+						router,
+						A2($elm$browser$Browser$Events$Event, key, event));
+				}));
+	});
+var $elm$core$Dict$union = F2(
+	function (t1, t2) {
+		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
+	});
+var $elm$browser$Browser$Events$onEffects = F3(
+	function (router, subs, state) {
+		var stepRight = F3(
+			function (key, sub, _v6) {
+				var deads = _v6.a;
+				var lives = _v6.b;
+				var news = _v6.c;
+				return _Utils_Tuple3(
+					deads,
+					lives,
+					A2(
+						$elm$core$List$cons,
+						A3($elm$browser$Browser$Events$spawn, router, key, sub),
+						news));
+			});
+		var stepLeft = F3(
+			function (_v4, pid, _v5) {
+				var deads = _v5.a;
+				var lives = _v5.b;
+				var news = _v5.c;
+				return _Utils_Tuple3(
+					A2($elm$core$List$cons, pid, deads),
+					lives,
+					news);
+			});
+		var stepBoth = F4(
+			function (key, pid, _v2, _v3) {
+				var deads = _v3.a;
+				var lives = _v3.b;
+				var news = _v3.c;
+				return _Utils_Tuple3(
+					deads,
+					A3($elm$core$Dict$insert, key, pid, lives),
+					news);
+			});
+		var newSubs = A2($elm$core$List$map, $elm$browser$Browser$Events$addKey, subs);
+		var _v0 = A6(
+			$elm$core$Dict$merge,
+			stepLeft,
+			stepBoth,
+			stepRight,
+			state.pids,
+			$elm$core$Dict$fromList(newSubs),
+			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
+		var deadPids = _v0.a;
+		var livePids = _v0.b;
+		var makeNewPids = _v0.c;
+		return A2(
+			$elm$core$Task$andThen,
+			function (pids) {
+				return $elm$core$Task$succeed(
+					A2(
+						$elm$browser$Browser$Events$State,
+						newSubs,
+						A2(
+							$elm$core$Dict$union,
+							livePids,
+							$elm$core$Dict$fromList(pids))));
+			},
+			A2(
+				$elm$core$Task$andThen,
+				function (_v1) {
+					return $elm$core$Task$sequence(makeNewPids);
+				},
+				$elm$core$Task$sequence(
+					A2($elm$core$List$map, $elm$core$Process$kill, deadPids))));
+	});
+var $elm$core$List$maybeCons = F3(
+	function (f, mx, xs) {
+		var _v0 = f(mx);
+		if (_v0.$ === 'Just') {
+			var x = _v0.a;
+			return A2($elm$core$List$cons, x, xs);
+		} else {
+			return xs;
+		}
+	});
+var $elm$core$List$filterMap = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			$elm$core$List$maybeCons(f),
+			_List_Nil,
+			xs);
+	});
+var $elm$browser$Browser$Events$onSelfMsg = F3(
+	function (router, _v0, state) {
+		var key = _v0.key;
+		var event = _v0.event;
+		var toMessage = function (_v2) {
+			var subKey = _v2.a;
+			var _v3 = _v2.b;
+			var node = _v3.a;
+			var name = _v3.b;
+			var decoder = _v3.c;
+			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
+		};
+		var messages = A2($elm$core$List$filterMap, toMessage, state.subs);
+		return A2(
+			$elm$core$Task$andThen,
+			function (_v1) {
+				return $elm$core$Task$succeed(state);
+			},
+			$elm$core$Task$sequence(
+				A2(
+					$elm$core$List$map,
+					$elm$core$Platform$sendToApp(router),
+					messages)));
+	});
+var $elm$browser$Browser$Events$subMap = F2(
+	function (func, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var decoder = _v0.c;
+		return A3(
+			$elm$browser$Browser$Events$MySub,
+			node,
+			name,
+			A2($elm$json$Json$Decode$map, func, decoder));
+	});
+_Platform_effectManagers['Browser.Events'] = _Platform_createManager($elm$browser$Browser$Events$init, $elm$browser$Browser$Events$onEffects, $elm$browser$Browser$Events$onSelfMsg, 0, $elm$browser$Browser$Events$subMap);
+var $elm$browser$Browser$Events$subscription = _Platform_leaf('Browser.Events');
+var $elm$browser$Browser$Events$on = F3(
+	function (node, name, decoder) {
+		return $elm$browser$Browser$Events$subscription(
+			A3($elm$browser$Browser$Events$MySub, node, name, decoder));
+	});
+var $elm$browser$Browser$Events$onResize = function (func) {
+	return A3(
+		$elm$browser$Browser$Events$on,
+		$elm$browser$Browser$Events$Window,
+		'resize',
+		A2(
+			$elm$json$Json$Decode$field,
+			'target',
+			A3(
+				$elm$json$Json$Decode$map2,
+				func,
+				A2($elm$json$Json$Decode$field, 'innerWidth', $elm$json$Json$Decode$int),
+				A2($elm$json$Json$Decode$field, 'innerHeight', $elm$json$Json$Decode$int))));
+};
+var $author$project$Main$subscriptions = function (model) {
+	return $elm$browser$Browser$Events$onResize(
+		F2(
+			function (_v0, _v1) {
+				return $author$project$Main$HeaderMsg($author$project$Header$ViewportChanged);
+			}));
+};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $elm$url$Url$addPort = F2(
@@ -6302,6 +7104,34 @@ var $elm$url$Url$toString = function (url) {
 					_Utils_ap(http, url.host)),
 				url.path)));
 };
+var $author$project$Header$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'MenuButtonClicked':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isMenuOpen: !model.isMenuOpen}),
+					$elm$core$Platform$Cmd$none);
+			case 'CloseNavMenu':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isMenuOpen: false}),
+					$elm$core$Platform$Cmd$none);
+			case 'ViewportChanged':
+				return _Utils_Tuple2(
+					model,
+					A2($elm$core$Task$perform, $author$project$Header$ViewportSize, $elm$browser$Browser$Dom$getViewport));
+			default:
+				var vp = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{viewport: vp}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
 var $author$project$Page$About$update = F2(
 	function (msg, model) {
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -6310,96 +7140,234 @@ var $author$project$Page$Home$update = F2(
 	function (msg, model) {
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	});
+var $author$project$Mindstorms$Learning$update = F2(
+	function (msg, model) {
+		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+	});
+var $author$project$Page$MindstormArticle$updateWithModel = F4(
+	function (toModel, toMsg, model, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{
+					page: toModel(subModel)
+				}),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
+var $author$project$Page$MindstormArticle$update = F2(
+	function (msg, model) {
+		var _v0 = _Utils_Tuple2(model.page, msg);
+		if (_v0.a.$ === 'LearningPage') {
+			var pageModel = _v0.a.a;
+			var subMsg = _v0.b.a;
+			return A4(
+				$author$project$Page$MindstormArticle$updateWithModel,
+				$author$project$Page$MindstormArticle$LearningPage,
+				$author$project$Page$MindstormArticle$LearningMsg,
+				model,
+				A2($author$project$Mindstorms$Learning$update, subMsg, pageModel));
+		} else {
+			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+		}
+	});
 var $author$project$Page$Mindstorms$update = F2(
 	function (msg, model) {
+		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+	});
+var $author$project$Projects$NeighborhoodHere$update = F2(
+	function (msg, model) {
+		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+	});
+var $author$project$Projects$SailfishOS$update = F2(
+	function (msg, model) {
+		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+	});
+var $author$project$Projects$SymbolRecognition$update = F2(
+	function (msg, model) {
+		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+	});
+var $author$project$Page$ProjectArticle$updateWithModel = F4(
+	function (toModel, toMsg, model, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{
+					page: toModel(subModel)
+				}),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
+var $author$project$Page$ProjectArticle$update = F2(
+	function (msg, model) {
+		var _v0 = _Utils_Tuple2(model.page, msg);
+		_v0$3:
+		while (true) {
+			switch (_v0.b.$) {
+				case 'NeighborhoodMsg':
+					if (_v0.a.$ === 'Neighborhood') {
+						var pageModel = _v0.a.a;
+						var subMsg = _v0.b.a;
+						return A4(
+							$author$project$Page$ProjectArticle$updateWithModel,
+							$author$project$Page$ProjectArticle$Neighborhood,
+							$author$project$Page$ProjectArticle$NeighborhoodMsg,
+							model,
+							A2($author$project$Projects$NeighborhoodHere$update, subMsg, pageModel));
+					} else {
+						break _v0$3;
+					}
+				case 'SymbolRecognitionMsg':
+					if (_v0.a.$ === 'SymbolRecognition') {
+						var pageModel = _v0.a.a;
+						var subMsg = _v0.b.a;
+						return A4(
+							$author$project$Page$ProjectArticle$updateWithModel,
+							$author$project$Page$ProjectArticle$SymbolRecognition,
+							$author$project$Page$ProjectArticle$SymbolRecognitionMsg,
+							model,
+							A2($author$project$Projects$SymbolRecognition$update, subMsg, pageModel));
+					} else {
+						break _v0$3;
+					}
+				default:
+					if (_v0.a.$ === 'SailfishOS') {
+						var pageModel = _v0.a.a;
+						var subMsg = _v0.b.a;
+						return A4(
+							$author$project$Page$ProjectArticle$updateWithModel,
+							$author$project$Page$ProjectArticle$SailfishOS,
+							$author$project$Page$ProjectArticle$SailfishOSMsg,
+							model,
+							A2($author$project$Projects$SailfishOS$update, subMsg, pageModel));
+					} else {
+						break _v0$3;
+					}
+			}
+		}
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	});
 var $author$project$Page$Projects$update = F2(
 	function (msg, model) {
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	});
+var $author$project$Main$updateWithModel = F4(
+	function (toModel, toMsg, model, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{
+					page: toModel(subModel)
+				}),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		var _v0 = _Utils_Tuple2(model.page, msg);
-		_v0$6:
+		_v0$9:
 		while (true) {
 			switch (_v0.b.$) {
 				case 'HomeMsg':
 					if (_v0.a.$ === 'HomePage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
-						var _v1 = A2($author$project$Page$Home$update, subMsg, pageModel);
-						var updatedPageModel = _v1.a;
-						var updatedCmd = _v1.b;
-						return _Utils_Tuple2(
-							_Utils_update(
-								model,
-								{
-									page: $author$project$Main$HomePage(updatedPageModel)
-								}),
-							A2($elm$core$Platform$Cmd$map, $author$project$Main$HomeMsg, updatedCmd));
+						return A4(
+							$author$project$Main$updateWithModel,
+							$author$project$Main$HomePage,
+							$author$project$Main$HomeMsg,
+							model,
+							A2($author$project$Page$Home$update, subMsg, pageModel));
 					} else {
-						break _v0$6;
+						break _v0$9;
 					}
 				case 'MindstormsMsg':
 					if (_v0.a.$ === 'MindstormsPage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
-						var _v2 = A2($author$project$Page$Mindstorms$update, subMsg, pageModel);
-						var updatedPageModel = _v2.a;
-						var updatedCmd = _v2.b;
-						return _Utils_Tuple2(
-							_Utils_update(
-								model,
-								{
-									page: $author$project$Main$MindstormsPage(updatedPageModel)
-								}),
-							A2($elm$core$Platform$Cmd$map, $author$project$Main$MindstormsMsg, updatedCmd));
+						return A4(
+							$author$project$Main$updateWithModel,
+							$author$project$Main$MindstormsPage,
+							$author$project$Main$MindstormsMsg,
+							model,
+							A2($author$project$Page$Mindstorms$update, subMsg, pageModel));
 					} else {
-						break _v0$6;
+						break _v0$9;
+					}
+				case 'MindstormArticleMsg':
+					if (_v0.a.$ === 'MindstormArticlePage') {
+						var pageModel = _v0.a.a;
+						var subMsg = _v0.b.a;
+						return A4(
+							$author$project$Main$updateWithModel,
+							$author$project$Main$MindstormArticlePage,
+							$author$project$Main$MindstormArticleMsg,
+							model,
+							A2($author$project$Page$MindstormArticle$update, subMsg, pageModel));
+					} else {
+						break _v0$9;
 					}
 				case 'ProjectsMsg':
 					if (_v0.a.$ === 'ProjectsPage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
-						var _v3 = A2($author$project$Page$Projects$update, subMsg, pageModel);
-						var updatedPageModel = _v3.a;
-						var updatedCmd = _v3.b;
-						return _Utils_Tuple2(
-							_Utils_update(
-								model,
-								{
-									page: $author$project$Main$ProjectsPage(updatedPageModel)
-								}),
-							A2($elm$core$Platform$Cmd$map, $author$project$Main$ProjectsMsg, updatedCmd));
+						return A4(
+							$author$project$Main$updateWithModel,
+							$author$project$Main$ProjectsPage,
+							$author$project$Main$ProjectsMsg,
+							model,
+							A2($author$project$Page$Projects$update, subMsg, pageModel));
 					} else {
-						break _v0$6;
+						break _v0$9;
+					}
+				case 'ProjectArticleMsg':
+					if (_v0.a.$ === 'ProjectArticlePage') {
+						var pageModel = _v0.a.a;
+						var subMsg = _v0.b.a;
+						return A4(
+							$author$project$Main$updateWithModel,
+							$author$project$Main$ProjectArticlePage,
+							$author$project$Main$ProjectArticleMsg,
+							model,
+							A2($author$project$Page$ProjectArticle$update, subMsg, pageModel));
+					} else {
+						break _v0$9;
 					}
 				case 'AboutMsg':
 					if (_v0.a.$ === 'AboutPage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
-						var _v4 = A2($author$project$Page$About$update, subMsg, pageModel);
-						var updatedPageModel = _v4.a;
-						var updatedCmd = _v4.b;
-						return _Utils_Tuple2(
-							_Utils_update(
-								model,
-								{
-									page: $author$project$Main$AboutPage(updatedPageModel)
-								}),
-							A2($elm$core$Platform$Cmd$map, $author$project$Main$AboutMsg, updatedCmd));
+						return A4(
+							$author$project$Main$updateWithModel,
+							$author$project$Main$AboutPage,
+							$author$project$Main$AboutMsg,
+							model,
+							A2($author$project$Page$About$update, subMsg, pageModel));
 					} else {
-						break _v0$6;
+						break _v0$9;
 					}
+				case 'HeaderMsg':
+					var subMsg = _v0.b.a;
+					var _v1 = A2($author$project$Header$update, subMsg, model.headerModel);
+					var headerModel = _v1.a;
+					var subCmds = _v1.b;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{headerModel: headerModel}),
+						A2($elm$core$Platform$Cmd$map, $author$project$Main$HeaderMsg, subCmds));
 				case 'UrlChanged':
 					var url = _v0.b.a;
-					var newRoute = $author$project$Route$fromUrl(url);
 					return $author$project$Main$initCurrentPage(
 						_Utils_Tuple2(
 							_Utils_update(
 								model,
-								{route: newRoute}),
+								{
+									route: $author$project$Route$Route$fromUrl(url)
+								}),
 							$elm$core$Platform$Cmd$none));
 				default:
 					var urlRequest = _v0.b.a;
@@ -6423,24 +7391,116 @@ var $author$project$Main$update = F2(
 	});
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
+var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
-var $author$project$Page$viewContent = function (content) {
+var $author$project$Header$CloseNavMenu = {$: 'CloseNavMenu'};
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Header$viewCloseButton = A2(
+	$elm$html$Html$button,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$id('close-button'),
+			$elm$html$Html$Events$onClick($author$project$Header$CloseNavMenu)
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('Close')
+		]));
+var $elm$html$Html$nav = _VirtualDom_node('nav');
+var $elm$html$Html$ul = _VirtualDom_node('ul');
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $elm$html$Html$li = _VirtualDom_node('li');
+var $author$project$Header$viewLink = F4(
+	function (currentTab, targetTab, name, link) {
+		var attrs = _Utils_eq(currentTab, targetTab) ? _List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('selected-nav-link')
+			]) : _List_Nil;
+		return A2(
+			$elm$html$Html$li,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$a,
+					A2(
+						$elm$core$List$cons,
+						$elm$html$Html$Attributes$href(link),
+						attrs),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(name)
+						]))
+				]));
+	});
+var $author$project$Header$viewNavBar = function (route) {
+	return A2(
+		$elm$html$Html$nav,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$id('nav-links')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$ul,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A4($author$project$Header$viewLink, route, $author$project$Route$Route$Home, 'Home', '/'),
+						A4($author$project$Header$viewLink, route, $author$project$Route$Route$Mindstorms, 'Mindstorms', '/mindstorms'),
+						A4($author$project$Header$viewLink, route, $author$project$Route$Route$Projects, 'Projects', '/projects'),
+						A4($author$project$Header$viewLink, route, $author$project$Route$Route$About, 'About', '/about')
+					]))
+			]));
+};
+var $author$project$Header$showMenu = function (route) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
 			[
-				$elm$html$Html$Attributes$id('content')
+				$elm$html$Html$Attributes$id('menu')
 			]),
 		_List_fromArray(
-			[content]));
+			[
+				$author$project$Header$viewNavBar(route),
+				$author$project$Header$viewCloseButton
+			]));
 };
-var $author$project$Page$viewFooter = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$id('footer')
-		]),
-	_List_Nil);
 var $elm$core$List$filter = F2(
 	function (isGood, list) {
 		return A3(
@@ -6466,7 +7526,6 @@ var $elm$html$Html$Attributes$classList = function (classes) {
 				$elm$core$Tuple$first,
 				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
 };
-var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
@@ -6476,12 +7535,6 @@ var $elm$virtual_dom$VirtualDom$attribute = F2(
 			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
-var $elm$html$Html$Attributes$href = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'href',
-		_VirtualDom_noJavaScriptUri(url));
-};
 var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$html$Html$Attributes$media = _VirtualDom_attribute('media');
 var $elm$virtual_dom$VirtualDom$node = function (tag) {
@@ -6496,7 +7549,7 @@ var $elm$html$Html$Attributes$src = function (url) {
 		'src',
 		_VirtualDom_noJavaScriptOrHtmlUri(url));
 };
-var $author$project$Page$logo = A2(
+var $author$project$Header$logo = A2(
 	$elm$html$Html$a,
 	_List_fromArray(
 		[
@@ -6539,35 +7592,7 @@ var $author$project$Page$logo = A2(
 					_List_Nil)
 				]))
 		]));
-var $elm$html$Html$nav = _VirtualDom_node('nav');
-var $elm$html$Html$ol = _VirtualDom_node('ol');
-var $elm$html$Html$li = _VirtualDom_node('li');
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Page$viewLink = F4(
-	function (currentTab, targetTab, name, link) {
-		var attrs = _Utils_eq(currentTab, targetTab) ? _List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('selected-nav-link')
-			]) : _List_Nil;
-		return A2(
-			$elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$a,
-					A2(
-						$elm$core$List$cons,
-						$elm$html$Html$Attributes$href(link),
-						attrs),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(name)
-						]))
-				]));
-	});
-var $author$project$Page$viewHeader = function (page) {
+var $author$project$Header$viewHeader = function (route) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -6576,29 +7601,11 @@ var $author$project$Page$viewHeader = function (page) {
 			]),
 		_List_fromArray(
 			[
-				$author$project$Page$logo,
-				A2(
-				$elm$html$Html$nav,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$id('nav-links')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$ol,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A4($author$project$Page$viewLink, page, $author$project$Route$Home, 'Home', '/'),
-								A4($author$project$Page$viewLink, page, $author$project$Route$Mindstorms, 'Mindstorms', '/mindstorms'),
-								A4($author$project$Page$viewLink, page, $author$project$Route$Projects, 'Projects', '/projects'),
-								A4($author$project$Page$viewLink, page, $author$project$Route$About, 'About', '/about')
-							]))
-					]))
+				$author$project$Header$logo,
+				$author$project$Header$viewNavBar(route)
 			]));
 };
-var $author$project$Page$viewHeaderWrapper = function (page) {
+var $author$project$Header$viewDesktopHeader = function (route) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -6612,23 +7619,111 @@ var $author$project$Page$viewHeaderWrapper = function (page) {
 			]),
 		_List_fromArray(
 			[
-				$author$project$Page$viewHeader(page)
+				$author$project$Header$viewHeader(route)
 			]));
 };
-var $author$project$Page$view = F2(
-	function (page, content) {
-		return {
-			body: A2(
-				$elm$core$List$cons,
-				$author$project$Page$viewHeaderWrapper(page),
-				A2(
-					$elm$core$List$cons,
-					$author$project$Page$viewContent(content),
-					_List_fromArray(
-						[$author$project$Page$viewFooter]))),
-			title: 'Z Context'
-		};
+var $author$project$Header$MenuButtonClicked = {$: 'MenuButtonClicked'};
+var $author$project$Header$viewMenuButton = A2(
+	$elm$html$Html$button,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$id('menu-button'),
+			$elm$html$Html$Events$onClick($author$project$Header$MenuButtonClicked)
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$img,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$src('/img/menu_icon_dark.svg'),
+					$elm$html$Html$Attributes$id('menu-icon')
+				]),
+			_List_Nil)
+		]));
+var $author$project$Header$viewMobileHeader = function (route) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('header')
+			]),
+		_List_fromArray(
+			[$author$project$Header$logo, $author$project$Header$viewMenuButton]));
+};
+var $author$project$Header$view = F2(
+	function (route, _v0) {
+		var viewport = _v0.viewport;
+		var isMenuOpen = _v0.isMenuOpen;
+		if (isMenuOpen) {
+			return $author$project$Header$showMenu(route);
+		} else {
+			return (viewport.viewport.width > 650) ? $author$project$Header$viewDesktopHeader(route) : $author$project$Header$viewMobileHeader(route);
+		}
 	});
+var $author$project$Page$viewContent = F2(
+	function (content, route) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$id('content')
+				]),
+			_List_fromArray(
+				[content]));
+	});
+var $author$project$Page$viewFooter = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$id('footer')
+		]),
+	_List_Nil);
+var $author$project$Page$view = function (_v0) {
+	var route = _v0.route;
+	var content = _v0.content;
+	var header = _v0.header;
+	return {
+		body: A2(
+			$elm$core$List$cons,
+			header,
+			A2(
+				$elm$core$List$cons,
+				A2($author$project$Page$viewContent, content, route),
+				_List_fromArray(
+					[$author$project$Page$viewFooter]))),
+		title: 'Z Context'
+	};
+};
+var $author$project$Center$options = {
+	defaultHighlighting: $elm$core$Maybe$Nothing,
+	githubFlavored: $elm$core$Maybe$Just(
+		{breaks: false, tables: false}),
+	sanitize: false,
+	smartypants: false
+};
+var $author$project$Page$About$text = '\n\nHi. \n\nThis is part of my point of view at a cross section of relative time.\n\nInterested in nothing specific and everything unspecified. Probably just a generalist.\n\nI like to read... and find language and symbols amusing.\n\n     \n';
+var $elm$core$Maybe$isJust = function (maybe) {
+	if (maybe.$ === 'Just') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $elm_explorations$markdown$Markdown$toHtmlWith = _Markdown_toHtml;
+var $author$project$Page$About$info = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$id('about-page')
+		]),
+	_List_fromArray(
+		[
+			A3($elm_explorations$markdown$Markdown$toHtmlWith, $author$project$Center$options, _List_Nil, $author$project$Page$About$text)
+		]));
+var $author$project$Page$About$view = function (model) {
+	return $author$project$Page$About$info;
+};
 var $author$project$Page$viewCardImage = function (image) {
 	return A2(
 		$elm$html$Html$div,
@@ -6704,96 +7799,999 @@ var $author$project$Page$viewCards = function (articles) {
 			]),
 		A2($elm$core$List$map, $author$project$Page$viewCard, articles));
 };
-var $author$project$Page$About$view = function (model) {
-	var _v0 = model.displayArticle;
-	if (_v0.$ === 'Just') {
-		var article = _v0.a;
-		return $elm$html$Html$text('');
-	} else {
-		return $author$project$Page$viewCards(model.articles);
-	}
+var $author$project$Page$Home$view = function (model) {
+	return $author$project$Page$viewCards(model.articles);
 };
-var $author$project$Page$Home$view = F2(
-	function (route, model) {
-		return A2(
-			$author$project$Page$view,
-			route,
-			$author$project$Page$viewCards(model.articles));
+var $author$project$Mindstorms$Learning$article = $author$project$Article$getArticle(
+	{
+		date: '18 Feb 2020',
+		href: 'mindstorms/learning',
+		image: A2($author$project$Article$Image, '/img/turtle.png', 'Turtle'),
+		subtitle: 'Just trying out what will happen',
+		summary: '',
+		title: 'Learning Article'
 	});
-var $author$project$Page$Mindstorms$view = F2(
-	function (route, model) {
-		return A2(
-			$author$project$Page$view,
-			route,
-			$author$project$Page$viewCards(model.articles));
-	});
-var $author$project$Page$Projects$view = function (model) {
-	var _v0 = model.displayArticle;
-	if (_v0.$ === 'Just') {
-		var article = _v0.a;
-		return $elm$html$Html$text('');
-	} else {
-		return $author$project$Page$viewCards(model.articles);
-	}
+var $author$project$Mindstorms$Learning$articleText = '\n\nThe eternal idea of knowledge.\n\n';
+var $author$project$Article$getDate = function (_v0) {
+	var date = _v0.a.date;
+	return date;
+};
+var $author$project$Article$getSubtitle = function (_v0) {
+	var subtitle = _v0.a.subtitle;
+	return subtitle;
+};
+var $author$project$Article$getTitle = function (_v0) {
+	var title = _v0.a.title;
+	return title;
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $author$project$Page$viewNotFound = {
-	body: _List_fromArray(
+var $elm$html$Html$h5 = _VirtualDom_node('h5');
+var $elm$html$Html$hr = _VirtualDom_node('hr');
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Center$styles = function (width) {
+	return _List_fromArray(
 		[
-			A2(
+			A2($elm$html$Html$Attributes$style, 'display', 'block'),
+			A2($elm$html$Html$Attributes$style, 'max-width', width),
+			A2($elm$html$Html$Attributes$style, 'margin', '0 auto')
+		]);
+};
+var $author$project$Center$markdown = F2(
+	function (width, string) {
+		return A2(
 			$elm$html$Html$div,
+			A2(
+				$elm$core$List$cons,
+				$elm$html$Html$Attributes$class('content'),
+				$author$project$Center$styles(width)),
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$id('page-not-found')
+					A3($elm_explorations$markdown$Markdown$toHtmlWith, $author$project$Center$options, _List_Nil, string)
+				]));
+	});
+var $author$project$Mindstorms$Learning$articleBody = function (a) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('article')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$h1,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-title')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getTitle(a))
+					])),
+				A2(
+				$elm$html$Html$h3,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-subtitle')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getSubtitle(a))
+					])),
+				A2(
+				$elm$html$Html$h5,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-date')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getDate(a))
+					])),
+				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+				A2($author$project$Center$markdown, '800px', $author$project$Mindstorms$Learning$articleText)
+			]));
+};
+var $author$project$Mindstorms$Learning$view = function (model) {
+	return $author$project$Mindstorms$Learning$articleBody($author$project$Mindstorms$Learning$article);
+};
+var $author$project$Page$viewNotFound = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$id('page-not-found')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$h1,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Page Not Found')
+				])),
+			A2(
+			$elm$html$Html$a,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$href('/')
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Go to Home Page')
+				]))
+		]));
+var $author$project$Page$MindstormArticle$view = function (model) {
+	var _v0 = model.page;
+	if (_v0.$ === 'NotFoundPage') {
+		return $author$project$Page$viewNotFound;
+	} else {
+		var pageModel = _v0.a;
+		return $author$project$Mindstorms$Learning$view(pageModel);
+	}
+};
+var $author$project$Page$Mindstorms$view = function (model) {
+	return $author$project$Page$viewCards(model.articles);
+};
+var $author$project$Projects$NeighborhoodHere$articleText = '\n\n## Table of Contents\n\n* [About](#about)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n\n## About\n\nThe **Neighborhood-Here** project is Map app written in React and Redux. You can search different POI in the area and get basic information about them. The project emphasizes using React and Redux to build the application and the usage of third-party APIs (HereMapsAPI). \n\n## How to run it\n\n#### [Open the App Link](https://andyfv.github.io/neighborhood-map-here/)\n\n<br>\n\n```Or download/clone locally:```\n\n1) Download or Clone the repository\n\n2) Unzip the file if you have downloaded a ZIP\n\n3) Install dependencies using **npm**:\n\n        npm install\n\n4) Start the application:\n\n* The service worker is only enabled in the production environment, so if you want to use it build the project first. For more information check [Making a Progressive Web App](https://goo.gl/KwvDNy).\n\n        npm run build\n        npm install -g serve\n        serve -s build\n\n* Otherwise just start the server\n\n        npm start\n\n5) This will open new browser window/tab. If it doesn\'t navigate to:\n\n        http://localhost:3000/\n\n## How to use it\n\nOn the page you will see three main elements:\n\n* Map\n* Search Box\n* List\n\n![Page](/img/projects/neighborhood/desktop_800.jpg)\n\n* To view information about specific venue you can choose item either from the List or from the map Markers. The map will be centered on the opened InfoBubble for you.\n\n![POI](/img/projects/neighborhood/desktop_info_800.jpg)\n\n***\n\n* To search specific POI you are interested in just type in the Search Box and your results will update in both the **Map** and **List**\n\n<p align="center">\n    <img src="/img/projects/neighborhood/iphone5_results_200.jpg" width="200" alt="Search results on a phone">\n    <img src="/img/projects/neighborhood/iphone5_info_200.jpg" width="200" alt="InfoBubble on a phone">\n    <img src="/img/projects/neighborhood/iphone5_map_200.jpg" width="200" alt="Map results on a phone">\n</p>\n\n## Dependencies\n\n* redux\n* redux-thunk\n* react-redux\n* HereMapsAPI\n* PropTypes\n\n\n## TODO\n\n\n* If HTTP 503 error is given - send another request<br>\nSadly the HTTP 503 Error for ```Places API``` didn\'t go away by reducing the number of requests send.<br>\nAs per [Here Maps Places API Documentation](https://developer.here.com/documentation/places/topics/http-status-codes.html) :\n\n503 Service Unavailable Indicates that the service is temporarily unavailable due to system overload or maintenance.\n\n';
+var $author$project$Projects$NeighborhoodHere$articleBody = function (a) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('article')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$h1,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-title')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getTitle(a))
+					])),
+				A2(
+				$elm$html$Html$h3,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-subtitle')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getSubtitle(a))
+					])),
+				A2(
+				$elm$html$Html$h5,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-date')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getDate(a))
+					])),
+				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+				A2($author$project$Center$markdown, '800px', $author$project$Projects$NeighborhoodHere$articleText)
+			]));
+};
+var $author$project$Projects$NeighborhoodHere$view = function (model) {
+	return $author$project$Projects$NeighborhoodHere$articleBody($author$project$Projects$NeighborhoodHere$article);
+};
+var $author$project$Projects$SailfishOS$block = _List_fromArray(
+	[
+		A2($elm$html$Html$Attributes$style, 'background-color', 'rgb(236, 236, 236)'),
+		A2($elm$html$Html$Attributes$style, 'text-align', 'left'),
+		A2($elm$html$Html$Attributes$style, 'word-break', 'break-word'),
+		A2($elm$html$Html$Attributes$style, 'padding-left', '10px'),
+		A2($elm$html$Html$Attributes$style, 'padding-right', '10px'),
+		A2($elm$html$Html$Attributes$style, 'padding-bottom', '10px'),
+		A2($elm$html$Html$Attributes$style, 'padding-top', '10px'),
+		A2($elm$html$Html$Attributes$style, 'border-radius', '4px'),
+		A2($elm$html$Html$Attributes$style, 'margin-top', '20px'),
+		A2($elm$html$Html$Attributes$style, 'margin-bottom', '20px'),
+		A2($elm$html$Html$Attributes$style, '-webkit-box-shadow', '0px 1px 2px 0px rgba(0,0,0,0.75)'),
+		A2($elm$html$Html$Attributes$style, '-moz-box-shadow', '0px 1px 2px 0px rgba(0,0,0,0.75)'),
+		A2($elm$html$Html$Attributes$style, 'box-shadow', '0px 1px 2px 0px rgba(0,0,0,0.75)')
+	]);
+var $elm$html$Html$p = _VirtualDom_node('p');
+var $author$project$Projects$SailfishOS$blockElement = function (str) {
+	return A2(
+		$elm$html$Html$p,
+		_List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$style, 'margin-top', '5px'),
+				A2($elm$html$Html$Attributes$style, 'margin-bottom', '5px')
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(str)
+			]));
+};
+var $elm$html$Html$br = _VirtualDom_node('br');
+var $author$project$Projects$SailfishOS$analysis = A2(
+	$elm$html$Html$div,
+	$author$project$Projects$SailfishOS$block,
+	_List_fromArray(
+		[
+			$author$project$Projects$SailfishOS$blockElement('- XA2: Keeping your pinky on the bottom lip of the phone still gives enough grip and the phone can be used for somewhat normal operation. Top of the screen is unreachable. The opposite horizontal edge is unreachable.'),
+			A2($elm$html$Html$br, _List_Nil, _List_Nil),
+			$author$project$Projects$SailfishOS$blockElement('- XA2 Plus: Users hold the phone more to the middle. Most possible explanation is weight balance, otherwise there would not be enough grip. Bottom of the screen is harder to reach(more on that later). Top of the screen is unreachable. The opposite horizontal edge is unreachable.'),
+			A2($elm$html$Html$br, _List_Nil, _List_Nil),
+			$author$project$Projects$SailfishOS$blockElement('- XA2 Ultra: The same as XA2 Plus.')
+		]));
+var $elm$html$Html$strong = _VirtualDom_node('strong');
+var $author$project$Projects$SailfishOS$devices = A2(
+	$elm$html$Html$div,
+	$author$project$Projects$SailfishOS$block,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$strong,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Mobile Phones:')
+				])),
+			$author$project$Projects$SailfishOS$blockElement('- Jolla (4.5 inch, 16:9 ratio)'),
+			$author$project$Projects$SailfishOS$blockElement('- Jolla C (5.0 inch, 16:9 ratio)'),
+			$author$project$Projects$SailfishOS$blockElement('- Sony Xperia X (5.0 inch, 16:9 ratio)'),
+			$author$project$Projects$SailfishOS$blockElement('- Sony XA2 (5.2 inch, 16:9 ratio)'),
+			$author$project$Projects$SailfishOS$blockElement('- Sony XA2 Ultra (6.0 inch, 16:9 ratio)'),
+			$author$project$Projects$SailfishOS$blockElement('- Sony XA2 Plus (6.0 inch, 18:9 ratio)'),
+			A2(
+			$elm$html$Html$strong,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Tablets:')
+				])),
+			$author$project$Projects$SailfishOS$blockElement('- Jolla Tablet (7.85inch, 4:3 ratio)')
+		]));
+var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $author$project$Projects$SailfishOS$handling = A2(
+	$elm$html$Html$div,
+	$author$project$Projects$SailfishOS$block,
+	_List_fromArray(
+		[
+			$author$project$Projects$SailfishOS$blockElement('- XA2: Most people hold the phone with their pinky on the bottom lip.'),
+			A2($elm$html$Html$br, _List_Nil, _List_Nil),
+			$author$project$Projects$SailfishOS$blockElement('- XA2 Plus: Most people hold the phone more to the middle. Actually most people use the phone with two hands.'),
+			A2($elm$html$Html$br, _List_Nil, _List_Nil),
+			$author$project$Projects$SailfishOS$blockElement('- XA2 Ultra: The same as XA2 Plus.')
+		]));
+var $elm$html$Html$span = _VirtualDom_node('span');
+var $author$project$Projects$SailfishOS$highlightColor = F2(
+	function (str, color) {
+		return A2(
+			$elm$html$Html$span,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'background-color', color),
+					A2($elm$html$Html$Attributes$style, 'border-radius', '4px'),
+					A2($elm$html$Html$Attributes$style, 'padding', '2px 2px 1px 2px'),
+					A2($elm$html$Html$Attributes$style, 'font-weigth', 'ligther'),
+					A2($elm$html$Html$Attributes$style, 'font-size', '0.85em'),
+					A2($elm$html$Html$Attributes$style, 'color', 'white'),
+					A2($elm$html$Html$Attributes$style, '-webkit-box-shadow', '0px 1px 2px 0px rgba(0,0,0,0.75)'),
+					A2($elm$html$Html$Attributes$style, '-moz-box-shadow', '0px 1px 2px 0px rgba(0,0,0,0.75)'),
+					A2($elm$html$Html$Attributes$style, 'box-shadow', '0px 1px 2px 0px rgba(0,0,0,0.75)')
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(str)
+				]));
+	});
+var $author$project$Projects$SailfishOS$paragraph = function (str) {
+	return A2(
+		$elm$html$Html$p,
+		_List_Nil,
+		_List_fromArray(
+			[
+				$elm$html$Html$text(str)
+			]));
+};
+var $author$project$Projects$SailfishOS$green = '#7FCF59';
+var $author$project$Projects$SailfishOS$orange = '#DE6818';
+var $author$project$Projects$SailfishOS$red = 'rgb(253, 120, 120)';
+var $author$project$Projects$SailfishOS$reachability = A2(
+	$elm$html$Html$div,
+	$author$project$Projects$SailfishOS$block,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Green Area', $author$project$Projects$SailfishOS$green),
+					$elm$html$Html$text(' '),
+					$elm$html$Html$text('- the reachable part of the screen')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Orange Area', $author$project$Projects$SailfishOS$orange),
+					$elm$html$Html$text(' '),
+					$elm$html$Html$text('- the trickier to reach part of the screen')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Red Area', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' '),
+					$elm$html$Html$text('- unreachable')
+				]))
+		]));
+var $author$project$Projects$SailfishOS$weakPoints = A2(
+	$elm$html$Html$div,
+	$author$project$Projects$SailfishOS$block,
+	_List_fromArray(
+		[
+			$author$project$Projects$SailfishOS$blockElement('1. One-handed use is worse because of unreachability'),
+			A2($elm$html$Html$br, _List_Nil, _List_Nil),
+			$author$project$Projects$SailfishOS$blockElement('2. Quick closing an App on Sailfish 3 - with the top of the screen being unreachable, this is a problem. Also this action is only possible from the left or right portion of the top edge, which makes it tricky to use.')
+		]));
+var $author$project$Projects$SailfishOS$chapter1 = A2(
+	$elm$html$Html$p,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$h2,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('1. Hardware Limitations')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Now let\'s start with what we know. '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Jolla', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' are not making hardware anymore, so they don\'t have much control here. Taking this is consideration and moving on with the currently supported devices. ')
+				])),
+			$author$project$Projects$SailfishOS$devices,
+			$author$project$Projects$SailfishOS$paragraph('Based on the screen sizes we can limit the scope a bit. Phone makers are probably going to stay with the current trend of bigger screens for some time. (Possibly the upcoming folding phones will disrupt this trend). '),
+			$author$project$Projects$SailfishOS$paragraph('In the context of hardware, the differences are mostly dimensional. Sadly, different and more innovative types of hardware for interacting with the devices are hard to find. So let’s focus just on the screen dimensions for now. '),
+			$author$project$Projects$SailfishOS$paragraph('Let\'s take the current line of phones in the eco-system to find potential weak points.'),
+			A2(
+			$elm$html$Html$strong,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Current Device Line')
+				])),
+			A2(
+			$elm$html$Html$img,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$src('/img/projects/sailfish/sailfish-current-devices.png'),
+					$elm$html$Html$Attributes$alt('Devices')
+				]),
+			_List_Nil),
+			$author$project$Projects$SailfishOS$paragraph('Since not having a proper crowdsourcing I will be using screenshots (from review videos) of `one-handed use` of actual people interacting with the various version and not just posing for picture with the product. We can see the following: '),
+			$author$project$Projects$SailfishOS$handling,
+			$author$project$Projects$SailfishOS$paragraph('With the this information (which to be honest is not much, but still something) we can start analyzing:'),
+			$author$project$Projects$SailfishOS$analysis,
+			$author$project$Projects$SailfishOS$paragraph('So we can see the most common weak point these days:'),
+			A2(
+			$elm$html$Html$p,
+			$author$project$Projects$SailfishOS$block,
+			_List_fromArray(
+				[
+					$author$project$Projects$SailfishOS$blockElement('Reachability - in all versions of the XA2')
+				])),
+			$author$project$Projects$SailfishOS$paragraph('Check the weak points against Sailfish OS 3:'),
+			$author$project$Projects$SailfishOS$weakPoints,
+			$author$project$Projects$SailfishOS$paragraph('Other issues can mainly come from the size of the device and not the OS itself.'),
+			A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+			$author$project$Projects$SailfishOS$paragraph('Thinking about worst case scenario, I tried to make a heatmap of the reachability situation on the XA2 Plus.'),
+			$author$project$Projects$SailfishOS$paragraph('Now, I will excuse myself again. This was done within limited time. And without proper crowdsourcing this shouldn\'t be taken seriously. Based on my hand size(considering myself having normal hand size).'),
+			$author$project$Projects$SailfishOS$reachability,
+			A2(
+			$elm$html$Html$img,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$src('/img/projects/sailfish/sailfish-devices-reachability.svg'),
+					$elm$html$Html$Attributes$alt('Reachability')
+				]),
+			_List_Nil),
+			A2($elm$html$Html$hr, _List_Nil, _List_Nil)
+		]));
+var $author$project$Projects$SailfishOS$centerImage = F3(
+	function (imgSrc, altName, maxWidth) {
+		return A2(
+			$elm$html$Html$p,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'text-align', 'center')
 				]),
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$h1,
+					$elm$html$Html$img,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$src(imgSrc),
+							$elm$html$Html$Attributes$alt(altName),
+							A2($elm$html$Html$Attributes$style, 'max-width', maxWidth)
+						]),
+					_List_Nil)
+				]));
+	});
+var $author$project$Projects$SailfishOS$navScreens = A2(
+	$elm$html$Html$div,
+	$author$project$Projects$SailfishOS$block,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$strong,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('1. Home')
+				])),
+			$author$project$Projects$SailfishOS$blockElement('With just 2 App Covers on a row there will be no problem.'),
+			$author$project$Projects$SailfishOS$blockElement('But with 3 App Covers on a row it may get tricky to hit App Covers in the opposite edges on the Top of the screen.'),
+			A2($elm$html$Html$br, _List_Nil, _List_Nil),
+			A2(
+			$elm$html$Html$strong,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('2. Events ')
+				])),
+			$author$project$Projects$SailfishOS$blockElement('Since the Top part is used as a Presentational component with no controls, everything is perfect.'),
+			A2($elm$html$Html$br, _List_Nil, _List_Nil),
+			A2(
+			$elm$html$Html$strong,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('3. Apps ')
+				])),
+			$author$project$Projects$SailfishOS$blockElement('App Icons on the Top may not be reachable.'),
+			A2($elm$html$Html$br, _List_Nil, _List_Nil),
+			A2(
+			$elm$html$Html$strong,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('4. Top Menu')
+				])),
+			$author$project$Projects$SailfishOS$blockElement('Some of the Quick Toggles on the Top may not be reachable.')
+		]));
+var $author$project$Projects$SailfishOS$chapter2 = A2(
+	$elm$html$Html$p,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$h2,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('2. Software Limitations')
+				])),
+			$author$project$Projects$SailfishOS$paragraph('Again, let\'s start with what we already have and then see if something can be proposed. '),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Sailfish is using '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'gesture based navigation', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text('. And in it\'s current state it looks like this: ')
+				])),
+			A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/sailfish-navigation.svg', 'Navigation', '320px'),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Let\'s examine the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'navigation screens', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' which may have reachability issues.')
+				])),
+			$author$project$Projects$SailfishOS$navScreens,
+			A2($elm$html$Html$hr, _List_Nil, _List_Nil)
+		]));
+var $author$project$Projects$SailfishOS$appDrawer = A2(
+	$elm$html$Html$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('App Drawer')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('The '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'App Drawer', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' will be hard to improve without reducing the interactive area. Leaving it as it is, for now.')
+				]))
+		]));
+var $author$project$Projects$SailfishOS$systemSearch = A2(
+	$elm$html$Html$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('System Search')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Triggered only from the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Home Screen and Events.', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text('.')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Two \'paddles\' will apear on '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Swipe Down + Hold', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text('. '),
+					$elm$html$Html$text('From there the swipe will be continued to either '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Left', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' or '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Right', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text('.')
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+					A2($elm$html$Html$Attributes$style, 'flex-direction', 'row'),
+					A2($elm$html$Html$Attributes$style, 'flex-wrap', 'wrap'),
+					A2($elm$html$Html$Attributes$style, 'justify-content', 'space-around')
+				]),
+			_List_fromArray(
+				[
+					A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/SailfishOS_Search.gif', 'Search', '320px'),
+					A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/SailfishOS_SearchResults.gif', 'Search', '320px')
+				])),
+			$author$project$Projects$SailfishOS$paragraph('View from above of the proposed navigation improvements:'),
+			A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/sailfish-proposition-view.png', 'Sailfish Swipe Comparison', '640px')
+		]));
+var $author$project$Projects$SailfishOS$topMenu = A2(
+	$elm$html$Html$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Top Menu')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('What can be done here? The '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Top Menu', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' can be accessed from three places - from '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Home, Events, In-App', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text('.'),
+					$elm$html$Html$text(' What about "one-handed" usage. What if the swipe direction from '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Home', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' to '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Events', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' is stored and used for rearanging the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Top Menu', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' in a more compact form. A demonstration will clear things out.')
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+					A2($elm$html$Html$Attributes$style, 'flex-direction', 'row'),
+					A2($elm$html$Html$Attributes$style, 'flex-wrap', 'wrap'),
+					A2($elm$html$Html$Attributes$style, 'justify-content', 'space-around')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('Page Not Found')
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Left Swipe')
+								])),
+							A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/SailfishOS_TopMenuLeft.gif', 'Left Swipe', '200px')
 						])),
 					A2(
-					$elm$html$Html$a,
+					$elm$html$Html$div,
+					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$href('/')
-						]),
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('From Home Swipe')
+								])),
+							A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/SailfishOS_TopMenu.gif', 'Home Swipe', '200px')
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text('Go to Home Page')
+							A2(
+							$elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Right Swipe')
+								])),
+							A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/SailfishOS_TopMenuRight.gif', 'Right Swipe', '200px')
 						]))
+				])),
+			$author$project$Projects$SailfishOS$paragraph('This is not the about the UI (colors, icon shapes. etc), but more about the UX, so here is a little comparison of the proposed vs the old:'),
+			A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/sailfish-topmenu-comparison.svg', 'Top Menu Comparison', '640px'),
+			A2(
+			$elm$html$Html$p,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'text-align', 'center')
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Landscape')
+				])),
+			A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/sailfish-new-topmenu-landscape.svg', 'Landscape', '480px'),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('And the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Presentational Component', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' from the Events Screen can be leveraged, leaving the Top part of the screen just for infomartion/metrics:')
+				])),
+			A2(
+			$elm$html$Html$div,
+			$author$project$Projects$SailfishOS$block,
+			_List_fromArray(
+				[
+					$author$project$Projects$SailfishOS$blockElement('- onChange Notifications for the Quick Toggles (ON/OFF)'),
+					$author$project$Projects$SailfishOS$blockElement('- Available Memory'),
+					$author$project$Projects$SailfishOS$blockElement('- Media player information'),
+					$author$project$Projects$SailfishOS$blockElement('- Temperature')
 				]))
-		]),
-	title: 'Z Context'
+		]));
+var $author$project$Projects$SailfishOS$chapter3 = A2(
+	$elm$html$Html$p,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$h2,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('3. Propositions')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Some propositions will be given to improve the current '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Navigation', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text('.')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Let\'s start with the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Quick Close', $author$project$Projects$SailfishOS$red)
+				])),
+			A2(
+			$elm$html$Html$h3,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Quick Close')
+				])),
+			A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/sailfish-quick-close.svg', 'Quick Close', '320px'),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Currently the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Quick Close', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' is triggered with a swipe down from the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Left/Right part of the Top edge', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text('.'),
+					$elm$html$Html$text('Since the Top edge of the screen is hardly reachable(especially on the XA2 Plus and Ultra), this is an area which can be improved. The problem is '),
+					A2($author$project$Projects$SailfishOS$highlightColor, '1. Where', $author$project$Projects$SailfishOS$green),
+					$elm$html$Html$text(' to move this action and '),
+					A2($author$project$Projects$SailfishOS$highlightColor, '2. How', $author$project$Projects$SailfishOS$green),
+					$elm$html$Html$text(' it will be triggered. ')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2($author$project$Projects$SailfishOS$highlightColor, '1. Where', $author$project$Projects$SailfishOS$green),
+					$elm$html$Html$text(' - it needs to go lower. This leaves us with the Left, Right, Bottom edge to initiate it. The Left and Right edges give us best reachability regardless of the way the phone is held. So lets try from the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Left and Right edges', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text('.')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2($author$project$Projects$SailfishOS$highlightColor, '2. How', $author$project$Projects$SailfishOS$green),
+					$elm$html$Html$text(' (it will be triggered?) - The '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Left and Right', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' edges are used for Navigation between Home and Events and also to minimize Apps. So we will need new gesture. Something without adding too much complexity and preventing accidental closing. So, let\'s check the natural swipe direction and go from there. The natural direction of a swipe from the edge is sideways and going down. So if the opposite direction is used for '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Quick Closing', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' an App, this will prevent from accidental closing. Let\'s check it.')
+				])),
+			A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/sailfish-swipe-comparison.svg', 'Swipe Comparison', '640px'),
+			$author$project$Projects$SailfishOS$paragraph('And here it is a more complete overview, with a hint at the top of the screen, telling the user what is going to happen. '),
+			A3($author$project$Projects$SailfishOS$centerImage, '/img/projects/sailfish/SailfishOS_CloseApp.gif', 'Close App', '320px'),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Now the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Top Edge', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text(' is decluttered.')
+				])),
+			A2(
+			$elm$html$Html$p,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Which lead us to the '),
+					A2($author$project$Projects$SailfishOS$highlightColor, 'Top Menu', $author$project$Projects$SailfishOS$red),
+					$elm$html$Html$text('.')
+				])),
+			A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+			$author$project$Projects$SailfishOS$topMenu,
+			A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+			$author$project$Projects$SailfishOS$systemSearch,
+			A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+			$author$project$Projects$SailfishOS$appDrawer
+		]));
+var $author$project$Projects$SailfishOS$intro = '\n\nAs with most case studies, the idea is to explore the current state of a particular area and make some propositions about improving it.\n\nAnd the area of this case study is the UX of Sailfish OS(which is already pretty good). Of course, the proposed ideas shouldn\'t be too harsh and drive away the current users.\n\n<hr>\n\nFirst, let\'s talk context. We have to deal with multiple contexts. So let\'s find the borders/limitations we have to work with.\n\n';
+var $author$project$Projects$SailfishOS$articleBody = function (a) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('article')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$h1,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-title')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getTitle(a))
+					])),
+				A2(
+				$elm$html$Html$h3,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-subtitle')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getSubtitle(a))
+					])),
+				A2(
+				$elm$html$Html$h5,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-date')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getDate(a))
+					])),
+				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+				A2($author$project$Center$markdown, '800px', $author$project$Projects$SailfishOS$intro),
+				$author$project$Projects$SailfishOS$chapter1,
+				$author$project$Projects$SailfishOS$chapter2,
+				$author$project$Projects$SailfishOS$chapter3
+			]));
 };
-var $author$project$Main$view = function (model) {
+var $author$project$Projects$SailfishOS$view = function (model) {
+	return $author$project$Projects$SailfishOS$articleBody($author$project$Projects$SailfishOS$article);
+};
+var $author$project$Projects$SymbolRecognition$articleText = '\n\n# Symbol Recognition\n\n## Table Of Contents\n \n* [About](#about)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n* [Issues](#issues)\n\n\n## About\n\nThe **Symbol Recognition** project is Web app written in Elm. \nYou can handwrite symbols (the letters from A-Z and numbers 1-9) on\nthe canvas and get it recognized. Second point of the project is to use the time-sequenced\n symbol recognition for gesture navigation UI .The project is inspired by one of the most \nproductive studies in HCI - The [GRAIL/BIOMOD system](https://www.youtube.com/watch?v=2Cq8S3jzJiQ).\n\n![GRAIL System](/img/projects/symbol-rec/GRAIL_system.png)\n\nThe [text recognition scheme (_Real-Time Recognition of Handprinted Text_, 1966)](https://www.rand.org/pubs/research_memoranda/RM5016.html) was designed and implemented mainly by Garbriel F. Groner to permit an on-line computer user \nto print text naturally and have it recognized accurately. The original scheme was able to recognize a set of\n53 symbols entered with the help of the RAND tablet with its pen as input device.\nRecognition of the symbols was done as analysis of the data in a time-sequenced matter, \nwith a series of test to identify a specific symbol:\n\n<br>\n\n#### 1) Getting Raw Data\n        \nOriginally, pressing the pen against the tablet  surface activated\nthe symbol recognition scheme by indicating the start of a stroke.\nAs the pen was moved data-points were added to the stroke. And finally \nwhen the pen was lifted the recognition scheme was notified that the \nstroke is complete. Next is the series of data analysis of the stroke.\n\n#### 2) Smoothing \n\nAs taken from _Real-Time Recognition of Handprinted Text (Groner, 1966)_ :\n\n"The scheme smooths the data by averaging a newly arrived data-point with the \npreviously smoothed data-point, thus reducing the noise due to discreteness of the pen\nlocation as measured by the tablet. Smoothing is based on the equations"\n\n\n#### 3) Thinning\n\n"Thinning is the process of removing some of the data-points from the pen track.\nThis is accomplished by comparing the position of a new smoothed data-point with the\nposition of the last point in a thinned track. If these points are sufficiently apart,\nthe analysis scheme accepts the smoothed points as part of the thinned track; otherwise, \nit is discarded. Thinning eliminates small perturbation in the track, and reduces \nthe data processing requirements by drastically reducing (by a factor of seven or so) \nthe number of data-points."\n          \n          \n#### 4) Curvature\n\nThis test assigned a *direction* to each point so the stroke/symbol can be represented by \na sequence of directions - eg. UP, DOWN, UP, LEFT which results in the letter A. \n\n"If the same direction occurs twice in succession, and it is not the same as the last \ndirection listed in the sequence, then it is added to the list; otherwise it is discarded." \n\n\n#### 5) Corner Detection\n\nA corner is detected whenever the pen is moves in the same direction for at least \ntwo segments, changes direction by at least 90°, and \nthen proceeds along the new direction for at least two segments.\n\n#### 6) Additional features (Partially implemented, but not used yet)\n\nIn this implementation the Start and End positions of a stroke are stored for\nfurther testing in the decision process of the recognition.\n\nAdditional features were used in the original, such as the size, position and ratio of the stroke.\n\n\n## How to run it\n\n#### [Open the Link](https://andyfv.github.io/symbol-recognition/)\n\n```Or download/clone locally:```\n\n1) Download or Clone the repository\n\n2) Open index.html in a browser\n\n\n## How to use it\n\nOn the page you will see three Boxes:\n\n* Raw Input \n* Smoothed Input\n* Thinned Input \n\nJust draw/write a stroke in one of the boxes (it doesn\'t matter which one).\nBelow is the table of the symbols and their single-stroke representation.\n\n![Symbols](/img/projects/symbol-rec/table_800.png)\n\n***\n\n## Dependencies\n\n* mdgriffith/elm-ui\n* elm/svg\n\n\n## TODO\n\nThere is much to be done: \n\n* Fix issue in Firefox where the cursor is constantly jumping to top-left of the canvas  \n* The code is not taking full advantage of the Elm features - some "shortcuts" need to be fixed\n* Making the experience more interactive\n* Migrating from elm/svg to elm-vizualization\n* Add more symbols by implementing more recognition features\n\n## Issues\n\n* In Firefox the cursor is constantly jumping to top-left of the canvas.\n\n';
+var $author$project$Projects$SymbolRecognition$articleBody = function (a) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('article')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$h1,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-title')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getTitle(a))
+					])),
+				A2(
+				$elm$html$Html$h3,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-subtitle')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getSubtitle(a))
+					])),
+				A2(
+				$elm$html$Html$h5,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('article-date')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$author$project$Article$getDate(a))
+					])),
+				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+				A2($author$project$Center$markdown, '800px', $author$project$Projects$SymbolRecognition$articleText)
+			]));
+};
+var $author$project$Projects$SymbolRecognition$view = function (model) {
+	return $author$project$Projects$SymbolRecognition$articleBody($author$project$Projects$SymbolRecognition$article);
+};
+var $author$project$Page$ProjectArticle$view = function (model) {
 	var _v0 = model.page;
 	switch (_v0.$) {
 		case 'NotFoundPage':
 			return $author$project$Page$viewNotFound;
+		case 'Neighborhood':
+			var pageModel = _v0.a;
+			return $author$project$Projects$NeighborhoodHere$view(pageModel);
+		case 'SymbolRecognition':
+			var pageModel = _v0.a;
+			return $author$project$Projects$SymbolRecognition$view(pageModel);
+		default:
+			var pageModel = _v0.a;
+			return $author$project$Projects$SailfishOS$view(pageModel);
+	}
+};
+var $author$project$Page$Projects$view = function (model) {
+	return $author$project$Page$viewCards(model.articles);
+};
+var $author$project$Main$view = function (model) {
+	var viewPage = F2(
+		function (route, content) {
+			var header = A2(
+				$elm$html$Html$map,
+				$author$project$Main$HeaderMsg,
+				A2($author$project$Header$view, route, model.headerModel));
+			var config = {content: content, header: header, route: route};
+			return $author$project$Page$view(config);
+		});
+	var _v0 = model.page;
+	switch (_v0.$) {
+		case 'NotFoundPage':
+			return A2(viewPage, $author$project$Route$Route$NotFound, $author$project$Page$viewNotFound);
 		case 'HomePage':
 			var pageModel = _v0.a;
-			return A2($author$project$Page$Home$view, model.route, pageModel);
+			return A2(
+				viewPage,
+				$author$project$Route$Route$Home,
+				A2(
+					$elm$html$Html$map,
+					$author$project$Main$HomeMsg,
+					$author$project$Page$Home$view(pageModel)));
 		case 'MindstormsPage':
 			var pageModel = _v0.a;
-			return A2($author$project$Page$Mindstorms$view, model.route, pageModel);
+			return A2(
+				viewPage,
+				$author$project$Route$Route$Mindstorms,
+				A2(
+					$elm$html$Html$map,
+					$author$project$Main$MindstormsMsg,
+					$author$project$Page$Mindstorms$view(pageModel)));
+		case 'MindstormArticlePage':
+			var pageModel = _v0.a;
+			return A2(
+				viewPage,
+				$author$project$Route$Route$Mindstorms,
+				A2(
+					$elm$html$Html$map,
+					$author$project$Main$MindstormArticleMsg,
+					$author$project$Page$MindstormArticle$view(pageModel)));
 		case 'ProjectsPage':
 			var pageModel = _v0.a;
 			return A2(
-				$author$project$Page$view,
-				model.route,
+				viewPage,
+				$author$project$Route$Route$Projects,
 				A2(
 					$elm$html$Html$map,
 					$author$project$Main$ProjectsMsg,
 					$author$project$Page$Projects$view(pageModel)));
+		case 'ProjectArticlePage':
+			var pageModel = _v0.a;
+			return A2(
+				viewPage,
+				$author$project$Route$Route$Projects,
+				A2(
+					$elm$html$Html$map,
+					$author$project$Main$ProjectArticleMsg,
+					$author$project$Page$ProjectArticle$view(pageModel)));
 		default:
 			var pageModel = _v0.a;
 			return A2(
-				$author$project$Page$view,
-				model.route,
+				viewPage,
+				$author$project$Route$Route$About,
 				A2(
 					$elm$html$Html$map,
 					$author$project$Main$AboutMsg,
@@ -6801,15 +8799,6 @@ var $author$project$Main$view = function (model) {
 	}
 };
 var $author$project$Main$main = $elm$browser$Browser$application(
-	{
-		init: $author$project$Main$init,
-		onUrlChange: $author$project$Main$UrlChanged,
-		onUrlRequest: $author$project$Main$LinkClicked,
-		subscriptions: function (_v0) {
-			return $elm$core$Platform$Sub$none;
-		},
-		update: $author$project$Main$update,
-		view: $author$project$Main$view
-	});
+	{init: $author$project$Main$init, onUrlChange: $author$project$Main$UrlChanged, onUrlRequest: $author$project$Main$LinkClicked, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
