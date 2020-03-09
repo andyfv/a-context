@@ -111,28 +111,46 @@ initCurrentPage (model, existingCmds) =
 
 view : Model -> Document Msg
 view model =
+    let 
+        --_ = Debug.log "viewport" model.headerModel
+        viewPage route content =
+            let 
+                config = 
+                    { route = route
+                    , content = content
+                    , headerModel = model.headerModel
+                    }
+            in
+            Page.view config
+    in
     case model.page of
         NotFoundPage ->
-            Page.viewNotFound
+            --Page.view Route.NotFound Page.viewNotFound model.viewport
+            viewPage Route.NotFound Page.viewNotFound
 
         HomePage pageModel ->
-            Home.view model.route pageModel
+            --Page.view Route.Home (Home.view pageModel) model.viewport
+            viewPage Route.Home (Home.view pageModel)
 
-        MindstormsPage pageModel ->
-            Mindstorms.view model.route pageModel
+        MindstormsPage pageModel -> 
+            --Page.view Route.Mindstorms (Mindstorms.view pageModel) model.viewport
+            viewPage Route.Mindstorms (Mindstorms.view pageModel)
 
         MindstormArticlePage pageModel ->
-            MindstormArticle.view pageModel
+            --Page.view Route.Mindstorms (MindstormArticle.view pageModel) model.viewport
+            viewPage Route.Mindstorms (MindstormArticle.view pageModel)
 
         ProjectsPage pageModel ->
-            Projects.view model.route pageModel
+            --Page.view Route.Projects (Projects.view pageModel) model.viewport
+            viewPage Route.Projects (Projects.view pageModel)
 
         ProjectArticlePage pageModel ->
-            ProjectArticle.view pageModel
+            --Page.view Route.Projects (ProjectArticle.view pageModel) model.viewport
+            viewPage Route.Projects (ProjectArticle.view pageModel)
 
         AboutPage pageModel ->
-            About.view model.route pageModel
-
+            --Page.view Route.About (About.view pageModel) model.viewport
+            viewPage Route.About (About.view pageModel)
 
 
 -- UPDATE
