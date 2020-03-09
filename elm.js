@@ -77,7 +77,7 @@ function A9(fun, a, b, c, d, e, f, g, h, i) {
   return fun.a === 9 ? fun.f(a, b, c, d, e, f, g, h, i) : fun(a)(b)(c)(d)(e)(f)(g)(h)(i);
 }
 
-
+console.warn('Compiled in DEV mode. Follow the advice at https://elm-lang.org/0.19.1/optimize for better performance and smaller assets.');
 
 
 // EQUALITY
@@ -113,7 +113,7 @@ function _Utils_eqHelp(x, y, depth, stack)
 		return false;
 	}
 
-	/**_UNUSED/
+	/**/
 	if (x.$ === 'Set_elm_builtin')
 	{
 		x = $elm$core$Set$toList(x);
@@ -126,7 +126,7 @@ function _Utils_eqHelp(x, y, depth, stack)
 	}
 	//*/
 
-	/**/
+	/**_UNUSED/
 	if (x.$ < 0)
 	{
 		x = $elm$core$Dict$toList(x);
@@ -161,7 +161,7 @@ function _Utils_cmp(x, y, ord)
 		return x === y ? /*EQ*/ 0 : x < y ? /*LT*/ -1 : /*GT*/ 1;
 	}
 
-	/**_UNUSED/
+	/**/
 	if (x instanceof String)
 	{
 		var a = x.valueOf();
@@ -170,10 +170,10 @@ function _Utils_cmp(x, y, ord)
 	}
 	//*/
 
-	/**/
+	/**_UNUSED/
 	if (typeof x.$ === 'undefined')
 	//*/
-	/**_UNUSED/
+	/**/
 	if (x.$[0] === '#')
 	//*/
 	{
@@ -203,17 +203,17 @@ var _Utils_compare = F2(function(x, y)
 
 // COMMON VALUES
 
-var _Utils_Tuple0 = 0;
-var _Utils_Tuple0_UNUSED = { $: '#0' };
+var _Utils_Tuple0_UNUSED = 0;
+var _Utils_Tuple0 = { $: '#0' };
 
-function _Utils_Tuple2(a, b) { return { a: a, b: b }; }
-function _Utils_Tuple2_UNUSED(a, b) { return { $: '#2', a: a, b: b }; }
+function _Utils_Tuple2_UNUSED(a, b) { return { a: a, b: b }; }
+function _Utils_Tuple2(a, b) { return { $: '#2', a: a, b: b }; }
 
-function _Utils_Tuple3(a, b, c) { return { a: a, b: b, c: c }; }
-function _Utils_Tuple3_UNUSED(a, b, c) { return { $: '#3', a: a, b: b, c: c }; }
+function _Utils_Tuple3_UNUSED(a, b, c) { return { a: a, b: b, c: c }; }
+function _Utils_Tuple3(a, b, c) { return { $: '#3', a: a, b: b, c: c }; }
 
-function _Utils_chr(c) { return c; }
-function _Utils_chr_UNUSED(c) { return new String(c); }
+function _Utils_chr_UNUSED(c) { return c; }
+function _Utils_chr(c) { return new String(c); }
 
 
 // RECORDS
@@ -264,11 +264,11 @@ function _Utils_ap(xs, ys)
 
 
 
-var _List_Nil = { $: 0 };
-var _List_Nil_UNUSED = { $: '[]' };
+var _List_Nil_UNUSED = { $: 0 };
+var _List_Nil = { $: '[]' };
 
-function _List_Cons(hd, tl) { return { $: 1, a: hd, b: tl }; }
-function _List_Cons_UNUSED(hd, tl) { return { $: '::', a: hd, b: tl }; }
+function _List_Cons_UNUSED(hd, tl) { return { $: 1, a: hd, b: tl }; }
+function _List_Cons(hd, tl) { return { $: '::', a: hd, b: tl }; }
 
 
 var _List_cons = F2(_List_Cons);
@@ -499,12 +499,12 @@ var _JsArray_appendN = F3(function(n, dest, source)
 
 // LOG
 
-var _Debug_log = F2(function(tag, value)
+var _Debug_log_UNUSED = F2(function(tag, value)
 {
 	return value;
 });
 
-var _Debug_log_UNUSED = F2(function(tag, value)
+var _Debug_log = F2(function(tag, value)
 {
 	console.log(tag + ': ' + _Debug_toString(value));
 	return value;
@@ -530,12 +530,12 @@ function _Debug_todoCase(moduleName, region, value)
 
 // TO STRING
 
-function _Debug_toString(value)
+function _Debug_toString_UNUSED(value)
 {
 	return '<internals>';
 }
 
-function _Debug_toString_UNUSED(value)
+function _Debug_toString(value)
 {
 	return _Debug_toAnsiString(false, value);
 }
@@ -720,13 +720,13 @@ function _Debug_toHexDigit(n)
 // CRASH
 
 
-function _Debug_crash(identifier)
+function _Debug_crash_UNUSED(identifier)
 {
 	throw new Error('https://github.com/elm/core/blob/1.0.0/hints/' + identifier + '.md');
 }
 
 
-function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
+function _Debug_crash(identifier, fact1, fact2, fact3, fact4)
 {
 	switch(identifier)
 	{
@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.Y.I === region.af.I)
+	if (region.start.line === region.end.line)
 	{
-		return 'on line ' + region.Y.I;
+		return 'on line ' + region.start.line;
 	}
-	return 'on lines ' + region.Y.I + ' through ' + region.af.I;
+	return 'on lines ' + region.start.line + ' through ' + region.end.line;
 }
 
 
@@ -1212,7 +1212,7 @@ function _Char_toLocaleLower(char)
 
 
 
-/**_UNUSED/
+/**/
 function _Json_errorToString(error)
 {
 	return $elm$json$Json$Decode$errorToString(error);
@@ -1616,11 +1616,11 @@ var _Json_encode = F2(function(indentLevel, value)
 	return JSON.stringify(_Json_unwrap(value), null, indentLevel) + '';
 });
 
-function _Json_wrap_UNUSED(value) { return { $: 0, a: value }; }
-function _Json_unwrap_UNUSED(value) { return value.a; }
+function _Json_wrap(value) { return { $: 0, a: value }; }
+function _Json_unwrap(value) { return value.a; }
 
-function _Json_wrap(value) { return value; }
-function _Json_unwrap(value) { return value; }
+function _Json_wrap_UNUSED(value) { return value; }
+function _Json_unwrap_UNUSED(value) { return value; }
 
 function _Json_emptyArray() { return []; }
 function _Json_emptyObject() { return {}; }
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.a0,
-		impl.bc,
-		impl.ba,
+		impl.init,
+		impl.update,
+		impl.subscriptions,
 		function() { return function() {} }
 	);
 });
@@ -1872,7 +1872,7 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 function _Platform_initialize(flagDecoder, args, init, update, subscriptions, stepperBuilder)
 {
 	var result = A2(_Json_run, flagDecoder, _Json_wrap(args ? args['flags'] : undefined));
-	$elm$core$Result$isOk(result) || _Debug_crash(2 /**_UNUSED/, _Json_errorToString(result.a) /**/);
+	$elm$core$Result$isOk(result) || _Debug_crash(2 /**/, _Json_errorToString(result.a) /**/);
 	var managers = {};
 	result = init(result.a);
 	var model = result.a;
@@ -2271,7 +2271,7 @@ function _Platform_setupIncomingPort(name, sendToApp)
 //
 
 
-function _Platform_export(exports)
+function _Platform_export_UNUSED(exports)
 {
 	scope['Elm']
 		? _Platform_mergeExportsProd(scope['Elm'], exports)
@@ -2292,7 +2292,7 @@ function _Platform_mergeExportsProd(obj, exports)
 }
 
 
-function _Platform_export_UNUSED(exports)
+function _Platform_export(exports)
 {
 	scope['Elm']
 		? _Platform_mergeExportsDebug('Elm', scope['Elm'], exports)
@@ -2332,10 +2332,10 @@ var _VirtualDom_init = F4(function(virtualNode, flagDecoder, debugMetadata, args
 {
 	// NOTE: this function needs _Platform_export available to work
 
-	/**/
+	/**_UNUSED/
 	var node = args['node'];
 	//*/
-	/**_UNUSED/
+	/**/
 	var node = args && args['node'] ? args['node'] : _Debug_crash(0);
 	//*/
 
@@ -2590,24 +2590,24 @@ function _VirtualDom_noInnerHtmlOrFormAction(key)
 	return key == 'innerHTML' || key == 'formAction' ? 'data-' + key : key;
 }
 
-function _VirtualDom_noJavaScriptUri(value)
+function _VirtualDom_noJavaScriptUri_UNUSED(value)
 {
 	return /^javascript:/i.test(value.replace(/\s/g,'')) ? '' : value;
 }
 
-function _VirtualDom_noJavaScriptUri_UNUSED(value)
+function _VirtualDom_noJavaScriptUri(value)
 {
 	return /^javascript:/i.test(value.replace(/\s/g,''))
 		? 'javascript:alert("This is an XSS vector. Please use ports or web components instead.")'
 		: value;
 }
 
-function _VirtualDom_noJavaScriptOrHtmlUri(value)
+function _VirtualDom_noJavaScriptOrHtmlUri_UNUSED(value)
 {
 	return /^\s*(javascript:|data:text\/html)/i.test(value) ? '' : value;
 }
 
-function _VirtualDom_noJavaScriptOrHtmlUri_UNUSED(value)
+function _VirtualDom_noJavaScriptOrHtmlUri(value)
 {
 	return /^\s*(javascript:|data:text\/html)/i.test(value)
 		? 'javascript:alert("This is an XSS vector. Please use ports or web components instead.")'
@@ -2659,9 +2659,9 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		n: func(record.n),
-		Z: record.Z,
-		W: record.W
+		message: func(record.message),
+		stopPropagation: record.stopPropagation,
+		preventDefault: record.preventDefault
 	}
 });
 
@@ -2929,11 +2929,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.n;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.Z;
+		var message = !tag ? value : tag < 3 ? value.a : value.message;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.stopPropagation;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.W) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.preventDefault) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3883,15 +3883,15 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.a0,
-		impl.bc,
-		impl.ba,
+		impl.init,
+		impl.update,
+		impl.subscriptions,
 		function(sendToApp, initialModel) {
-			var view = impl.bd;
-			/**/
+			var view = impl.view;
+			/**_UNUSED/
 			var domNode = args['node'];
 			//*/
-			/**_UNUSED/
+			/**/
 			var domNode = args && args['node'] ? args['node'] : _Debug_crash(0);
 			//*/
 			var currNode = _VirtualDom_virtualize(domNode);
@@ -3919,12 +3919,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.a0,
-		impl.bc,
-		impl.ba,
+		impl.init,
+		impl.update,
+		impl.subscriptions,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.X && impl.X(sendToApp)
-			var view = impl.bd;
+			var divertHrefToApp = impl.setup && impl.setup(sendToApp)
+			var view = impl.view;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3932,12 +3932,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.aP);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.body);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.R) && (_VirtualDom_doc.title = title = doc.R);
+				(title !== doc.title) && (_VirtualDom_doc.title = title = doc.title);
 			});
 		}
 	);
@@ -3993,12 +3993,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.a3;
-	var onUrlRequest = impl.a4;
+	var onUrlChange = impl.onUrlChange;
+	var onUrlRequest = impl.onUrlRequest;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		X: function(sendToApp)
+		setup: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4014,9 +4014,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.az === next.az
-							&& curr.am === next.am
-							&& curr.av.a === next.av.a
+							&& curr.protocol === next.protocol
+							&& curr.host === next.host
+							&& curr.port_.a === next.port_.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4024,13 +4024,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		a0: function(flags)
+		init: function(flags)
 		{
-			return A3(impl.a0, flags, _Browser_getUrl(), key);
+			return A3(impl.init, flags, _Browser_getUrl(), key);
 		},
-		bd: impl.bd,
-		bc: impl.bc,
-		ba: impl.ba
+		view: impl.view,
+		update: impl.update,
+		subscriptions: impl.subscriptions
 	});
 }
 
@@ -4096,17 +4096,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { a_: 'hidden', aR: 'visibilitychange' }
+		? { hidden: 'hidden', change: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { a_: 'mozHidden', aR: 'mozvisibilitychange' }
+		? { hidden: 'mozHidden', change: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { a_: 'msHidden', aR: 'msvisibilitychange' }
+		? { hidden: 'msHidden', change: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { a_: 'webkitHidden', aR: 'webkitvisibilitychange' }
-		: { a_: 'hidden', aR: 'visibilitychange' };
+		? { hidden: 'webkitHidden', change: 'webkitvisibilitychange' }
+		: { hidden: 'hidden', change: 'visibilitychange' };
 }
 
 
@@ -4187,12 +4187,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		a8: _Browser_getScene(),
-		F: {
-			bf: _Browser_window.pageXOffset,
-			bg: _Browser_window.pageYOffset,
-			_: _Browser_doc.documentElement.clientWidth,
-			ak: _Browser_doc.documentElement.clientHeight
+		scene: _Browser_getScene(),
+		viewport: {
+			x: _Browser_window.pageXOffset,
+			y: _Browser_window.pageYOffset,
+			width: _Browser_doc.documentElement.clientWidth,
+			height: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4202,8 +4202,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		_: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		ak: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		width: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		height: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4226,15 +4226,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			a8: {
-				_: node.scrollWidth,
-				ak: node.scrollHeight
+			scene: {
+				width: node.scrollWidth,
+				height: node.scrollHeight
 			},
-			F: {
-				bf: node.scrollLeft,
-				bg: node.scrollTop,
-				_: node.clientWidth,
-				ak: node.clientHeight
+			viewport: {
+				x: node.scrollLeft,
+				y: node.scrollTop,
+				width: node.clientWidth,
+				height: node.clientHeight
 			}
 		};
 	});
@@ -4264,18 +4264,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			a8: _Browser_getScene(),
-			F: {
-				bf: x,
-				bg: y,
-				_: _Browser_doc.documentElement.clientWidth,
-				ak: _Browser_doc.documentElement.clientHeight
+			scene: _Browser_getScene(),
+			viewport: {
+				x: x,
+				y: y,
+				width: _Browser_doc.documentElement.clientWidth,
+				height: _Browser_doc.documentElement.clientHeight
 			},
-			aW: {
-				bf: x + rect.left,
-				bg: y + rect.top,
-				_: rect.width,
-				ak: rect.height
+			element: {
+				x: x + rect.left,
+				y: y + rect.top,
+				width: rect.width,
+				height: rect.height
 			}
 		};
 	});
@@ -4532,9 +4532,9 @@ function _Markdown_formatOptions(options)
 {
 	function toHighlight(code, lang)
 	{
-		if (!lang && $elm$core$Maybe$isJust(options.aU))
+		if (!lang && $elm$core$Maybe$isJust(options.defaultHighlighting))
 		{
-			lang = options.aU.a;
+			lang = options.defaultHighlighting.a;
 		}
 
 		if (typeof hljs !== 'undefined' && lang && hljs.listLanguages().indexOf(lang) >= 0)
@@ -4545,32 +4545,32 @@ function _Markdown_formatOptions(options)
 		return code;
 	}
 
-	var gfm = options.aY.a;
+	var gfm = options.githubFlavored.a;
 
 	return {
 		highlight: toHighlight,
 		gfm: gfm,
-		tables: gfm && gfm.bb,
-		breaks: gfm && gfm.aQ,
-		sanitize: options.a7,
-		smartypants: options.a9
+		tables: gfm && gfm.tables,
+		breaks: gfm && gfm.breaks,
+		sanitize: options.sanitize,
+		smartypants: options.smartypants
 	};
 }
 var $author$project$Main$LinkClicked = function (a) {
-	return {$: 6, a: a};
+	return {$: 'LinkClicked', a: a};
 };
 var $author$project$Main$UrlChanged = function (a) {
-	return {$: 7, a: a};
+	return {$: 'UrlChanged', a: a};
 };
-var $elm$core$Basics$EQ = 1;
-var $elm$core$Basics$GT = 2;
-var $elm$core$Basics$LT = 0;
+var $elm$core$Basics$EQ = {$: 'EQ'};
+var $elm$core$Basics$GT = {$: 'GT'};
+var $elm$core$Basics$LT = {$: 'LT'};
 var $elm$core$List$cons = _List_cons;
 var $elm$core$Dict$foldr = F3(
 	function (func, acc, t) {
 		foldr:
 		while (true) {
-			if (t.$ === -2) {
+			if (t.$ === 'RBEmpty_elm_builtin') {
 				return acc;
 			} else {
 				var key = t.b;
@@ -4615,7 +4615,7 @@ var $elm$core$Dict$keys = function (dict) {
 		dict);
 };
 var $elm$core$Set$toList = function (_v0) {
-	var dict = _v0;
+	var dict = _v0.a;
 	return $elm$core$Dict$keys(dict);
 };
 var $elm$core$Elm$JsArray$foldr = _JsArray_foldr;
@@ -4625,7 +4625,7 @@ var $elm$core$Array$foldr = F3(
 		var tail = _v0.d;
 		var helper = F2(
 			function (node, acc) {
-				if (!node.$) {
+				if (node.$ === 'SubTree') {
 					var subTree = node.a;
 					return A3($elm$core$Elm$JsArray$foldr, helper, acc, subTree);
 				} else {
@@ -4643,32 +4643,32 @@ var $elm$core$Array$toList = function (array) {
 	return A3($elm$core$Array$foldr, $elm$core$List$cons, _List_Nil, array);
 };
 var $elm$core$Result$Err = function (a) {
-	return {$: 1, a: a};
+	return {$: 'Err', a: a};
 };
 var $elm$json$Json$Decode$Failure = F2(
 	function (a, b) {
-		return {$: 3, a: a, b: b};
+		return {$: 'Failure', a: a, b: b};
 	});
 var $elm$json$Json$Decode$Field = F2(
 	function (a, b) {
-		return {$: 0, a: a, b: b};
+		return {$: 'Field', a: a, b: b};
 	});
 var $elm$json$Json$Decode$Index = F2(
 	function (a, b) {
-		return {$: 1, a: a, b: b};
+		return {$: 'Index', a: a, b: b};
 	});
 var $elm$core$Result$Ok = function (a) {
-	return {$: 0, a: a};
+	return {$: 'Ok', a: a};
 };
 var $elm$json$Json$Decode$OneOf = function (a) {
-	return {$: 2, a: a};
+	return {$: 'OneOf', a: a};
 };
-var $elm$core$Basics$False = 1;
+var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$Basics$add = _Basics_add;
 var $elm$core$Maybe$Just = function (a) {
-	return {$: 0, a: a};
+	return {$: 'Just', a: a};
 };
-var $elm$core$Maybe$Nothing = {$: 1};
+var $elm$core$Maybe$Nothing = {$: 'Nothing'};
 var $elm$core$String$all = _String_all;
 var $elm$core$Basics$and = _Basics_and;
 var $elm$core$Basics$append = _Utils_append;
@@ -4793,12 +4793,12 @@ var $elm$json$Json$Decode$errorToStringHelp = F2(
 		errorToStringHelp:
 		while (true) {
 			switch (error.$) {
-				case 0:
+				case 'Field':
 					var f = error.a;
 					var err = error.b;
 					var isSimple = function () {
 						var _v1 = $elm$core$String$uncons(f);
-						if (_v1.$ === 1) {
+						if (_v1.$ === 'Nothing') {
 							return false;
 						} else {
 							var _v2 = _v1.a;
@@ -4813,7 +4813,7 @@ var $elm$json$Json$Decode$errorToStringHelp = F2(
 					error = $temp$error;
 					context = $temp$context;
 					continue errorToStringHelp;
-				case 1:
+				case 'Index':
 					var i = error.a;
 					var err = error.b;
 					var indexName = '[' + ($elm$core$String$fromInt(i) + ']');
@@ -4822,7 +4822,7 @@ var $elm$json$Json$Decode$errorToStringHelp = F2(
 					error = $temp$error;
 					context = $temp$context;
 					continue errorToStringHelp;
-				case 2:
+				case 'OneOf':
 					var errors = error.a;
 					if (!errors.b) {
 						return 'Ran into a Json.Decode.oneOf with no possibilities' + function () {
@@ -4886,7 +4886,7 @@ var $elm$json$Json$Decode$errorToStringHelp = F2(
 var $elm$core$Array$branchFactor = 32;
 var $elm$core$Array$Array_elm_builtin = F4(
 	function (a, b, c, d) {
-		return {$: 0, a: a, b: b, c: c, d: d};
+		return {$: 'Array_elm_builtin', a: a, b: b, c: c, d: d};
 	});
 var $elm$core$Elm$JsArray$empty = _JsArray_empty;
 var $elm$core$Basics$ceiling = _Basics_ceiling;
@@ -4901,7 +4901,7 @@ var $elm$core$Array$shiftStep = $elm$core$Basics$ceiling(
 var $elm$core$Array$empty = A4($elm$core$Array$Array_elm_builtin, 0, $elm$core$Array$shiftStep, $elm$core$Elm$JsArray$empty, $elm$core$Elm$JsArray$empty);
 var $elm$core$Elm$JsArray$initialize = _JsArray_initialize;
 var $elm$core$Array$Leaf = function (a) {
-	return {$: 1, a: a};
+	return {$: 'Leaf', a: a};
 };
 var $elm$core$Basics$apL = F2(
 	function (f, x) {
@@ -4921,7 +4921,7 @@ var $elm$core$Basics$max = F2(
 	});
 var $elm$core$Basics$mul = _Basics_mul;
 var $elm$core$Array$SubTree = function (a) {
-	return {$: 0, a: a};
+	return {$: 'SubTree', a: a};
 };
 var $elm$core$Elm$JsArray$initializeFromList = _JsArray_initializeFromList;
 var $elm$core$Array$compressNodes = F2(
@@ -4968,25 +4968,25 @@ var $elm$core$Array$treeFromBuilder = F2(
 	});
 var $elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
-		if (!builder.d) {
+		if (!builder.nodeListSize) {
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.f),
+				$elm$core$Elm$JsArray$length(builder.tail),
 				$elm$core$Array$shiftStep,
 				$elm$core$Elm$JsArray$empty,
-				builder.f);
+				builder.tail);
 		} else {
-			var treeLen = builder.d * $elm$core$Array$branchFactor;
+			var treeLen = builder.nodeListSize * $elm$core$Array$branchFactor;
 			var depth = $elm$core$Basics$floor(
 				A2($elm$core$Basics$logBase, $elm$core$Array$branchFactor, treeLen - 1));
-			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.g) : builder.g;
-			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.d);
+			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.nodeList) : builder.nodeList;
+			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.nodeListSize);
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.f) + treeLen,
+				$elm$core$Elm$JsArray$length(builder.tail) + treeLen,
 				A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep),
 				tree,
-				builder.f);
+				builder.tail);
 		}
 	});
 var $elm$core$Basics$idiv = _Basics_idiv;
@@ -4999,7 +4999,7 @@ var $elm$core$Array$initializeHelp = F5(
 				return A2(
 					$elm$core$Array$builderToArray,
 					false,
-					{g: nodeList, d: (len / $elm$core$Array$branchFactor) | 0, f: tail});
+					{nodeList: nodeList, nodeListSize: (len / $elm$core$Array$branchFactor) | 0, tail: tail});
 			} else {
 				var leaf = $elm$core$Array$Leaf(
 					A3($elm$core$Elm$JsArray$initialize, $elm$core$Array$branchFactor, fromIndex, fn));
@@ -5029,9 +5029,9 @@ var $elm$core$Array$initialize = F2(
 			return A5($elm$core$Array$initializeHelp, fn, initialFromIndex, len, _List_Nil, tail);
 		}
 	});
-var $elm$core$Basics$True = 0;
+var $elm$core$Basics$True = {$: 'True'};
 var $elm$core$Result$isOk = function (result) {
-	if (!result.$) {
+	if (result.$ === 'Ok') {
 		return true;
 	} else {
 		return false;
@@ -5042,31 +5042,33 @@ var $elm$json$Json$Decode$map2 = _Json_map2;
 var $elm$json$Json$Decode$succeed = _Json_succeed;
 var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 	switch (handler.$) {
-		case 0:
+		case 'Normal':
 			return 0;
-		case 1:
+		case 'MayStopPropagation':
 			return 1;
-		case 2:
+		case 'MayPreventDefault':
 			return 2;
 		default:
 			return 3;
 	}
 };
 var $elm$browser$Browser$External = function (a) {
-	return {$: 1, a: a};
+	return {$: 'External', a: a};
 };
 var $elm$browser$Browser$Internal = function (a) {
-	return {$: 0, a: a};
+	return {$: 'Internal', a: a};
 };
 var $elm$core$Basics$identity = function (x) {
 	return x;
 };
-var $elm$browser$Browser$Dom$NotFound = $elm$core$Basics$identity;
-var $elm$url$Url$Http = 0;
-var $elm$url$Url$Https = 1;
+var $elm$browser$Browser$Dom$NotFound = function (a) {
+	return {$: 'NotFound', a: a};
+};
+var $elm$url$Url$Http = {$: 'Http'};
+var $elm$url$Url$Https = {$: 'Https'};
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {aj: fragment, am: host, at: path, av: port_, az: protocol, aA: query};
+		return {fragment: fragment, host: host, path: path, port_: port_, protocol: protocol, query: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5102,7 +5104,7 @@ var $elm$url$Url$chompBeforePath = F5(
 					var i = _v0.a;
 					var _v1 = $elm$core$String$toInt(
 						A2($elm$core$String$dropLeft, i + 1, str));
-					if (_v1.$ === 1) {
+					if (_v1.$ === 'Nothing') {
 						return $elm$core$Maybe$Nothing;
 					} else {
 						var port_ = _v1;
@@ -5185,24 +5187,26 @@ var $elm$core$String$startsWith = _String_startsWith;
 var $elm$url$Url$fromString = function (str) {
 	return A2($elm$core$String$startsWith, 'http://', str) ? A2(
 		$elm$url$Url$chompAfterProtocol,
-		0,
+		$elm$url$Url$Http,
 		A2($elm$core$String$dropLeft, 7, str)) : (A2($elm$core$String$startsWith, 'https://', str) ? A2(
 		$elm$url$Url$chompAfterProtocol,
-		1,
+		$elm$url$Url$Https,
 		A2($elm$core$String$dropLeft, 8, str)) : $elm$core$Maybe$Nothing);
 };
 var $elm$core$Basics$never = function (_v0) {
 	never:
 	while (true) {
-		var nvr = _v0;
+		var nvr = _v0.a;
 		var $temp$_v0 = nvr;
 		_v0 = $temp$_v0;
 		continue never;
 	}
 };
-var $elm$core$Task$Perform = $elm$core$Basics$identity;
+var $elm$core$Task$Perform = function (a) {
+	return {$: 'Perform', a: a};
+};
 var $elm$core$Task$succeed = _Scheduler_succeed;
-var $elm$core$Task$init = $elm$core$Task$succeed(0);
+var $elm$core$Task$init = $elm$core$Task$succeed(_Utils_Tuple0);
 var $elm$core$List$foldrHelper = F4(
 	function (fn, acc, ctr, ls) {
 		if (!ls.b) {
@@ -5308,7 +5312,7 @@ var $elm$core$Task$sequence = function (tasks) {
 var $elm$core$Platform$sendToApp = _Platform_sendToApp;
 var $elm$core$Task$spawnCmd = F2(
 	function (router, _v0) {
-		var task = _v0;
+		var task = _v0.a;
 		return _Scheduler_spawn(
 			A2(
 				$elm$core$Task$andThen,
@@ -5320,7 +5324,7 @@ var $elm$core$Task$onEffects = F3(
 		return A2(
 			$elm$core$Task$map,
 			function (_v0) {
-				return 0;
+				return _Utils_Tuple0;
 			},
 			$elm$core$Task$sequence(
 				A2(
@@ -5330,49 +5334,53 @@ var $elm$core$Task$onEffects = F3(
 	});
 var $elm$core$Task$onSelfMsg = F3(
 	function (_v0, _v1, _v2) {
-		return $elm$core$Task$succeed(0);
+		return $elm$core$Task$succeed(_Utils_Tuple0);
 	});
 var $elm$core$Task$cmdMap = F2(
 	function (tagger, _v0) {
-		var task = _v0;
-		return A2($elm$core$Task$map, tagger, task);
+		var task = _v0.a;
+		return $elm$core$Task$Perform(
+			A2($elm$core$Task$map, tagger, task));
 	});
 _Platform_effectManagers['Task'] = _Platform_createManager($elm$core$Task$init, $elm$core$Task$onEffects, $elm$core$Task$onSelfMsg, $elm$core$Task$cmdMap);
 var $elm$core$Task$command = _Platform_leaf('Task');
 var $elm$core$Task$perform = F2(
 	function (toMessage, task) {
 		return $elm$core$Task$command(
-			A2($elm$core$Task$map, toMessage, task));
+			$elm$core$Task$Perform(
+				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$application = _Browser_application;
 var $author$project$Main$HeaderMsg = function (a) {
-	return {$: 8, a: a};
+	return {$: 'HeaderMsg', a: a};
 };
-var $author$project$Main$NotFoundPage = {$: 0};
+var $author$project$Main$NotFoundPage = {$: 'NotFoundPage'};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $author$project$Route$Route$NotFound = {$: 6};
-var $author$project$Route$Route$About = {$: 5};
-var $author$project$Route$Route$Home = {$: 0};
+var $author$project$Route$Route$NotFound = {$: 'NotFound'};
+var $author$project$Route$Route$About = {$: 'About'};
+var $author$project$Route$Route$Home = {$: 'Home'};
 var $author$project$Route$Route$MindstormArticle = function (a) {
-	return {$: 2, a: a};
+	return {$: 'MindstormArticle', a: a};
 };
-var $author$project$Route$Route$Mindstorms = {$: 1};
-var $author$project$Route$Route$Projects = {$: 3};
+var $author$project$Route$Route$Mindstorms = {$: 'Mindstorms'};
+var $author$project$Route$Route$Projects = {$: 'Projects'};
 var $author$project$Route$Route$ProjectsArticle = function (a) {
-	return {$: 4, a: a};
+	return {$: 'ProjectsArticle', a: a};
 };
-var $elm$url$Url$Parser$Parser = $elm$core$Basics$identity;
+var $elm$url$Url$Parser$Parser = function (a) {
+	return {$: 'Parser', a: a};
+};
 var $elm$url$Url$Parser$State = F5(
 	function (visited, unvisited, params, frag, value) {
-		return {q: frag, s: params, p: unvisited, l: value, u: visited};
+		return {frag: frag, params: params, unvisited: unvisited, value: value, visited: visited};
 	});
 var $elm$url$Url$Parser$mapState = F2(
 	function (func, _v0) {
-		var visited = _v0.u;
-		var unvisited = _v0.p;
-		var params = _v0.s;
-		var frag = _v0.q;
-		var value = _v0.l;
+		var visited = _v0.visited;
+		var unvisited = _v0.unvisited;
+		var params = _v0.params;
+		var frag = _v0.frag;
+		var value = _v0.value;
 		return A5(
 			$elm$url$Url$Parser$State,
 			visited,
@@ -5383,19 +5391,20 @@ var $elm$url$Url$Parser$mapState = F2(
 	});
 var $elm$url$Url$Parser$map = F2(
 	function (subValue, _v0) {
-		var parseArg = _v0;
-		return function (_v1) {
-			var visited = _v1.u;
-			var unvisited = _v1.p;
-			var params = _v1.s;
-			var frag = _v1.q;
-			var value = _v1.l;
-			return A2(
-				$elm$core$List$map,
-				$elm$url$Url$Parser$mapState(value),
-				parseArg(
-					A5($elm$url$Url$Parser$State, visited, unvisited, params, frag, subValue)));
-		};
+		var parseArg = _v0.a;
+		return $elm$url$Url$Parser$Parser(
+			function (_v1) {
+				var visited = _v1.visited;
+				var unvisited = _v1.unvisited;
+				var params = _v1.params;
+				var frag = _v1.frag;
+				var value = _v1.value;
+				return A2(
+					$elm$core$List$map,
+					$elm$url$Url$Parser$mapState(value),
+					parseArg(
+						A5($elm$url$Url$Parser$State, visited, unvisited, params, frag, subValue)));
+			});
 	});
 var $elm$core$List$append = F2(
 	function (xs, ys) {
@@ -5414,89 +5423,94 @@ var $elm$core$List$concatMap = F2(
 			A2($elm$core$List$map, f, list));
 	});
 var $elm$url$Url$Parser$oneOf = function (parsers) {
-	return function (state) {
-		return A2(
-			$elm$core$List$concatMap,
-			function (_v0) {
-				var parser = _v0;
-				return parser(state);
-			},
-			parsers);
-	};
-};
-var $elm$url$Url$Parser$s = function (str) {
-	return function (_v0) {
-		var visited = _v0.u;
-		var unvisited = _v0.p;
-		var params = _v0.s;
-		var frag = _v0.q;
-		var value = _v0.l;
-		if (!unvisited.b) {
-			return _List_Nil;
-		} else {
-			var next = unvisited.a;
-			var rest = unvisited.b;
-			return _Utils_eq(next, str) ? _List_fromArray(
-				[
-					A5(
-					$elm$url$Url$Parser$State,
-					A2($elm$core$List$cons, next, visited),
-					rest,
-					params,
-					frag,
-					value)
-				]) : _List_Nil;
-		}
-	};
-};
-var $elm$url$Url$Parser$slash = F2(
-	function (_v0, _v1) {
-		var parseBefore = _v0;
-		var parseAfter = _v1;
-		return function (state) {
+	return $elm$url$Url$Parser$Parser(
+		function (state) {
 			return A2(
 				$elm$core$List$concatMap,
-				parseAfter,
-				parseBefore(state));
-		};
-	});
-var $elm$url$Url$Parser$custom = F2(
-	function (tipe, stringToSomething) {
-		return function (_v0) {
-			var visited = _v0.u;
-			var unvisited = _v0.p;
-			var params = _v0.s;
-			var frag = _v0.q;
-			var value = _v0.l;
+				function (_v0) {
+					var parser = _v0.a;
+					return parser(state);
+				},
+				parsers);
+		});
+};
+var $elm$url$Url$Parser$s = function (str) {
+	return $elm$url$Url$Parser$Parser(
+		function (_v0) {
+			var visited = _v0.visited;
+			var unvisited = _v0.unvisited;
+			var params = _v0.params;
+			var frag = _v0.frag;
+			var value = _v0.value;
 			if (!unvisited.b) {
 				return _List_Nil;
 			} else {
 				var next = unvisited.a;
 				var rest = unvisited.b;
-				var _v2 = stringToSomething(next);
-				if (!_v2.$) {
-					var nextValue = _v2.a;
-					return _List_fromArray(
-						[
-							A5(
-							$elm$url$Url$Parser$State,
-							A2($elm$core$List$cons, next, visited),
-							rest,
-							params,
-							frag,
-							value(nextValue))
-						]);
-				} else {
-					return _List_Nil;
-				}
+				return _Utils_eq(next, str) ? _List_fromArray(
+					[
+						A5(
+						$elm$url$Url$Parser$State,
+						A2($elm$core$List$cons, next, visited),
+						rest,
+						params,
+						frag,
+						value)
+					]) : _List_Nil;
 			}
-		};
+		});
+};
+var $elm$url$Url$Parser$slash = F2(
+	function (_v0, _v1) {
+		var parseBefore = _v0.a;
+		var parseAfter = _v1.a;
+		return $elm$url$Url$Parser$Parser(
+			function (state) {
+				return A2(
+					$elm$core$List$concatMap,
+					parseAfter,
+					parseBefore(state));
+			});
+	});
+var $elm$url$Url$Parser$custom = F2(
+	function (tipe, stringToSomething) {
+		return $elm$url$Url$Parser$Parser(
+			function (_v0) {
+				var visited = _v0.visited;
+				var unvisited = _v0.unvisited;
+				var params = _v0.params;
+				var frag = _v0.frag;
+				var value = _v0.value;
+				if (!unvisited.b) {
+					return _List_Nil;
+				} else {
+					var next = unvisited.a;
+					var rest = unvisited.b;
+					var _v2 = stringToSomething(next);
+					if (_v2.$ === 'Just') {
+						var nextValue = _v2.a;
+						return _List_fromArray(
+							[
+								A5(
+								$elm$url$Url$Parser$State,
+								A2($elm$core$List$cons, next, visited),
+								rest,
+								params,
+								frag,
+								value(nextValue))
+							]);
+					} else {
+						return _List_Nil;
+					}
+				}
+			});
 	});
 var $elm$url$Url$Parser$string = A2($elm$url$Url$Parser$custom, 'STRING', $elm$core$Maybe$Just);
-var $elm$url$Url$Parser$top = function (state) {
-	return _List_fromArray(
-		[state]);
-};
+var $elm$url$Url$Parser$top = $elm$url$Url$Parser$Parser(
+	function (state) {
+		return _List_fromArray(
+			[state]);
+	});
 var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 	_List_fromArray(
 		[
@@ -5536,12 +5550,12 @@ var $elm$url$Url$Parser$getFirstMatch = function (states) {
 		} else {
 			var state = states.a;
 			var rest = states.b;
-			var _v1 = state.p;
+			var _v1 = state.unvisited;
 			if (!_v1.b) {
-				return $elm$core$Maybe$Just(state.l);
+				return $elm$core$Maybe$Just(state.value);
 			} else {
 				if ((_v1.a === '') && (!_v1.b.b)) {
-					return $elm$core$Maybe$Just(state.l);
+					return $elm$core$Maybe$Just(state.value);
 				} else {
 					var $temp$states = rest;
 					states = $temp$states;
@@ -5579,7 +5593,7 @@ var $elm$url$Url$Parser$preparePath = function (path) {
 };
 var $elm$url$Url$Parser$addToParametersHelp = F2(
 	function (value, maybeList) {
-		if (maybeList.$ === 1) {
+		if (maybeList.$ === 'Nothing') {
 			return $elm$core$Maybe$Just(
 				_List_fromArray(
 					[value]));
@@ -5595,7 +5609,7 @@ var $elm$core$Dict$get = F2(
 	function (targetKey, dict) {
 		get:
 		while (true) {
-			if (dict.$ === -2) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
 				return $elm$core$Maybe$Nothing;
 			} else {
 				var key = dict.b;
@@ -5603,14 +5617,14 @@ var $elm$core$Dict$get = F2(
 				var left = dict.d;
 				var right = dict.e;
 				var _v1 = A2($elm$core$Basics$compare, targetKey, key);
-				switch (_v1) {
-					case 0:
+				switch (_v1.$) {
+					case 'LT':
 						var $temp$targetKey = targetKey,
 							$temp$dict = left;
 						targetKey = $temp$targetKey;
 						dict = $temp$dict;
 						continue get;
-					case 1:
+					case 'EQ':
 						return $elm$core$Maybe$Just(value);
 					default:
 						var $temp$targetKey = targetKey,
@@ -5622,22 +5636,22 @@ var $elm$core$Dict$get = F2(
 			}
 		}
 	});
-var $elm$core$Dict$Black = 1;
+var $elm$core$Dict$Black = {$: 'Black'};
 var $elm$core$Dict$RBNode_elm_builtin = F5(
 	function (a, b, c, d, e) {
-		return {$: -1, a: a, b: b, c: c, d: d, e: e};
+		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
 	});
-var $elm$core$Dict$RBEmpty_elm_builtin = {$: -2};
-var $elm$core$Dict$Red = 0;
+var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
+var $elm$core$Dict$Red = {$: 'Red'};
 var $elm$core$Dict$balance = F5(
 	function (color, key, value, left, right) {
-		if ((right.$ === -1) && (!right.a)) {
+		if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Red')) {
 			var _v1 = right.a;
 			var rK = right.b;
 			var rV = right.c;
 			var rLeft = right.d;
 			var rRight = right.e;
-			if ((left.$ === -1) && (!left.a)) {
+			if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
 				var _v3 = left.a;
 				var lK = left.b;
 				var lV = left.c;
@@ -5645,22 +5659,22 @@ var $elm$core$Dict$balance = F5(
 				var lRight = left.e;
 				return A5(
 					$elm$core$Dict$RBNode_elm_builtin,
-					0,
+					$elm$core$Dict$Red,
 					key,
 					value,
-					A5($elm$core$Dict$RBNode_elm_builtin, 1, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, 1, rK, rV, rLeft, rRight));
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rLeft, rRight));
 			} else {
 				return A5(
 					$elm$core$Dict$RBNode_elm_builtin,
 					color,
 					rK,
 					rV,
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, key, value, left, rLeft),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, left, rLeft),
 					rRight);
 			}
 		} else {
-			if ((((left.$ === -1) && (!left.a)) && (left.d.$ === -1)) && (!left.d.a)) {
+			if ((((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) && (left.d.$ === 'RBNode_elm_builtin')) && (left.d.a.$ === 'Red')) {
 				var _v5 = left.a;
 				var lK = left.b;
 				var lV = left.c;
@@ -5673,11 +5687,11 @@ var $elm$core$Dict$balance = F5(
 				var lRight = left.e;
 				return A5(
 					$elm$core$Dict$RBNode_elm_builtin,
-					0,
+					$elm$core$Dict$Red,
 					lK,
 					lV,
-					A5($elm$core$Dict$RBNode_elm_builtin, 1, llK, llV, llLeft, llRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, 1, key, value, lRight, right));
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, key, value, lRight, right));
 			} else {
 				return A5($elm$core$Dict$RBNode_elm_builtin, color, key, value, left, right);
 			}
@@ -5685,8 +5699,8 @@ var $elm$core$Dict$balance = F5(
 	});
 var $elm$core$Dict$insertHelp = F3(
 	function (key, value, dict) {
-		if (dict.$ === -2) {
-			return A5($elm$core$Dict$RBNode_elm_builtin, 0, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
 		} else {
 			var nColor = dict.a;
 			var nKey = dict.b;
@@ -5694,8 +5708,8 @@ var $elm$core$Dict$insertHelp = F3(
 			var nLeft = dict.d;
 			var nRight = dict.e;
 			var _v1 = A2($elm$core$Basics$compare, key, nKey);
-			switch (_v1) {
-				case 0:
+			switch (_v1.$) {
+				case 'LT':
 					return A5(
 						$elm$core$Dict$balance,
 						nColor,
@@ -5703,7 +5717,7 @@ var $elm$core$Dict$insertHelp = F3(
 						nValue,
 						A3($elm$core$Dict$insertHelp, key, value, nLeft),
 						nRight);
-				case 1:
+				case 'EQ':
 					return A5($elm$core$Dict$RBNode_elm_builtin, nColor, nKey, value, nLeft, nRight);
 				default:
 					return A5(
@@ -5719,13 +5733,13 @@ var $elm$core$Dict$insertHelp = F3(
 var $elm$core$Dict$insert = F3(
 	function (key, value, dict) {
 		var _v0 = A3($elm$core$Dict$insertHelp, key, value, dict);
-		if ((_v0.$ === -1) && (!_v0.a)) {
+		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
 			var _v1 = _v0.a;
 			var k = _v0.b;
 			var v = _v0.c;
 			var l = _v0.d;
 			var r = _v0.e;
-			return A5($elm$core$Dict$RBNode_elm_builtin, 1, k, v, l, r);
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
 		} else {
 			var x = _v0;
 			return x;
@@ -5734,7 +5748,7 @@ var $elm$core$Dict$insert = F3(
 var $elm$core$Dict$getMin = function (dict) {
 	getMin:
 	while (true) {
-		if ((dict.$ === -1) && (dict.d.$ === -1)) {
+		if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
 			var left = dict.d;
 			var $temp$dict = left;
 			dict = $temp$dict;
@@ -5745,8 +5759,8 @@ var $elm$core$Dict$getMin = function (dict) {
 	}
 };
 var $elm$core$Dict$moveRedLeft = function (dict) {
-	if (((dict.$ === -1) && (dict.d.$ === -1)) && (dict.e.$ === -1)) {
-		if ((dict.e.d.$ === -1) && (!dict.e.d.a)) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.e.d.$ === 'RBNode_elm_builtin') && (dict.e.d.a.$ === 'Red')) {
 			var clr = dict.a;
 			var k = dict.b;
 			var v = dict.c;
@@ -5769,17 +5783,17 @@ var $elm$core$Dict$moveRedLeft = function (dict) {
 			var rRight = _v2.e;
 			return A5(
 				$elm$core$Dict$RBNode_elm_builtin,
-				0,
+				$elm$core$Dict$Red,
 				rlK,
 				rlV,
 				A5(
 					$elm$core$Dict$RBNode_elm_builtin,
-					1,
+					$elm$core$Dict$Black,
 					k,
 					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
 					rlL),
-				A5($elm$core$Dict$RBNode_elm_builtin, 1, rK, rV, rlR, rRight));
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rlR, rRight));
 		} else {
 			var clr = dict.a;
 			var k = dict.b;
@@ -5796,22 +5810,22 @@ var $elm$core$Dict$moveRedLeft = function (dict) {
 			var rV = _v5.c;
 			var rLeft = _v5.d;
 			var rRight = _v5.e;
-			if (clr === 1) {
+			if (clr.$ === 'Black') {
 				return A5(
 					$elm$core$Dict$RBNode_elm_builtin,
-					1,
+					$elm$core$Dict$Black,
 					k,
 					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, rK, rV, rLeft, rRight));
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
 			} else {
 				return A5(
 					$elm$core$Dict$RBNode_elm_builtin,
-					1,
+					$elm$core$Dict$Black,
 					k,
 					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, rK, rV, rLeft, rRight));
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
 			}
 		}
 	} else {
@@ -5819,8 +5833,8 @@ var $elm$core$Dict$moveRedLeft = function (dict) {
 	}
 };
 var $elm$core$Dict$moveRedRight = function (dict) {
-	if (((dict.$ === -1) && (dict.d.$ === -1)) && (dict.e.$ === -1)) {
-		if ((dict.d.d.$ === -1) && (!dict.d.d.a)) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.d.d.$ === 'RBNode_elm_builtin') && (dict.d.d.a.$ === 'Red')) {
 			var clr = dict.a;
 			var k = dict.b;
 			var v = dict.c;
@@ -5843,17 +5857,17 @@ var $elm$core$Dict$moveRedRight = function (dict) {
 			var rRight = _v4.e;
 			return A5(
 				$elm$core$Dict$RBNode_elm_builtin,
-				0,
+				$elm$core$Dict$Red,
 				lK,
 				lV,
-				A5($elm$core$Dict$RBNode_elm_builtin, 1, llK, llV, llLeft, llRight),
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
 				A5(
 					$elm$core$Dict$RBNode_elm_builtin,
-					1,
+					$elm$core$Dict$Black,
 					k,
 					v,
 					lRight,
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, rK, rV, rLeft, rRight)));
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight)));
 		} else {
 			var clr = dict.a;
 			var k = dict.b;
@@ -5870,22 +5884,22 @@ var $elm$core$Dict$moveRedRight = function (dict) {
 			var rV = _v6.c;
 			var rLeft = _v6.d;
 			var rRight = _v6.e;
-			if (clr === 1) {
+			if (clr.$ === 'Black') {
 				return A5(
 					$elm$core$Dict$RBNode_elm_builtin,
-					1,
+					$elm$core$Dict$Black,
 					k,
 					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, rK, rV, rLeft, rRight));
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
 			} else {
 				return A5(
 					$elm$core$Dict$RBNode_elm_builtin,
-					1,
+					$elm$core$Dict$Black,
 					k,
 					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, 0, rK, rV, rLeft, rRight));
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
 			}
 		}
 	} else {
@@ -5894,7 +5908,7 @@ var $elm$core$Dict$moveRedRight = function (dict) {
 };
 var $elm$core$Dict$removeHelpPrepEQGT = F7(
 	function (targetKey, dict, color, key, value, left, right) {
-		if ((left.$ === -1) && (!left.a)) {
+		if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
 			var _v1 = left.a;
 			var lK = left.b;
 			var lV = left.c;
@@ -5906,13 +5920,13 @@ var $elm$core$Dict$removeHelpPrepEQGT = F7(
 				lK,
 				lV,
 				lLeft,
-				A5($elm$core$Dict$RBNode_elm_builtin, 0, key, value, lRight, right));
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, lRight, right));
 		} else {
 			_v2$2:
 			while (true) {
-				if ((right.$ === -1) && (right.a === 1)) {
-					if (right.d.$ === -1) {
-						if (right.d.a === 1) {
+				if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Black')) {
+					if (right.d.$ === 'RBNode_elm_builtin') {
+						if (right.d.a.$ === 'Black') {
 							var _v3 = right.a;
 							var _v4 = right.d;
 							var _v5 = _v4.a;
@@ -5933,7 +5947,7 @@ var $elm$core$Dict$removeHelpPrepEQGT = F7(
 		}
 	});
 var $elm$core$Dict$removeMin = function (dict) {
-	if ((dict.$ === -1) && (dict.d.$ === -1)) {
+	if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
 		var color = dict.a;
 		var key = dict.b;
 		var value = dict.c;
@@ -5941,8 +5955,8 @@ var $elm$core$Dict$removeMin = function (dict) {
 		var lColor = left.a;
 		var lLeft = left.d;
 		var right = dict.e;
-		if (lColor === 1) {
-			if ((lLeft.$ === -1) && (!lLeft.a)) {
+		if (lColor.$ === 'Black') {
+			if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
 				var _v3 = lLeft.a;
 				return A5(
 					$elm$core$Dict$RBNode_elm_builtin,
@@ -5953,7 +5967,7 @@ var $elm$core$Dict$removeMin = function (dict) {
 					right);
 			} else {
 				var _v4 = $elm$core$Dict$moveRedLeft(dict);
-				if (_v4.$ === -1) {
+				if (_v4.$ === 'RBNode_elm_builtin') {
 					var nColor = _v4.a;
 					var nKey = _v4.b;
 					var nValue = _v4.c;
@@ -5985,7 +5999,7 @@ var $elm$core$Dict$removeMin = function (dict) {
 };
 var $elm$core$Dict$removeHelp = F2(
 	function (targetKey, dict) {
-		if (dict.$ === -2) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
 			return $elm$core$Dict$RBEmpty_elm_builtin;
 		} else {
 			var color = dict.a;
@@ -5994,10 +6008,10 @@ var $elm$core$Dict$removeHelp = F2(
 			var left = dict.d;
 			var right = dict.e;
 			if (_Utils_cmp(targetKey, key) < 0) {
-				if ((left.$ === -1) && (left.a === 1)) {
+				if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Black')) {
 					var _v4 = left.a;
 					var lLeft = left.d;
-					if ((lLeft.$ === -1) && (!lLeft.a)) {
+					if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
 						var _v6 = lLeft.a;
 						return A5(
 							$elm$core$Dict$RBNode_elm_builtin,
@@ -6008,7 +6022,7 @@ var $elm$core$Dict$removeHelp = F2(
 							right);
 					} else {
 						var _v7 = $elm$core$Dict$moveRedLeft(dict);
-						if (_v7.$ === -1) {
+						if (_v7.$ === 'RBNode_elm_builtin') {
 							var nColor = _v7.a;
 							var nKey = _v7.b;
 							var nValue = _v7.c;
@@ -6044,7 +6058,7 @@ var $elm$core$Dict$removeHelp = F2(
 	});
 var $elm$core$Dict$removeHelpEQGT = F2(
 	function (targetKey, dict) {
-		if (dict.$ === -1) {
+		if (dict.$ === 'RBNode_elm_builtin') {
 			var color = dict.a;
 			var key = dict.b;
 			var value = dict.c;
@@ -6052,7 +6066,7 @@ var $elm$core$Dict$removeHelpEQGT = F2(
 			var right = dict.e;
 			if (_Utils_eq(targetKey, key)) {
 				var _v1 = $elm$core$Dict$getMin(right);
-				if (_v1.$ === -1) {
+				if (_v1.$ === 'RBNode_elm_builtin') {
 					var minKey = _v1.b;
 					var minValue = _v1.c;
 					return A5(
@@ -6081,13 +6095,13 @@ var $elm$core$Dict$removeHelpEQGT = F2(
 var $elm$core$Dict$remove = F2(
 	function (key, dict) {
 		var _v0 = A2($elm$core$Dict$removeHelp, key, dict);
-		if ((_v0.$ === -1) && (!_v0.a)) {
+		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
 			var _v1 = _v0.a;
 			var k = _v0.b;
 			var v = _v0.c;
 			var l = _v0.d;
 			var r = _v0.e;
-			return A5($elm$core$Dict$RBNode_elm_builtin, 1, k, v, l, r);
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
 		} else {
 			var x = _v0;
 			return x;
@@ -6097,7 +6111,7 @@ var $elm$core$Dict$update = F3(
 	function (targetKey, alter, dictionary) {
 		var _v0 = alter(
 			A2($elm$core$Dict$get, targetKey, dictionary));
-		if (!_v0.$) {
+		if (_v0.$ === 'Just') {
 			var value = _v0.a;
 			return A3($elm$core$Dict$insert, targetKey, value, dictionary);
 		} else {
@@ -6112,12 +6126,12 @@ var $elm$url$Url$Parser$addParam = F2(
 			var _v1 = _v0.b;
 			var rawValue = _v1.a;
 			var _v2 = $elm$url$Url$percentDecode(rawKey);
-			if (_v2.$ === 1) {
+			if (_v2.$ === 'Nothing') {
 				return dict;
 			} else {
 				var key = _v2.a;
 				var _v3 = $elm$url$Url$percentDecode(rawValue);
-				if (_v3.$ === 1) {
+				if (_v3.$ === 'Nothing') {
 					return dict;
 				} else {
 					var value = _v3.a;
@@ -6134,7 +6148,7 @@ var $elm$url$Url$Parser$addParam = F2(
 	});
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
 var $elm$url$Url$Parser$prepareQuery = function (maybeQuery) {
-	if (maybeQuery.$ === 1) {
+	if (maybeQuery.$ === 'Nothing') {
 		return $elm$core$Dict$empty;
 	} else {
 		var qry = maybeQuery.a;
@@ -6147,20 +6161,20 @@ var $elm$url$Url$Parser$prepareQuery = function (maybeQuery) {
 };
 var $elm$url$Url$Parser$parse = F2(
 	function (_v0, url) {
-		var parser = _v0;
+		var parser = _v0.a;
 		return $elm$url$Url$Parser$getFirstMatch(
 			parser(
 				A5(
 					$elm$url$Url$Parser$State,
 					_List_Nil,
-					$elm$url$Url$Parser$preparePath(url.at),
-					$elm$url$Url$Parser$prepareQuery(url.aA),
-					url.aj,
+					$elm$url$Url$Parser$preparePath(url.path),
+					$elm$url$Url$Parser$prepareQuery(url.query),
+					url.fragment,
 					$elm$core$Basics$identity)));
 	});
 var $author$project$Route$Route$fromUrl = function (url) {
 	var _v0 = A2($elm$url$Url$Parser$parse, $author$project$Route$Route$matchRoute, url);
-	if (!_v0.$) {
+	if (_v0.$ === 'Just') {
 		var route = _v0.a;
 		return route;
 	} else {
@@ -6168,53 +6182,53 @@ var $author$project$Route$Route$fromUrl = function (url) {
 	}
 };
 var $author$project$Header$ViewportSize = function (a) {
-	return {$: 2, a: a};
+	return {$: 'ViewportSize', a: a};
 };
 var $elm$browser$Browser$Dom$getViewport = _Browser_withWindow(_Browser_getViewport);
 var $author$project$Header$init = _Utils_Tuple2(
 	{
-		y: false,
-		F: {
-			a8: {ak: 0, _: 0},
-			F: {ak: 0, _: 0, bf: 0, bg: 0}
+		isMenuOpen: false,
+		viewport: {
+			scene: {height: 0, width: 0},
+			viewport: {height: 0, width: 0, x: 0, y: 0}
 		}
 	},
 	A2($elm$core$Task$perform, $author$project$Header$ViewportSize, $elm$browser$Browser$Dom$getViewport));
 var $author$project$Main$AboutMsg = function (a) {
-	return {$: 5, a: a};
+	return {$: 'AboutMsg', a: a};
 };
 var $author$project$Main$AboutPage = function (a) {
-	return {$: 6, a: a};
+	return {$: 'AboutPage', a: a};
 };
 var $author$project$Main$HomeMsg = function (a) {
-	return {$: 0, a: a};
+	return {$: 'HomeMsg', a: a};
 };
 var $author$project$Main$HomePage = function (a) {
-	return {$: 1, a: a};
+	return {$: 'HomePage', a: a};
 };
 var $author$project$Main$MindstormArticleMsg = function (a) {
-	return {$: 2, a: a};
+	return {$: 'MindstormArticleMsg', a: a};
 };
 var $author$project$Main$MindstormArticlePage = function (a) {
-	return {$: 3, a: a};
+	return {$: 'MindstormArticlePage', a: a};
 };
 var $author$project$Main$MindstormsMsg = function (a) {
-	return {$: 1, a: a};
+	return {$: 'MindstormsMsg', a: a};
 };
 var $author$project$Main$MindstormsPage = function (a) {
-	return {$: 2, a: a};
+	return {$: 'MindstormsPage', a: a};
 };
 var $author$project$Main$ProjectArticleMsg = function (a) {
-	return {$: 4, a: a};
+	return {$: 'ProjectArticleMsg', a: a};
 };
 var $author$project$Main$ProjectArticlePage = function (a) {
-	return {$: 5, a: a};
+	return {$: 'ProjectArticlePage', a: a};
 };
 var $author$project$Main$ProjectsMsg = function (a) {
-	return {$: 3, a: a};
+	return {$: 'ProjectsMsg', a: a};
 };
 var $author$project$Main$ProjectsPage = function (a) {
-	return {$: 4, a: a};
+	return {$: 'ProjectsPage', a: a};
 };
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Page$About$init = _Utils_Tuple2(
@@ -6222,53 +6236,55 @@ var $author$project$Page$About$init = _Utils_Tuple2(
 	$elm$core$Platform$Cmd$none);
 var $author$project$Article$Image = F2(
 	function (src, description) {
-		return {aV: description, aH: src};
+		return {description: description, src: src};
 	});
-var $author$project$Article$Article = $elm$core$Basics$identity;
+var $author$project$Article$Article = function (a) {
+	return {$: 'Article', a: a};
+};
 var $author$project$Article$getArticle = function (info) {
-	return info;
+	return $author$project$Article$Article(info);
 };
 var $author$project$Projects$NeighborhoodHere$article = $author$project$Article$getArticle(
 	{
-		O: '2019',
-		P: 'projects/neighborhood-here',
-		Q: A2($author$project$Article$Image, '/img/projects/neighborhood/desktop_250.png', 'Map'),
-		aJ: 'Redo with Redux',
-		aK: '',
-		R: 'Neighborhood Map'
+		date: '2019',
+		href: 'projects/neighborhood-here',
+		image: A2($author$project$Article$Image, '/img/projects/neighborhood/desktop_250.png', 'Map'),
+		subtitle: 'Redo with Redux',
+		summary: '',
+		title: 'Neighborhood Map'
 	});
 var $author$project$Projects$SailfishOS$article = $author$project$Article$getArticle(
 	{
-		O: '2018/2019',
-		P: 'projects/sailfish-design-study',
-		Q: A2($author$project$Article$Image, '/img/projects/sailfish/SailFishOS_icon.svg', 'Turtle'),
-		aJ: '',
-		aK: '',
-		R: 'Sailfish OS: UX Design Study'
+		date: '2018/2019',
+		href: 'projects/sailfish-design-study',
+		image: A2($author$project$Article$Image, '/img/projects/sailfish/SailFishOS_icon.svg', 'Turtle'),
+		subtitle: '',
+		summary: '',
+		title: 'Sailfish OS: UX Design Study'
 	});
 var $author$project$Projects$SymbolRecognition$article = $author$project$Article$getArticle(
 	{
-		O: '2019',
-		P: 'projects/symbol-recognition',
-		Q: A2($author$project$Article$Image, '/img/projects/symbol-rec/table_250.png', 'Turtle'),
-		aJ: 'Inspired by GRAIL',
-		aK: '',
-		R: 'Symbol Recognition'
+		date: '2019',
+		href: 'projects/symbol-recognition',
+		image: A2($author$project$Article$Image, '/img/projects/symbol-rec/table_250.png', 'Turtle'),
+		subtitle: 'Inspired by GRAIL',
+		summary: '',
+		title: 'Symbol Recognition'
 	});
 var $author$project$Article$ArticleCard = F4(
 	function (title, date, image, href) {
-		return {O: date, P: href, Q: image, R: title};
+		return {date: date, href: href, image: image, title: title};
 	});
 var $author$project$Article$getCard = function (_v0) {
-	var title = _v0.R;
-	var date = _v0.O;
-	var image = _v0.Q;
-	var href = _v0.P;
+	var title = _v0.a.title;
+	var date = _v0.a.date;
+	var image = _v0.a.image;
+	var href = _v0.a.href;
 	return A4($author$project$Article$ArticleCard, title, date, image, href);
 };
 var $author$project$Page$Home$init = _Utils_Tuple2(
 	{
-		S: _List_fromArray(
+		articles: _List_fromArray(
 			[
 				$author$project$Article$getCard($author$project$Projects$NeighborhoodHere$article),
 				$author$project$Article$getCard($author$project$Projects$SymbolRecognition$article),
@@ -6276,40 +6292,42 @@ var $author$project$Page$Home$init = _Utils_Tuple2(
 			])
 	},
 	$elm$core$Platform$Cmd$none);
-var $author$project$Page$MindstormArticle$NotFoundPage = {$: 1};
-var $author$project$Route$MindstormsRoute$NotFound = 1;
-var $author$project$Route$MindstormsRoute$Learning = 0;
+var $author$project$Page$MindstormArticle$NotFoundPage = {$: 'NotFoundPage'};
+var $author$project$Route$MindstormsRoute$NotFound = {$: 'NotFound'};
+var $author$project$Route$MindstormsRoute$Learning = {$: 'Learning'};
 var $elm$parser$Parser$ExpectingKeyword = function (a) {
-	return {$: 9, a: a};
+	return {$: 'ExpectingKeyword', a: a};
 };
 var $elm$parser$Parser$Advanced$Token = F2(
 	function (a, b) {
-		return {$: 0, a: a, b: b};
+		return {$: 'Token', a: a, b: b};
 	});
 var $elm$parser$Parser$Advanced$Bad = F2(
 	function (a, b) {
-		return {$: 1, a: a, b: b};
+		return {$: 'Bad', a: a, b: b};
 	});
 var $elm$parser$Parser$Advanced$Good = F3(
 	function (a, b, c) {
-		return {$: 0, a: a, b: b, c: c};
+		return {$: 'Good', a: a, b: b, c: c};
 	});
-var $elm$parser$Parser$Advanced$Parser = $elm$core$Basics$identity;
+var $elm$parser$Parser$Advanced$Parser = function (a) {
+	return {$: 'Parser', a: a};
+};
 var $elm$parser$Parser$Advanced$AddRight = F2(
 	function (a, b) {
-		return {$: 1, a: a, b: b};
+		return {$: 'AddRight', a: a, b: b};
 	});
 var $elm$parser$Parser$Advanced$DeadEnd = F4(
 	function (row, col, problem, contextStack) {
-		return {ad: col, aT: contextStack, aw: problem, aE: row};
+		return {col: col, contextStack: contextStack, problem: problem, row: row};
 	});
-var $elm$parser$Parser$Advanced$Empty = {$: 0};
+var $elm$parser$Parser$Advanced$Empty = {$: 'Empty'};
 var $elm$parser$Parser$Advanced$fromState = F2(
 	function (s, x) {
 		return A2(
 			$elm$parser$Parser$Advanced$AddRight,
 			$elm$parser$Parser$Advanced$Empty,
-			A4($elm$parser$Parser$Advanced$DeadEnd, s.aE, s.ad, x, s.b));
+			A4($elm$parser$Parser$Advanced$DeadEnd, s.row, s.col, x, s.context));
 	});
 var $elm$parser$Parser$Advanced$isSubChar = _Parser_isSubChar;
 var $elm$parser$Parser$Advanced$isSubString = _Parser_isSubString;
@@ -6321,26 +6339,29 @@ var $elm$parser$Parser$Advanced$keyword = function (_v0) {
 	var kwd = _v0.a;
 	var expecting = _v0.b;
 	var progress = !$elm$core$String$isEmpty(kwd);
-	return function (s) {
-		var _v1 = A5($elm$parser$Parser$Advanced$isSubString, kwd, s.a, s.aE, s.ad, s.aH);
-		var newOffset = _v1.a;
-		var newRow = _v1.b;
-		var newCol = _v1.c;
-		return (_Utils_eq(newOffset, -1) || (0 <= A3(
-			$elm$parser$Parser$Advanced$isSubChar,
-			function (c) {
-				return $elm$core$Char$isAlphaNum(c) || (c === '_');
-			},
-			newOffset,
-			s.aH))) ? A2(
-			$elm$parser$Parser$Advanced$Bad,
-			false,
-			A2($elm$parser$Parser$Advanced$fromState, s, expecting)) : A3(
-			$elm$parser$Parser$Advanced$Good,
-			progress,
-			0,
-			{ad: newCol, b: s.b, c: s.c, a: newOffset, aE: newRow, aH: s.aH});
-	};
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s) {
+			var _v1 = A5($elm$parser$Parser$Advanced$isSubString, kwd, s.offset, s.row, s.col, s.src);
+			var newOffset = _v1.a;
+			var newRow = _v1.b;
+			var newCol = _v1.c;
+			return (_Utils_eq(newOffset, -1) || (0 <= A3(
+				$elm$parser$Parser$Advanced$isSubChar,
+				function (c) {
+					return $elm$core$Char$isAlphaNum(c) || _Utils_eq(
+						c,
+						_Utils_chr('_'));
+				},
+				newOffset,
+				s.src))) ? A2(
+				$elm$parser$Parser$Advanced$Bad,
+				false,
+				A2($elm$parser$Parser$Advanced$fromState, s, expecting)) : A3(
+				$elm$parser$Parser$Advanced$Good,
+				progress,
+				_Utils_Tuple0,
+				{col: newCol, context: s.context, indent: s.indent, offset: newOffset, row: newRow, src: s.src});
+		});
 };
 var $elm$parser$Parser$keyword = function (kwd) {
 	return $elm$parser$Parser$Advanced$keyword(
@@ -6351,29 +6372,30 @@ var $elm$parser$Parser$keyword = function (kwd) {
 };
 var $elm$parser$Parser$Advanced$map = F2(
 	function (func, _v0) {
-		var parse = _v0;
-		return function (s0) {
-			var _v1 = parse(s0);
-			if (!_v1.$) {
-				var p = _v1.a;
-				var a = _v1.b;
-				var s1 = _v1.c;
-				return A3(
-					$elm$parser$Parser$Advanced$Good,
-					p,
-					func(a),
-					s1);
-			} else {
-				var p = _v1.a;
-				var x = _v1.b;
-				return A2($elm$parser$Parser$Advanced$Bad, p, x);
-			}
-		};
+		var parse = _v0.a;
+		return $elm$parser$Parser$Advanced$Parser(
+			function (s0) {
+				var _v1 = parse(s0);
+				if (_v1.$ === 'Good') {
+					var p = _v1.a;
+					var a = _v1.b;
+					var s1 = _v1.c;
+					return A3(
+						$elm$parser$Parser$Advanced$Good,
+						p,
+						func(a),
+						s1);
+				} else {
+					var p = _v1.a;
+					var x = _v1.b;
+					return A2($elm$parser$Parser$Advanced$Bad, p, x);
+				}
+			});
 	});
 var $elm$parser$Parser$map = $elm$parser$Parser$Advanced$map;
 var $elm$parser$Parser$Advanced$Append = F2(
 	function (a, b) {
-		return {$: 2, a: a, b: b};
+		return {$: 'Append', a: a, b: b};
 	});
 var $elm$parser$Parser$Advanced$oneOfHelp = F3(
 	function (s0, bag, parsers) {
@@ -6382,10 +6404,10 @@ var $elm$parser$Parser$Advanced$oneOfHelp = F3(
 			if (!parsers.b) {
 				return A2($elm$parser$Parser$Advanced$Bad, false, bag);
 			} else {
-				var parse = parsers.a;
+				var parse = parsers.a.a;
 				var remainingParsers = parsers.b;
 				var _v1 = parse(s0);
-				if (!_v1.$) {
+				if (_v1.$ === 'Good') {
 					var step = _v1;
 					return step;
 				} else {
@@ -6408,9 +6430,10 @@ var $elm$parser$Parser$Advanced$oneOfHelp = F3(
 		}
 	});
 var $elm$parser$Parser$Advanced$oneOf = function (parsers) {
-	return function (s) {
-		return A3($elm$parser$Parser$Advanced$oneOfHelp, s, $elm$parser$Parser$Advanced$Empty, parsers);
-	};
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s) {
+			return A3($elm$parser$Parser$Advanced$oneOfHelp, s, $elm$parser$Parser$Advanced$Empty, parsers);
+		});
 };
 var $elm$parser$Parser$oneOf = $elm$parser$Parser$Advanced$oneOf;
 var $author$project$Route$MindstormsRoute$matchRoute = $elm$parser$Parser$oneOf(
@@ -6419,25 +6442,25 @@ var $author$project$Route$MindstormsRoute$matchRoute = $elm$parser$Parser$oneOf(
 			A2(
 			$elm$parser$Parser$map,
 			function (_v0) {
-				return 0;
+				return $author$project$Route$MindstormsRoute$Learning;
 			},
 			$elm$parser$Parser$keyword('learning'))
 		]));
 var $elm$parser$Parser$DeadEnd = F3(
 	function (row, col, problem) {
-		return {ad: col, aw: problem, aE: row};
+		return {col: col, problem: problem, row: row};
 	});
 var $elm$parser$Parser$problemToDeadEnd = function (p) {
-	return A3($elm$parser$Parser$DeadEnd, p.aE, p.ad, p.aw);
+	return A3($elm$parser$Parser$DeadEnd, p.row, p.col, p.problem);
 };
 var $elm$parser$Parser$Advanced$bagToList = F2(
 	function (bag, list) {
 		bagToList:
 		while (true) {
 			switch (bag.$) {
-				case 0:
+				case 'Empty':
 					return list;
-				case 1:
+				case 'AddRight':
 					var bag1 = bag.a;
 					var x = bag.b;
 					var $temp$bag = bag1,
@@ -6458,10 +6481,10 @@ var $elm$parser$Parser$Advanced$bagToList = F2(
 	});
 var $elm$parser$Parser$Advanced$run = F2(
 	function (_v0, src) {
-		var parse = _v0;
+		var parse = _v0.a;
 		var _v1 = parse(
-			{ad: 1, b: _List_Nil, c: 1, a: 0, aE: 1, aH: src});
-		if (!_v1.$) {
+			{col: 1, context: _List_Nil, indent: 1, offset: 0, row: 1, src: src});
+		if (_v1.$ === 'Good') {
 			var value = _v1.b;
 			return $elm$core$Result$Ok(value);
 		} else {
@@ -6473,7 +6496,7 @@ var $elm$parser$Parser$Advanced$run = F2(
 var $elm$parser$Parser$run = F2(
 	function (parser, source) {
 		var _v0 = A2($elm$parser$Parser$Advanced$run, parser, source);
-		if (!_v0.$) {
+		if (_v0.$ === 'Ok') {
 			var a = _v0.a;
 			return $elm$core$Result$Ok(a);
 		} else {
@@ -6484,16 +6507,18 @@ var $elm$parser$Parser$run = F2(
 	});
 var $author$project$Route$MindstormsRoute$fromString = function (articleString) {
 	var _v0 = A2($elm$parser$Parser$run, $author$project$Route$MindstormsRoute$matchRoute, articleString);
-	if (!_v0.$) {
+	if (_v0.$ === 'Ok') {
 		var article = _v0.a;
 		return article;
 	} else {
-		return 1;
+		return $author$project$Route$MindstormsRoute$NotFound;
 	}
 };
-var $author$project$Page$MindstormArticle$LearningMsg = $elm$core$Basics$identity;
+var $author$project$Page$MindstormArticle$LearningMsg = function (a) {
+	return {$: 'LearningMsg', a: a};
+};
 var $author$project$Page$MindstormArticle$LearningPage = function (a) {
-	return {$: 0, a: a};
+	return {$: 'LearningPage', a: a};
 };
 var $author$project$Mindstorms$Learning$init = _Utils_Tuple2(
 	{},
@@ -6511,11 +6536,11 @@ var $author$project$Page$MindstormArticle$initCurrentPage = function (_v0) {
 	var model = _v0.a;
 	var existingCmds = _v0.b;
 	var _v1 = function () {
-		var _v2 = model.J;
-		if (_v2 === 1) {
+		var _v2 = model.route;
+		if (_v2.$ === 'NotFound') {
 			return _Utils_Tuple2($author$project$Page$MindstormArticle$NotFoundPage, $elm$core$Platform$Cmd$none);
 		} else {
-			return A3($author$project$Page$MindstormArticle$updateWith, $author$project$Page$MindstormArticle$LearningPage, $elm$core$Basics$identity, $author$project$Mindstorms$Learning$init);
+			return A3($author$project$Page$MindstormArticle$updateWith, $author$project$Page$MindstormArticle$LearningPage, $author$project$Page$MindstormArticle$LearningMsg, $author$project$Mindstorms$Learning$init);
 		}
 	}();
 	var currentPage = _v1.a;
@@ -6523,75 +6548,75 @@ var $author$project$Page$MindstormArticle$initCurrentPage = function (_v0) {
 	return _Utils_Tuple2(
 		_Utils_update(
 			model,
-			{z: currentPage}),
+			{page: currentPage}),
 		$elm$core$Platform$Cmd$batch(
 			_List_fromArray(
 				[existingCmds, mappedPageCmds])));
 };
 var $author$project$Page$MindstormArticle$init = function (pageString) {
 	var model = {
-		z: $author$project$Page$MindstormArticle$NotFoundPage,
-		J: $author$project$Route$MindstormsRoute$fromString(pageString)
+		page: $author$project$Page$MindstormArticle$NotFoundPage,
+		route: $author$project$Route$MindstormsRoute$fromString(pageString)
 	};
 	return $author$project$Page$MindstormArticle$initCurrentPage(
 		_Utils_Tuple2(model, $elm$core$Platform$Cmd$none));
 };
 var $author$project$Page$Mindstorms$init = _Utils_Tuple2(
-	{S: _List_Nil},
+	{articles: _List_Nil},
 	$elm$core$Platform$Cmd$none);
-var $author$project$Page$ProjectArticle$NotFoundPage = {$: 3};
-var $author$project$Route$ProjectsRoute$NotFound = 3;
-var $author$project$Route$ProjectsRoute$NeighborhoodHere = 0;
-var $author$project$Route$ProjectsRoute$SailfishOS = 2;
-var $author$project$Route$ProjectsRoute$SymbolRecognition = 1;
+var $author$project$Page$ProjectArticle$NotFoundPage = {$: 'NotFoundPage'};
+var $author$project$Route$ProjectsRoute$NotFound = {$: 'NotFound'};
+var $author$project$Route$ProjectsRoute$NeighborhoodHere = {$: 'NeighborhoodHere'};
+var $author$project$Route$ProjectsRoute$SailfishOS = {$: 'SailfishOS'};
+var $author$project$Route$ProjectsRoute$SymbolRecognition = {$: 'SymbolRecognition'};
 var $author$project$Route$ProjectsRoute$matchRoute = $elm$parser$Parser$oneOf(
 	_List_fromArray(
 		[
 			A2(
 			$elm$parser$Parser$map,
 			function (_v0) {
-				return 0;
+				return $author$project$Route$ProjectsRoute$NeighborhoodHere;
 			},
 			$elm$parser$Parser$keyword('neighborhood-here')),
 			A2(
 			$elm$parser$Parser$map,
 			function (_v1) {
-				return 1;
+				return $author$project$Route$ProjectsRoute$SymbolRecognition;
 			},
 			$elm$parser$Parser$keyword('symbol-recognition')),
 			A2(
 			$elm$parser$Parser$map,
 			function (_v2) {
-				return 2;
+				return $author$project$Route$ProjectsRoute$SailfishOS;
 			},
 			$elm$parser$Parser$keyword('sailfish-design-study'))
 		]));
 var $author$project$Route$ProjectsRoute$fromString = function (articleString) {
 	var _v0 = A2($elm$parser$Parser$run, $author$project$Route$ProjectsRoute$matchRoute, articleString);
-	if (!_v0.$) {
+	if (_v0.$ === 'Ok') {
 		var article = _v0.a;
 		return article;
 	} else {
-		return 3;
+		return $author$project$Route$ProjectsRoute$NotFound;
 	}
 };
 var $author$project$Page$ProjectArticle$Neighborhood = function (a) {
-	return {$: 0, a: a};
+	return {$: 'Neighborhood', a: a};
 };
 var $author$project$Page$ProjectArticle$NeighborhoodMsg = function (a) {
-	return {$: 0, a: a};
+	return {$: 'NeighborhoodMsg', a: a};
 };
 var $author$project$Page$ProjectArticle$SailfishOS = function (a) {
-	return {$: 2, a: a};
+	return {$: 'SailfishOS', a: a};
 };
 var $author$project$Page$ProjectArticle$SailfishOSMsg = function (a) {
-	return {$: 2, a: a};
+	return {$: 'SailfishOSMsg', a: a};
 };
 var $author$project$Page$ProjectArticle$SymbolRecognition = function (a) {
-	return {$: 1, a: a};
+	return {$: 'SymbolRecognition', a: a};
 };
 var $author$project$Page$ProjectArticle$SymbolRecognitionMsg = function (a) {
-	return {$: 1, a: a};
+	return {$: 'SymbolRecognitionMsg', a: a};
 };
 var $author$project$Projects$NeighborhoodHere$init = _Utils_Tuple2(
 	{},
@@ -6614,13 +6639,13 @@ var $author$project$Page$ProjectArticle$initCurrentPage = function (_v0) {
 	var model = _v0.a;
 	var existingCmds = _v0.b;
 	var _v1 = function () {
-		var _v2 = model.J;
-		switch (_v2) {
-			case 3:
+		var _v2 = model.route;
+		switch (_v2.$) {
+			case 'NotFound':
 				return _Utils_Tuple2($author$project$Page$ProjectArticle$NotFoundPage, $elm$core$Platform$Cmd$none);
-			case 0:
+			case 'NeighborhoodHere':
 				return A3($author$project$Page$ProjectArticle$updateWith, $author$project$Page$ProjectArticle$Neighborhood, $author$project$Page$ProjectArticle$NeighborhoodMsg, $author$project$Projects$NeighborhoodHere$init);
-			case 1:
+			case 'SymbolRecognition':
 				return A3($author$project$Page$ProjectArticle$updateWith, $author$project$Page$ProjectArticle$SymbolRecognition, $author$project$Page$ProjectArticle$SymbolRecognitionMsg, $author$project$Projects$SymbolRecognition$init);
 			default:
 				return A3($author$project$Page$ProjectArticle$updateWith, $author$project$Page$ProjectArticle$SailfishOS, $author$project$Page$ProjectArticle$SailfishOSMsg, $author$project$Projects$SailfishOS$init);
@@ -6631,22 +6656,22 @@ var $author$project$Page$ProjectArticle$initCurrentPage = function (_v0) {
 	return _Utils_Tuple2(
 		_Utils_update(
 			model,
-			{z: currentPage}),
+			{page: currentPage}),
 		$elm$core$Platform$Cmd$batch(
 			_List_fromArray(
 				[existingCmds, mappedPageCmds])));
 };
 var $author$project$Page$ProjectArticle$init = function (pageString) {
 	var model = {
-		z: $author$project$Page$ProjectArticle$NotFoundPage,
-		J: $author$project$Route$ProjectsRoute$fromString(pageString)
+		page: $author$project$Page$ProjectArticle$NotFoundPage,
+		route: $author$project$Route$ProjectsRoute$fromString(pageString)
 	};
 	return $author$project$Page$ProjectArticle$initCurrentPage(
 		_Utils_Tuple2(model, $elm$core$Platform$Cmd$none));
 };
 var $author$project$Page$Projects$init = _Utils_Tuple2(
 	{
-		S: _List_fromArray(
+		articles: _List_fromArray(
 			[
 				$author$project$Article$getCard($author$project$Projects$NeighborhoodHere$article),
 				$author$project$Article$getCard($author$project$Projects$SymbolRecognition$article),
@@ -6666,24 +6691,24 @@ var $author$project$Main$initCurrentPage = function (_v0) {
 	var model = _v0.a;
 	var existingCmds = _v0.b;
 	var _v1 = function () {
-		var _v2 = model.J;
+		var _v2 = model.route;
 		switch (_v2.$) {
-			case 6:
+			case 'NotFound':
 				return _Utils_Tuple2($author$project$Main$NotFoundPage, $elm$core$Platform$Cmd$none);
-			case 0:
+			case 'Home':
 				return A3($author$project$Main$updateWith, $author$project$Main$HomePage, $author$project$Main$HomeMsg, $author$project$Page$Home$init);
-			case 1:
+			case 'Mindstorms':
 				return A3($author$project$Main$updateWith, $author$project$Main$MindstormsPage, $author$project$Main$MindstormsMsg, $author$project$Page$Mindstorms$init);
-			case 2:
+			case 'MindstormArticle':
 				var articleString = _v2.a;
 				return A3(
 					$author$project$Main$updateWith,
 					$author$project$Main$MindstormArticlePage,
 					$author$project$Main$MindstormArticleMsg,
 					$author$project$Page$MindstormArticle$init(articleString));
-			case 3:
+			case 'Projects':
 				return A3($author$project$Main$updateWith, $author$project$Main$ProjectsPage, $author$project$Main$ProjectsMsg, $author$project$Page$Projects$init);
-			case 4:
+			case 'ProjectsArticle':
 				var articleString = _v2.a;
 				return A3(
 					$author$project$Main$updateWith,
@@ -6699,7 +6724,7 @@ var $author$project$Main$initCurrentPage = function (_v0) {
 	return _Utils_Tuple2(
 		_Utils_update(
 			model,
-			{z: currentPage}),
+			{page: currentPage}),
 		$elm$core$Platform$Cmd$batch(
 			_List_fromArray(
 				[existingCmds, mappedPageCmds])));
@@ -6710,7 +6735,7 @@ var $author$project$Main$init = F3(
 		var _v0 = $author$project$Header$init;
 		var headerModel = _v0.a;
 		var headerCmds = _v0.b;
-		var model = {H: headerModel, U: navKey, z: $author$project$Main$NotFoundPage, J: route};
+		var model = {headerModel: headerModel, navKey: navKey, page: $author$project$Main$NotFoundPage, route: route};
 		return $author$project$Main$initCurrentPage(
 			_Utils_Tuple2(
 				model,
@@ -6720,22 +6745,22 @@ var $author$project$Main$init = F3(
 							A2($elm$core$Platform$Cmd$map, $author$project$Main$HeaderMsg, headerCmds)
 						]))));
 	});
-var $author$project$Header$ViewportChanged = {$: 3};
-var $elm$browser$Browser$Events$Window = 1;
+var $author$project$Header$ViewportChanged = {$: 'ViewportChanged'};
+var $elm$browser$Browser$Events$Window = {$: 'Window'};
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $elm$browser$Browser$Events$MySub = F3(
 	function (a, b, c) {
-		return {$: 0, a: a, b: b, c: c};
+		return {$: 'MySub', a: a, b: b, c: c};
 	});
 var $elm$browser$Browser$Events$State = F2(
 	function (subs, pids) {
-		return {au: pids, aI: subs};
+		return {pids: pids, subs: subs};
 	});
 var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
 	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
 var $elm$browser$Browser$Events$nodeToKey = function (node) {
-	if (!node) {
+	if (node.$ === 'Document') {
 		return 'd_';
 	} else {
 		return 'w_';
@@ -6767,7 +6792,7 @@ var $elm$core$Dict$foldl = F3(
 	function (func, acc, dict) {
 		foldl:
 		while (true) {
-			if (dict.$ === -2) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
 				return acc;
 			} else {
 				var key = dict.b;
@@ -6851,7 +6876,7 @@ var $elm$core$Dict$merge = F6(
 	});
 var $elm$browser$Browser$Events$Event = F2(
 	function (key, event) {
-		return {ag: event, aq: key};
+		return {event: event, key: key};
 	});
 var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
 var $elm$browser$Browser$Events$spawn = F3(
@@ -6859,7 +6884,7 @@ var $elm$browser$Browser$Events$spawn = F3(
 		var node = _v0.a;
 		var name = _v0.b;
 		var actualNode = function () {
-			if (!node) {
+			if (node.$ === 'Document') {
 				return _Browser_doc;
 			} else {
 				return _Browser_window;
@@ -6926,7 +6951,7 @@ var $elm$browser$Browser$Events$onEffects = F3(
 			stepLeft,
 			stepBoth,
 			stepRight,
-			state.au,
+			state.pids,
 			$elm$core$Dict$fromList(newSubs),
 			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
 		var deadPids = _v0.a;
@@ -6955,7 +6980,7 @@ var $elm$browser$Browser$Events$onEffects = F3(
 var $elm$core$List$maybeCons = F3(
 	function (f, mx, xs) {
 		var _v0 = f(mx);
-		if (!_v0.$) {
+		if (_v0.$ === 'Just') {
 			var x = _v0.a;
 			return A2($elm$core$List$cons, x, xs);
 		} else {
@@ -6972,8 +6997,8 @@ var $elm$core$List$filterMap = F2(
 	});
 var $elm$browser$Browser$Events$onSelfMsg = F3(
 	function (router, _v0, state) {
-		var key = _v0.aq;
-		var event = _v0.ag;
+		var key = _v0.key;
+		var event = _v0.event;
 		var toMessage = function (_v2) {
 			var subKey = _v2.a;
 			var _v3 = _v2.b;
@@ -6982,7 +7007,7 @@ var $elm$browser$Browser$Events$onSelfMsg = F3(
 			var decoder = _v3.c;
 			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
 		};
-		var messages = A2($elm$core$List$filterMap, toMessage, state.aI);
+		var messages = A2($elm$core$List$filterMap, toMessage, state.subs);
 		return A2(
 			$elm$core$Task$andThen,
 			function (_v1) {
@@ -7015,7 +7040,7 @@ var $elm$browser$Browser$Events$on = F3(
 var $elm$browser$Browser$Events$onResize = function (func) {
 	return A3(
 		$elm$browser$Browser$Events$on,
-		1,
+		$elm$browser$Browser$Events$Window,
 		'resize',
 		A2(
 			$elm$json$Json$Decode$field,
@@ -7037,7 +7062,7 @@ var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $elm$url$Url$addPort = F2(
 	function (maybePort, starter) {
-		if (maybePort.$ === 1) {
+		if (maybePort.$ === 'Nothing') {
 			return starter;
 		} else {
 			var port_ = maybePort.a;
@@ -7046,7 +7071,7 @@ var $elm$url$Url$addPort = F2(
 	});
 var $elm$url$Url$addPrefixed = F3(
 	function (prefix, maybeSegment, starter) {
-		if (maybeSegment.$ === 1) {
+		if (maybeSegment.$ === 'Nothing') {
 			return starter;
 		} else {
 			var segment = maybeSegment.a;
@@ -7057,8 +7082,8 @@ var $elm$url$Url$addPrefixed = F3(
 	});
 var $elm$url$Url$toString = function (url) {
 	var http = function () {
-		var _v0 = url.az;
-		if (!_v0) {
+		var _v0 = url.protocol;
+		if (_v0.$ === 'Http') {
 			return 'http://';
 		} else {
 			return 'https://';
@@ -7067,34 +7092,34 @@ var $elm$url$Url$toString = function (url) {
 	return A3(
 		$elm$url$Url$addPrefixed,
 		'#',
-		url.aj,
+		url.fragment,
 		A3(
 			$elm$url$Url$addPrefixed,
 			'?',
-			url.aA,
+			url.query,
 			_Utils_ap(
 				A2(
 					$elm$url$Url$addPort,
-					url.av,
-					_Utils_ap(http, url.am)),
-				url.at)));
+					url.port_,
+					_Utils_ap(http, url.host)),
+				url.path)));
 };
 var $author$project$Header$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
-			case 0:
+			case 'MenuButtonClicked':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{y: !model.y}),
+						{isMenuOpen: !model.isMenuOpen}),
 					$elm$core$Platform$Cmd$none);
-			case 1:
+			case 'CloseNavMenu':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{y: false}),
+						{isMenuOpen: false}),
 					$elm$core$Platform$Cmd$none);
-			case 3:
+			case 'ViewportChanged':
 				return _Utils_Tuple2(
 					model,
 					A2($elm$core$Task$perform, $author$project$Header$ViewportSize, $elm$browser$Browser$Dom$getViewport));
@@ -7103,7 +7128,7 @@ var $author$project$Header$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{F: vp}),
+						{viewport: vp}),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
@@ -7127,20 +7152,20 @@ var $author$project$Page$MindstormArticle$updateWithModel = F4(
 			_Utils_update(
 				model,
 				{
-					z: toModel(subModel)
+					page: toModel(subModel)
 				}),
 			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
 	});
 var $author$project$Page$MindstormArticle$update = F2(
 	function (msg, model) {
-		var _v0 = _Utils_Tuple2(model.z, msg);
-		if (!_v0.a.$) {
+		var _v0 = _Utils_Tuple2(model.page, msg);
+		if (_v0.a.$ === 'LearningPage') {
 			var pageModel = _v0.a.a;
-			var subMsg = _v0.b;
+			var subMsg = _v0.b.a;
 			return A4(
 				$author$project$Page$MindstormArticle$updateWithModel,
 				$author$project$Page$MindstormArticle$LearningPage,
-				$elm$core$Basics$identity,
+				$author$project$Page$MindstormArticle$LearningMsg,
 				model,
 				A2($author$project$Mindstorms$Learning$update, subMsg, pageModel));
 		} else {
@@ -7171,18 +7196,18 @@ var $author$project$Page$ProjectArticle$updateWithModel = F4(
 			_Utils_update(
 				model,
 				{
-					z: toModel(subModel)
+					page: toModel(subModel)
 				}),
 			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
 	});
 var $author$project$Page$ProjectArticle$update = F2(
 	function (msg, model) {
-		var _v0 = _Utils_Tuple2(model.z, msg);
+		var _v0 = _Utils_Tuple2(model.page, msg);
 		_v0$3:
 		while (true) {
 			switch (_v0.b.$) {
-				case 0:
-					if (!_v0.a.$) {
+				case 'NeighborhoodMsg':
+					if (_v0.a.$ === 'Neighborhood') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
 						return A4(
@@ -7194,8 +7219,8 @@ var $author$project$Page$ProjectArticle$update = F2(
 					} else {
 						break _v0$3;
 					}
-				case 1:
-					if (_v0.a.$ === 1) {
+				case 'SymbolRecognitionMsg':
+					if (_v0.a.$ === 'SymbolRecognition') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
 						return A4(
@@ -7208,7 +7233,7 @@ var $author$project$Page$ProjectArticle$update = F2(
 						break _v0$3;
 					}
 				default:
-					if (_v0.a.$ === 2) {
+					if (_v0.a.$ === 'SailfishOS') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
 						return A4(
@@ -7236,18 +7261,18 @@ var $author$project$Main$updateWithModel = F4(
 			_Utils_update(
 				model,
 				{
-					z: toModel(subModel)
+					page: toModel(subModel)
 				}),
 			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
 	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		var _v0 = _Utils_Tuple2(model.z, msg);
+		var _v0 = _Utils_Tuple2(model.page, msg);
 		_v0$9:
 		while (true) {
 			switch (_v0.b.$) {
-				case 0:
-					if (_v0.a.$ === 1) {
+				case 'HomeMsg':
+					if (_v0.a.$ === 'HomePage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
 						return A4(
@@ -7259,8 +7284,8 @@ var $author$project$Main$update = F2(
 					} else {
 						break _v0$9;
 					}
-				case 1:
-					if (_v0.a.$ === 2) {
+				case 'MindstormsMsg':
+					if (_v0.a.$ === 'MindstormsPage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
 						return A4(
@@ -7272,8 +7297,8 @@ var $author$project$Main$update = F2(
 					} else {
 						break _v0$9;
 					}
-				case 2:
-					if (_v0.a.$ === 3) {
+				case 'MindstormArticleMsg':
+					if (_v0.a.$ === 'MindstormArticlePage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
 						return A4(
@@ -7285,8 +7310,8 @@ var $author$project$Main$update = F2(
 					} else {
 						break _v0$9;
 					}
-				case 3:
-					if (_v0.a.$ === 4) {
+				case 'ProjectsMsg':
+					if (_v0.a.$ === 'ProjectsPage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
 						return A4(
@@ -7298,8 +7323,8 @@ var $author$project$Main$update = F2(
 					} else {
 						break _v0$9;
 					}
-				case 4:
-					if (_v0.a.$ === 5) {
+				case 'ProjectArticleMsg':
+					if (_v0.a.$ === 'ProjectArticlePage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
 						return A4(
@@ -7311,8 +7336,8 @@ var $author$project$Main$update = F2(
 					} else {
 						break _v0$9;
 					}
-				case 5:
-					if (_v0.a.$ === 6) {
+				case 'AboutMsg':
+					if (_v0.a.$ === 'AboutPage') {
 						var pageModel = _v0.a.a;
 						var subMsg = _v0.b.a;
 						return A4(
@@ -7324,35 +7349,35 @@ var $author$project$Main$update = F2(
 					} else {
 						break _v0$9;
 					}
-				case 8:
+				case 'HeaderMsg':
 					var subMsg = _v0.b.a;
-					var _v1 = A2($author$project$Header$update, subMsg, model.H);
+					var _v1 = A2($author$project$Header$update, subMsg, model.headerModel);
 					var headerModel = _v1.a;
 					var subCmds = _v1.b;
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{H: headerModel}),
+							{headerModel: headerModel}),
 						A2($elm$core$Platform$Cmd$map, $author$project$Main$HeaderMsg, subCmds));
-				case 7:
+				case 'UrlChanged':
 					var url = _v0.b.a;
 					return $author$project$Main$initCurrentPage(
 						_Utils_Tuple2(
 							_Utils_update(
 								model,
 								{
-									J: $author$project$Route$Route$fromUrl(url)
+									route: $author$project$Route$Route$fromUrl(url)
 								}),
 							$elm$core$Platform$Cmd$none));
 				default:
 					var urlRequest = _v0.b.a;
-					if (!urlRequest.$) {
+					if (urlRequest.$ === 'Internal') {
 						var url = urlRequest.a;
 						return _Utils_Tuple2(
 							model,
 							A2(
 								$elm$browser$Browser$Navigation$pushUrl,
-								model.U,
+								model.navKey,
 								$elm$url$Url$toString(url)));
 					} else {
 						var url = urlRequest.a;
@@ -7376,10 +7401,10 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			$elm$json$Json$Encode$string(string));
 	});
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
-var $author$project$Header$CloseNavMenu = {$: 1};
+var $author$project$Header$CloseNavMenu = {$: 'CloseNavMenu'};
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 0, a: a};
+	return {$: 'Normal', a: a};
 };
 var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
 var $elm$html$Html$Events$on = F2(
@@ -7597,7 +7622,7 @@ var $author$project$Header$viewDesktopHeader = function (route) {
 				$author$project$Header$viewHeader(route)
 			]));
 };
-var $author$project$Header$MenuButtonClicked = {$: 0};
+var $author$project$Header$MenuButtonClicked = {$: 'MenuButtonClicked'};
 var $author$project$Header$viewMenuButton = A2(
 	$elm$html$Html$button,
 	_List_fromArray(
@@ -7628,12 +7653,12 @@ var $author$project$Header$viewMobileHeader = function (route) {
 };
 var $author$project$Header$view = F2(
 	function (route, _v0) {
-		var viewport = _v0.F;
-		var isMenuOpen = _v0.y;
+		var viewport = _v0.viewport;
+		var isMenuOpen = _v0.isMenuOpen;
 		if (isMenuOpen) {
 			return $author$project$Header$showMenu(route);
 		} else {
-			return (viewport.F._ > 650) ? $author$project$Header$viewDesktopHeader(route) : $author$project$Header$viewMobileHeader(route);
+			return (viewport.viewport.width > 650) ? $author$project$Header$viewDesktopHeader(route) : $author$project$Header$viewMobileHeader(route);
 		}
 	});
 var $author$project$Page$viewContent = F2(
@@ -7655,11 +7680,11 @@ var $author$project$Page$viewFooter = A2(
 		]),
 	_List_Nil);
 var $author$project$Page$view = function (_v0) {
-	var route = _v0.J;
-	var content = _v0.aS;
-	var header = _v0.aZ;
+	var route = _v0.route;
+	var content = _v0.content;
+	var header = _v0.header;
 	return {
-		aP: A2(
+		body: A2(
 			$elm$core$List$cons,
 			header,
 			A2(
@@ -7667,19 +7692,19 @@ var $author$project$Page$view = function (_v0) {
 				A2($author$project$Page$viewContent, content, route),
 				_List_fromArray(
 					[$author$project$Page$viewFooter]))),
-		R: 'Z Context'
+		title: 'Z Context'
 	};
 };
 var $author$project$Center$options = {
-	aU: $elm$core$Maybe$Nothing,
-	aY: $elm$core$Maybe$Just(
-		{aQ: false, bb: false}),
-	a7: false,
-	a9: false
+	defaultHighlighting: $elm$core$Maybe$Nothing,
+	githubFlavored: $elm$core$Maybe$Just(
+		{breaks: false, tables: false}),
+	sanitize: false,
+	smartypants: false
 };
 var $author$project$Page$About$text = '\n\nHi. \n\nThis is part of my point of view at a cross section of relative time.\n\nInterested in nothing specific and everything unspecified. Probably just a generalist.\n\nI like to read... and find language and symbols amusing.\n\n     \n';
 var $elm$core$Maybe$isJust = function (maybe) {
-	if (!maybe.$) {
+	if (maybe.$ === 'Just') {
 		return true;
 	} else {
 		return false;
@@ -7713,8 +7738,8 @@ var $author$project$Page$viewCardImage = function (image) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$class('card-image'),
-						$elm$html$Html$Attributes$src(image.aH),
-						$elm$html$Html$Attributes$alt(image.aV)
+						$elm$html$Html$Attributes$src(image.src),
+						$elm$html$Html$Attributes$alt(image.description)
 					]),
 				_List_Nil)
 			]));
@@ -7737,7 +7762,7 @@ var $author$project$Page$viewCardInfo = function (article) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text(article.R)
+						$elm$html$Html$text(article.title)
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -7747,7 +7772,7 @@ var $author$project$Page$viewCardInfo = function (article) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text(article.O)
+						$elm$html$Html$text(article.date)
 					]))
 			]));
 };
@@ -7757,11 +7782,11 @@ var $author$project$Page$viewCard = function (article) {
 		_List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('view-card'),
-				$elm$html$Html$Attributes$href(article.P)
+				$elm$html$Html$Attributes$href(article.href)
 			]),
 		_List_fromArray(
 			[
-				$author$project$Page$viewCardImage(article.Q),
+				$author$project$Page$viewCardImage(article.image),
 				$author$project$Page$viewCardInfo(article)
 			]));
 };
@@ -7775,28 +7800,28 @@ var $author$project$Page$viewCards = function (articles) {
 		A2($elm$core$List$map, $author$project$Page$viewCard, articles));
 };
 var $author$project$Page$Home$view = function (model) {
-	return $author$project$Page$viewCards(model.S);
+	return $author$project$Page$viewCards(model.articles);
 };
 var $author$project$Mindstorms$Learning$article = $author$project$Article$getArticle(
 	{
-		O: '18 Feb 2020',
-		P: 'mindstorms/learning',
-		Q: A2($author$project$Article$Image, '/img/turtle.png', 'Turtle'),
-		aJ: 'Just trying out what will happen',
-		aK: '',
-		R: 'Learning Article'
+		date: '18 Feb 2020',
+		href: 'mindstorms/learning',
+		image: A2($author$project$Article$Image, '/img/turtle.png', 'Turtle'),
+		subtitle: 'Just trying out what will happen',
+		summary: '',
+		title: 'Learning Article'
 	});
 var $author$project$Mindstorms$Learning$articleText = '\n\nThe eternal idea of knowledge.\n\n';
 var $author$project$Article$getDate = function (_v0) {
-	var date = _v0.O;
+	var date = _v0.a.date;
 	return date;
 };
 var $author$project$Article$getSubtitle = function (_v0) {
-	var subtitle = _v0.aJ;
+	var subtitle = _v0.a.subtitle;
 	return subtitle;
 };
 var $author$project$Article$getTitle = function (_v0) {
-	var title = _v0.R;
+	var title = _v0.a.title;
 	return title;
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
@@ -7901,8 +7926,8 @@ var $author$project$Page$viewNotFound = A2(
 				]))
 		]));
 var $author$project$Page$MindstormArticle$view = function (model) {
-	var _v0 = model.z;
-	if (_v0.$ === 1) {
+	var _v0 = model.page;
+	if (_v0.$ === 'NotFoundPage') {
 		return $author$project$Page$viewNotFound;
 	} else {
 		var pageModel = _v0.a;
@@ -7910,7 +7935,7 @@ var $author$project$Page$MindstormArticle$view = function (model) {
 	}
 };
 var $author$project$Page$Mindstorms$view = function (model) {
-	return $author$project$Page$viewCards(model.S);
+	return $author$project$Page$viewCards(model.articles);
 };
 var $author$project$Projects$NeighborhoodHere$articleText = '\n\n## Table of Contents\n\n* [About](#about)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n\n## About\n\nThe **Neighborhood-Here** project is Map app written in React and Redux. You can search different POI in the area and get basic information about them. The project emphasizes using React and Redux to build the application and the usage of third-party APIs (HereMapsAPI). \n\n## How to run it\n\n#### [Open the App Link](https://andyfv.github.io/neighborhood-map-here/)\n\n<br>\n\n```Or download/clone locally:```\n\n1) Download or Clone the repository\n\n2) Unzip the file if you have downloaded a ZIP\n\n3) Install dependencies using **npm**:\n\n        npm install\n\n4) Start the application:\n\n* The service worker is only enabled in the production environment, so if you want to use it build the project first. For more information check [Making a Progressive Web App](https://goo.gl/KwvDNy).\n\n        npm run build\n        npm install -g serve\n        serve -s build\n\n* Otherwise just start the server\n\n        npm start\n\n5) This will open new browser window/tab. If it doesn\'t navigate to:\n\n        http://localhost:3000/\n\n## How to use it\n\nOn the page you will see three main elements:\n\n* Map\n* Search Box\n* List\n\n![Page](/img/projects/neighborhood/desktop_800.jpg)\n\n* To view information about specific venue you can choose item either from the List or from the map Markers. The map will be centered on the opened InfoBubble for you.\n\n![POI](/img/projects/neighborhood/desktop_info_800.jpg)\n\n***\n\n* To search specific POI you are interested in just type in the Search Box and your results will update in both the **Map** and **List**\n\n<p align="center">\n    <img src="/img/projects/neighborhood/iphone5_results_200.jpg" width="200" alt="Search results on a phone">\n    <img src="/img/projects/neighborhood/iphone5_info_200.jpg" width="200" alt="InfoBubble on a phone">\n    <img src="/img/projects/neighborhood/iphone5_map_200.jpg" width="200" alt="Map results on a phone">\n</p>\n\n## Dependencies\n\n* redux\n* redux-thunk\n* react-redux\n* HereMapsAPI\n* PropTypes\n\n\n## TODO\n\n\n* If HTTP 503 error is given - send another request<br>\nSadly the HTTP 503 Error for ```Places API``` didn\'t go away by reducing the number of requests send.<br>\nAs per [Here Maps Places API Documentation](https://developer.here.com/documentation/places/topics/http-status-codes.html) :\n\n503 Service Unavailable Indicates that the service is temporarily unavailable due to system overload or maintenance.\n\n';
 var $author$project$Projects$NeighborhoodHere$articleBody = function (a) {
@@ -8685,14 +8710,14 @@ var $author$project$Projects$SymbolRecognition$view = function (model) {
 	return $author$project$Projects$SymbolRecognition$articleBody($author$project$Projects$SymbolRecognition$article);
 };
 var $author$project$Page$ProjectArticle$view = function (model) {
-	var _v0 = model.z;
+	var _v0 = model.page;
 	switch (_v0.$) {
-		case 3:
+		case 'NotFoundPage':
 			return $author$project$Page$viewNotFound;
-		case 0:
+		case 'Neighborhood':
 			var pageModel = _v0.a;
 			return $author$project$Projects$NeighborhoodHere$view(pageModel);
-		case 1:
+		case 'SymbolRecognition':
 			var pageModel = _v0.a;
 			return $author$project$Projects$SymbolRecognition$view(pageModel);
 		default:
@@ -8701,7 +8726,7 @@ var $author$project$Page$ProjectArticle$view = function (model) {
 	}
 };
 var $author$project$Page$Projects$view = function (model) {
-	return $author$project$Page$viewCards(model.S);
+	return $author$project$Page$viewCards(model.articles);
 };
 var $author$project$Main$view = function (model) {
 	var viewPage = F2(
@@ -8709,15 +8734,15 @@ var $author$project$Main$view = function (model) {
 			var header = A2(
 				$elm$html$Html$map,
 				$author$project$Main$HeaderMsg,
-				A2($author$project$Header$view, route, model.H));
-			var config = {aS: content, aZ: header, J: route};
+				A2($author$project$Header$view, route, model.headerModel));
+			var config = {content: content, header: header, route: route};
 			return $author$project$Page$view(config);
 		});
-	var _v0 = model.z;
+	var _v0 = model.page;
 	switch (_v0.$) {
-		case 0:
+		case 'NotFoundPage':
 			return A2(viewPage, $author$project$Route$Route$NotFound, $author$project$Page$viewNotFound);
-		case 1:
+		case 'HomePage':
 			var pageModel = _v0.a;
 			return A2(
 				viewPage,
@@ -8726,7 +8751,7 @@ var $author$project$Main$view = function (model) {
 					$elm$html$Html$map,
 					$author$project$Main$HomeMsg,
 					$author$project$Page$Home$view(pageModel)));
-		case 2:
+		case 'MindstormsPage':
 			var pageModel = _v0.a;
 			return A2(
 				viewPage,
@@ -8735,7 +8760,7 @@ var $author$project$Main$view = function (model) {
 					$elm$html$Html$map,
 					$author$project$Main$MindstormsMsg,
 					$author$project$Page$Mindstorms$view(pageModel)));
-		case 3:
+		case 'MindstormArticlePage':
 			var pageModel = _v0.a;
 			return A2(
 				viewPage,
@@ -8744,7 +8769,7 @@ var $author$project$Main$view = function (model) {
 					$elm$html$Html$map,
 					$author$project$Main$MindstormArticleMsg,
 					$author$project$Page$MindstormArticle$view(pageModel)));
-		case 4:
+		case 'ProjectsPage':
 			var pageModel = _v0.a;
 			return A2(
 				viewPage,
@@ -8753,7 +8778,7 @@ var $author$project$Main$view = function (model) {
 					$elm$html$Html$map,
 					$author$project$Main$ProjectsMsg,
 					$author$project$Page$Projects$view(pageModel)));
-		case 5:
+		case 'ProjectArticlePage':
 			var pageModel = _v0.a;
 			return A2(
 				viewPage,
@@ -8774,6 +8799,6 @@ var $author$project$Main$view = function (model) {
 	}
 };
 var $author$project$Main$main = $elm$browser$Browser$application(
-	{a0: $author$project$Main$init, a3: $author$project$Main$UrlChanged, a4: $author$project$Main$LinkClicked, ba: $author$project$Main$subscriptions, bc: $author$project$Main$update, bd: $author$project$Main$view});
+	{init: $author$project$Main$init, onUrlChange: $author$project$Main$UrlChanged, onUrlRequest: $author$project$Main$LinkClicked, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
