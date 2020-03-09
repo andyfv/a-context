@@ -127,22 +127,6 @@ img, embed, object, video {
 
 
 @media screen and (max-width: 650px) {
-    #menu-button {
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-    }
-
-    #menu-icon {
-        height: 42px;
-        margin: 5px;
-    }
-
-    #header-icon > img {
-        height: 42px;
-        margin: 5px 0px 0px 15px;
-    }
-
     .header {
         /* Position*/
         top: 0;
@@ -165,6 +149,57 @@ img, embed, object, video {
         justify-content: space-between;
     }
 
+    #menu {
+        top: 0;
+        bottom: 0;
+        z-index: 99;
+        height: calc(100% - 20px);
+        width: calc(100% - 20px);
+        position: fixed;
+        background-color: rgba(100, 100, 100, 0.8);
+        padding: 10px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+/*    #nav-links {
+        display: flex;
+        flex-direction: 
+    }*/
+
+    #menu-button {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+
+    #close-button {
+        width: 100%;
+        height: 48px;
+        line-height: 49px;
+        border-radius: 25px;
+        border: none;
+        max-width: 300px;
+        margin: 10px auto;
+        font-size: 24px;
+        font-weight: 100;
+        text-decoration: none;
+        color: #525252;
+        background-color: rgba(255,251,238, 1);
+    }
+
+    #menu-icon {
+        height: 42px;
+        margin: 5px;
+    }
+
+    #header-icon > img {
+        height: 42px;
+        margin: 5px 0px 0px 15px;
+    }
+
     #nav-links ul {
         padding: 0;
         overflow: hidden;
@@ -184,7 +219,6 @@ img, embed, object, video {
     }
 
     #nav-links li {
-        max-width: 300px;
         display: block;
         border-bottom: 1px solid grey;
     }
@@ -208,20 +242,6 @@ img, embed, object, video {
 
     .selected-nav-link {
         background-color: #FFAA00;
-    }
-
-    #menu {
-        top: 0;
-        bottom: 0;
-        z-index: 99;
-        height: 100%;
-        width: 100%;
-        position: fixed;
-        background-color: rgba(100, 100, 100, 0.8);
-
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
     }
 }
 

@@ -1,4 +1,4 @@
-module Header exposing (Model, Msg(..), init, update, view ,viewNavBar)
+module Header exposing (Model, Msg(..), init, update, view )
 
 import Task
 import Browser.Dom exposing (Viewport, getViewport)
@@ -39,6 +39,7 @@ init =
 
 type Msg
     = MenuButtonClicked
+    | CloseNavMenu
 
     -- VIEWPORT
     | ViewportSize Viewport
@@ -52,6 +53,9 @@ update msg model =
         MenuButtonClicked ->
             ({ model | isMenuOpen = not model.isMenuOpen }, Cmd.none)
 
+        CloseNavMenu ->
+            ({ model | isMenuOpen = False }, Cmd.none)
+
         ViewportChanged ->
             (model, Task.perform ViewportSize getViewport)
 
@@ -64,9 +68,13 @@ update msg model =
 
 view : Route -> Model -> Html Msg
 view route ({ viewport, isMenuOpen }) =
-    if viewport.viewport.width > 650 
-    then viewDesktopHeader route
-    else viewMobileHeader route
+    case isMenuOpen of
+        True ->
+            showMenu route
+        False ->
+            if viewport.viewport.width > 650 
+            then viewDesktopHeader route
+            else viewMobileHeader route
 
 
 -- MOBILE
@@ -75,11 +83,11 @@ viewMobileHeader : Route -> Html Msg
 viewMobileHeader route =
     div [ class "header" ]
         [ logo
-        , viewMenuButton route
+        , viewMenuButton
         ]
 
-viewMenuButton : Route -> Html Msg
-viewMenuButton route =
+viewMenuButton : Html Msg
+viewMenuButton =
     button 
         [ id "menu-button"
         , onClick MenuButtonClicked 
@@ -141,6 +149,23 @@ viewNavBar route =
 
 
 -- COMMON
+
+showMenu : Route -> Html Msg
+showMenu route =
+    div [ id "menu" ]
+        [ viewNavBar route
+        , viewCloseButton
+        ]
+
+viewCloseButton : Html Msg
+viewCloseButton =
+    button 
+        [ id "close-button"
+        , onClick CloseNavMenu
+        ]
+        [ text "Close"
+        ]
+
 
 viewLink : Route -> Route -> String -> String -> Html msg
 viewLink currentTab targetTab name link =

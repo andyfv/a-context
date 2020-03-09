@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Task
 import Url exposing (Url)
-import Html
+import Html 
 import Browser.Navigation as Nav
 import Browser.Events exposing (onResize)
 import Browser exposing (UrlRequest, Document)
@@ -139,7 +139,6 @@ view model =
                     { route = route
                     , content = content
                     , header = header
-                    , isMenuOpen = model.headerModel.isMenuOpen
                     }
             in
             Page.view config
@@ -202,7 +201,7 @@ update msg model =
             |> updateWithModel AboutPage AboutMsg model            
 
 
-        -- VIEWPORT
+        -- HEADER
         ( _ , HeaderMsg subMsg) ->
             let 
                 (headerModel, subCmds) = H.update subMsg model.headerModel
@@ -213,14 +212,8 @@ update msg model =
 
         -- URL UPDATES
         ( _ , UrlChanged url ) ->
-            let 
-                route = Route.fromUrl url
-                (headerModel, subCmds) = H.update H.MenuButtonClicked model.headerModel
-            in
             initCurrentPage 
-                ( { model | route = route
-                , headerModel = { headerModel | isMenuOpen = False } }
-                , Cmd.map HeaderMsg subCmds)
+                ( { model | route = Route.fromUrl url }, Cmd.none)
 
         ( _ , LinkClicked urlRequest ) ->
             case urlRequest of 

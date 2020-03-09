@@ -14,23 +14,21 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Route.Route exposing (Route(..))
 import Article exposing (Article, ArticleCard, Image)
-import Header exposing (viewNavBar)
 
 
 type alias Config msg =
     { route : Route
     , content : Html msg
     , header : Html msg
-    , isMenuOpen : Bool 
     }
 
 
 view : Config msg -> Browser.Document msg
-view ({ route, content, header, isMenuOpen }) = 
+view ({ route, content, header }) = 
     { title = "Z Context"
     , body = 
         header
-        :: viewContent content isMenuOpen route
+        :: viewContent content route
         :: [ viewFooter ]
     }
 
@@ -45,22 +43,10 @@ viewNotFound =
 
 {- CONTENT -}
 
-viewContent : Html msg -> Bool -> Route -> Html msg
-viewContent content isMenuOpen route =
-    if isMenuOpen == True then
-        div [ id "content" ]
-            [ content 
-            , showMenu route
-            ]
-    else 
+viewContent : Html msg -> Route -> Html msg
+viewContent content route =
         div [ id "content" ]
             [ content ]
-
-
-showMenu : Route -> Html msg
-showMenu route =
-    div [ id "menu" ]
-        [ viewNavBar route ]
 
 
 
