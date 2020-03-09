@@ -14,10 +14,7 @@ module Article exposing
     )
 
 
-import Browser
 import Html exposing (Html)
-import Url.Parser exposing (Parser, custom, string)
-import Markdown as Md exposing (..)
 
 
 type alias ArticleStructure =
