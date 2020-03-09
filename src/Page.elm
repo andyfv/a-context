@@ -10,30 +10,26 @@ module Page exposing
     )
 
 import Browser 
-import Browser.Dom exposing (Viewport, getViewport)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Route.Route exposing (Route(..))
 import Article exposing (Article, ArticleCard, Image)
-import Header exposing (..)
+import Header exposing (viewNavBar)
 
 
 type alias Config msg =
     { route : Route
     , content : Html msg
-    , headerModel : Header.Model
+    , header : Html msg
+    , isMenuOpen : Bool 
     }
 
 
---view : Route -> Html msg -> Viewport -> Browser.Document msg
 view : Config msg -> Browser.Document msg
-view ({ route, content, headerModel }) = 
-    let
-        isMenuOpen = headerModel.isMenuOpen
-    in
+view ({ route, content, header, isMenuOpen }) = 
     { title = "Z Context"
     , body = 
-        Header.view headerModel
+        header
         :: viewContent content isMenuOpen route
         :: [ viewFooter ]
     }

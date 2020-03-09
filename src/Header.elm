@@ -1,9 +1,10 @@
-module Header exposing (Model, Msg(..), init, update, view)
+module Header exposing (Model, Msg(..), init, update, view ,viewNavBar)
 
 import Task
 import Browser.Dom exposing (Viewport, getViewport)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 import Route.Route exposing (Route(..))
 
 
@@ -68,6 +69,27 @@ view route ({ viewport, isMenuOpen }) =
     else viewMobileHeader route
 
 
+-- MOBILE
+
+viewMobileHeader : Route -> Html Msg
+viewMobileHeader route =
+    div [ class "header" ]
+        [ logo
+        , viewMenuButton route
+        ]
+
+viewMenuButton : Route -> Html Msg
+viewMenuButton route =
+    button 
+        [ id "menu-button"
+        , onClick MenuButtonClicked 
+        ]
+        [ img [ src "/img/menu_icon_dark.svg", id "menu-icon" ] []
+        ]
+
+
+-- DESKTOP
+
 viewDesktopHeader : Route -> Html msg
 viewDesktopHeader route =
     div 
@@ -78,19 +100,6 @@ viewDesktopHeader route =
         ]
         [ viewHeader route ]
 
-
-viewMobileHeader : Route -> Html msg
-viewMobileHeader route =
-    div [ class "header" ]
-        [ logo
-        , viewMenuButton route
-        ]
-
-viewMenuButton : Route -> Html msg
-viewMenuButton route =
-    button [ id "menu-button" ]
-        [ img [ src "/img/menu_icon_dark.svg", id "menu-icon" ] []
-        ]
 
 viewHeader : Route -> Html msg
 viewHeader route = 
@@ -122,7 +131,7 @@ logo =
 viewNavBar : Route -> Html msg
 viewNavBar route =
     nav [ id "nav-links" ]
-        [ ol []
+        [ ul []
             [ viewLink route Home "Home" "/"
             , viewLink route Mindstorms "Mindstorms" "/mindstorms"
             , viewLink route Projects "Projects" "/projects"
@@ -131,6 +140,7 @@ viewNavBar route =
         ]
 
 
+-- COMMON
 
 viewLink : Route -> Route -> String -> String -> Html msg
 viewLink currentTab targetTab name link =

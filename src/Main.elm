@@ -2,12 +2,12 @@ module Main exposing (main)
 
 import Task
 import Url exposing (Url)
+import Html
 import Browser.Navigation as Nav
-import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events exposing (onResize)
 import Browser exposing (UrlRequest, Document)
 import Route.Route as Route exposing (Route)
-import Page as Page exposing (view, viewNotFound, Config)
+import Page as Page exposing (view, viewNotFound)
 import Header as H
 --
 import Page.Home as Home
@@ -59,10 +59,6 @@ type Msg
     | ProjectArticleMsg ProjectArticle.Msg
     | AboutMsg About.Msg
 
-    -- VIEWPORT
-    | ViewportSize Viewport
-    | ViewportChanged
-
     -- URL    
     | LinkClicked UrlRequest
     | UrlChanged Url
@@ -87,7 +83,7 @@ init : () -> Url -> Nav.Key -> (Model, Cmd Msg)
 init flags url navKey =
     let 
         route = Route.fromUrl url
-        (headerModel, headerCmds) = H.init route
+        (headerModel, headerCmds) = H.init
         model =
             { route = route
             , page = NotFoundPage
@@ -136,13 +132,14 @@ initCurrentPage (model, existingCmds) =
 view : Model -> Document Msg
 view model =
     let 
-        --_ = Debug.log "viewport" model.headerModel
         viewPage route content =
             let 
+                header = Html.map HeaderMsg (H.view route model.headerModel)
                 config = 
                     { route = route
                     , content = content
-                    , headerModel = model.headerModel
+                    , header = header
+                    , isMenuOpen = model.headerModel.isMenuOpen
                     }
             in
             Page.view config
@@ -220,10 +217,12 @@ update msg model =
         ( _ , UrlChanged url ) ->
             let 
                 route = Route.fromUrl url
-                headerModel = model.headerModel
+                (headerModel, subCmds) = H.update H.MenuButtonClicked model.headerModel
             in
             initCurrentPage 
-                ({ model | route = route, headerModel = { headerModel | route = route } }, Cmd.none )
+                ( { model | route = route
+                , headerModel = { headerModel | isMenuOpen = False } }
+                , Cmd.map HeaderMsg subCmds)
 
         ( _ , LinkClicked urlRequest ) ->
             case urlRequest of 
