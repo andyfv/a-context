@@ -16,7 +16,8 @@ type alias Model =
 init : (Model, Cmd Msg)
 init =
     ( { articles = 
-        [ Article.getCard Learning.article
+        [ 
+        --Article.getCard Learning.article
         ]
       }
     , Cmd.none
