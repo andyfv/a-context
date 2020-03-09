@@ -146,32 +146,30 @@ view model =
     in
     case model.page of
         NotFoundPage ->
-            --Page.view Route.NotFound Page.viewNotFound model.viewport
             viewPage Route.NotFound Page.viewNotFound
 
         HomePage pageModel ->
-            --Page.view Route.Home (Home.view pageModel) model.viewport
-            viewPage Route.Home (Home.view pageModel)
+            Html.map HomeMsg (Home.view pageModel)
+            |> viewPage Route.Home 
 
         MindstormsPage pageModel -> 
-            --Page.view Route.Mindstorms (Mindstorms.view pageModel) model.viewport
-            viewPage Route.Mindstorms (Mindstorms.view pageModel)
+            Html.map MindstormsMsg (Mindstorms.view pageModel)
+            |> viewPage Route.Mindstorms 
 
         MindstormArticlePage pageModel ->
-            --Page.view Route.Mindstorms (MindstormArticle.view pageModel) model.viewport
-            viewPage Route.Mindstorms (MindstormArticle.view pageModel)
+            Html.map MindstormArticleMsg (MindstormArticle.view pageModel)
+            |> viewPage Route.Mindstorms 
 
         ProjectsPage pageModel ->
-            --Page.view Route.Projects (Projects.view pageModel) model.viewport
-            viewPage Route.Projects (Projects.view pageModel)
+            Html.map ProjectsMsg (Projects.view pageModel)
+            |> viewPage Route.Projects
 
         ProjectArticlePage pageModel ->
-            --Page.view Route.Projects (ProjectArticle.view pageModel) model.viewport
-            viewPage Route.Projects (ProjectArticle.view pageModel)
+            Html.map ProjectArticleMsg (ProjectArticle.view pageModel)
+            |> viewPage Route.Projects 
 
         AboutPage pageModel ->
-            --Page.view Route.About (About.view pageModel) model.viewport
-            viewPage Route.About (About.view pageModel)
+            Html.map AboutMsg (About.view pageModel) |> viewPage Route.About 
 
 
 -- UPDATE
