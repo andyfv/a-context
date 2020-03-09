@@ -10,19 +10,16 @@ import Route.Route exposing (Route(..))
 
 -- MODEL
 
-
 type alias Model =
-    { route : Route
-    , viewport : Viewport
+    { viewport : Viewport
     , isMenuOpen : Bool
     }
 
 
-init : Route -> (Model, Cmd Msg)
-init route =
+init : (Model, Cmd Msg)
+init =
     (
-    { route = route
-    , viewport = 
+    { viewport = 
         { scene = { width = toFloat 0, height = toFloat 0 }
         , viewport = 
             { x = toFloat 0
@@ -39,7 +36,6 @@ init route =
 
 -- UPDATE
 
-
 type Msg
     = MenuButtonClicked
 
@@ -48,17 +44,12 @@ type Msg
     | ViewportChanged
 
 
+
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-    let 
-        _ = Debug.log "model" model 
-    in
     case msg of
         MenuButtonClicked ->
-            let 
-                _ = Debug.log "menuButton" "clicked"
-            in
-            (model, Cmd.none)
+            ({ model | isMenuOpen = not model.isMenuOpen }, Cmd.none)
 
         ViewportChanged ->
             (model, Task.perform ViewportSize getViewport)
@@ -70,8 +61,8 @@ update msg model =
 
 -- VIEW
 
-view : Model -> Html msg
-view ({ route, viewport, isMenuOpen }) =
+view : Route -> Model -> Html Msg
+view route ({ viewport, isMenuOpen }) =
     if viewport.viewport.width > 650 
     then viewDesktopHeader route
     else viewMobileHeader route
