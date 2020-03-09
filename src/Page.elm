@@ -6,55 +6,82 @@ module Page exposing
     , viewCard
     , viewCardImage
     , viewCardInfo
+    , Config
     )
 
 import Browser 
-import Browser.Dom exposing (Viewport)
+import Browser.Dom exposing (Viewport, getViewport)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Route.Route exposing (Route(..))
 import Article exposing (Article, ArticleCard, Image)
-import Center
+import Header exposing (..)
 
 
-view : Route -> Html msg -> Browser.Document msg
-view page content = 
-    { title = "Z Context"
-    , body = viewHeaderWrapper page :: viewContent content :: [ viewFooter ]
+type alias Config msg =
+    { route : Route
+    , content : Html msg
+    , headerModel : Header.Model
     }
 
 
-viewNotFound : Browser.Document msg
-viewNotFound =
+--view : Route -> Html msg -> Viewport -> Browser.Document msg
+view : Config msg -> Browser.Document msg
+view ({ route, content, headerModel }) = 
+    let
+        isMenuOpen = headerModel.isMenuOpen
+    in
     { title = "Z Context"
     , body = 
-            [ div [ id "page-not-found" ] 
-                [ h1 [] [ text "Page Not Found"] 
-                , a [ href "/" ] [ text "Go to Home Page"]
-                ]
-            ]
+        Header.view headerModel
+        :: viewContent content isMenuOpen route
+        :: [ viewFooter ]
     }
+
+
+viewNotFound : Html msg
+viewNotFound =
+    div [ id "page-not-found" ] 
+        [ h1 [] [ text "Page Not Found"] 
+        , a [ href "/" ] [ text "Go to Home Page"]
+        ]
 
 
 
 {- HEADER -}
 
-viewHeaderWrapper : Route -> Html msg
-viewHeaderWrapper page =
-    div 
-        [ classList 
-            [ ("header-wrapper", True)
-            , ("header-bg-scroll", True)
-            ] 
-        ]
-        [ viewHeader page ]
+viewHeaderWrapper : Route -> Viewport -> Html msg
+viewHeaderWrapper route viewport =
+    if viewport.viewport.width > 650 then
+        div 
+            [ classList 
+                [ ("header-wrapper", True)
+                , ("header-bg-scroll", True)
+                ] 
+            ]
+            [ viewHeader route ]
+    else 
+        viewMobileHeader route
 
+
+viewMobileHeader : Route -> Html msg
+viewMobileHeader route =
+    div [ class "header" ]
+        [ logo
+        , viewMenuButton route
+        ]
+
+viewMenuButton : Route -> Html msg
+viewMenuButton route =
+    button [ id "menu-button" ] 
+        [ img [ src "/img/menu_icon_dark.svg", id "menu-icon" ] []
+        ]
 
 viewHeader : Route -> Html msg
-viewHeader page = 
+viewHeader route = 
     div [ class "header"] 
         [ logo
-        , viewNavBar page
+        , viewNavBar route
         ]
 
 
@@ -78,13 +105,13 @@ logo =
 
 
 viewNavBar : Route -> Html msg
-viewNavBar page =
+viewNavBar route =
     nav [ id "nav-links" ]
         [ ol []
-            [ viewLink page Home "Home" "/"
-            , viewLink page Mindstorms "Mindstorms" "/mindstorms"
-            , viewLink page Projects "Projects" "/projects"
-            , viewLink page About "About" "/about"
+            [ viewLink route Home "Home" "/"
+            , viewLink route Mindstorms "Mindstorms" "/mindstorms"
+            , viewLink route Projects "Projects" "/projects"
+            , viewLink route About "About" "/about"
             ]
         ]
 
@@ -105,10 +132,23 @@ viewLink currentTab targetTab name link =
 
 {- CONTENT -}
 
-viewContent : Html msg -> Html msg
-viewContent content =
-    div [ id "content"]
-        [ content ]
+viewContent : Html msg -> Bool -> Route -> Html msg
+viewContent content isMenuOpen route =
+    if isMenuOpen == True then
+        div [ id "content" ]
+            [ content 
+            , showMenu route
+            ]
+    else 
+        div [ id "content" ]
+            [ content ]
+
+
+showMenu : Route -> Html msg
+showMenu route =
+    div [ id "menu" ]
+        [ viewNavBar route ]
+
 
 
 viewCards :  List ArticleCard -> Html msg
@@ -155,7 +195,6 @@ viewArticle article =
         [ h1 [] [ text (Article.getTitle article) ]
         , h3 [] [ text (Article.getSubtitle article) ]
         , h5 [] [ text (Article.getDate article) ]
-        --, Center.markdown "800px" articleText 
         ]
 
 

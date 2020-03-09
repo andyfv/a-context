@@ -1,19 +1,25 @@
 module Main exposing (main)
 
-import Html exposing (..)
-import Browser exposing (UrlRequest, Document)
-import Browser.Navigation as Nav
-import Route.Route as Route exposing (Route)
+import Task
 import Url exposing (Url)
+import Browser.Navigation as Nav
+import Browser.Dom exposing (Viewport, getViewport)
+import Browser.Events exposing (onResize)
+import Browser exposing (UrlRequest, Document)
+import Route.Route as Route exposing (Route)
+import Page as Page exposing (view, viewNotFound, Config)
+import Header as H
+--
 import Page.Home as Home
 import Page.Mindstorms as Mindstorms
 import Page.MindstormArticle as MindstormArticle
 import Page.Projects as Projects
 import Page.ProjectArticle as ProjectArticle
 import Page.About as About
-import Page as Page exposing (view, viewNotFound)
 
 
+
+-- MAIN
 
 main : Program () Model Msg
 main =
@@ -21,19 +27,18 @@ main =
         { init = init 
         , view = view
         , update = update 
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         , onUrlRequest =  LinkClicked
         , onUrlChange = UrlChanged
         }
-
 
 
 type alias Model =
     { route : Route 
     , page : Page
     , navKey : Nav.Key
+    , headerModel : H.Model
     }
-
 
 
 type Page 
@@ -46,7 +51,6 @@ type Page
     | AboutPage About.Model
 
 
-
 type Msg
     = HomeMsg Home.Msg
     | MindstormsMsg Mindstorms.Msg
@@ -55,23 +59,43 @@ type Msg
     | ProjectArticleMsg ProjectArticle.Msg
     | AboutMsg About.Msg
 
+    -- VIEWPORT
+    | ViewportSize Viewport
+    | ViewportChanged
+
     -- URL    
     | LinkClicked UrlRequest
     | UrlChanged Url
+
+    -- HEADER
+    | HeaderMsg H.Msg
+
+
+
+-- SUBSCRIPTIONS
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    onResize  
+        (\_ _ -> HeaderMsg H.ViewportChanged )
+
 
 
 -- INIT
 
 init : () -> Url -> Nav.Key -> (Model, Cmd Msg)
-init _ url navKey =
+init flags url navKey =
     let 
+        route = Route.fromUrl url
+        (headerModel, headerCmds) = H.init route
         model =
-            { route = Route.fromUrl url
+            { route = route
             , page = NotFoundPage
             , navKey = navKey
+            , headerModel = headerModel
             }
     in
-    initCurrentPage (model, Cmd.none)
+    initCurrentPage (model, Cmd.batch [ Cmd.map HeaderMsg headerCmds ])
 
 
 initCurrentPage : (Model, Cmd Msg) -> (Model, Cmd Msg)
@@ -182,13 +206,24 @@ update msg model =
             (About.update subMsg pageModel)
             |> updateWithModel AboutPage AboutMsg model            
 
+
+        -- VIEWPORT
+        ( _ , HeaderMsg subMsg) ->
+            let 
+                (headerModel, subCmds) = H.update subMsg model.headerModel
+            in
+            ( { model | headerModel = headerModel }
+            , Cmd.map HeaderMsg subCmds)
+
+
         -- URL UPDATES
         ( _ , UrlChanged url ) ->
-            let
-                newRoute = Route.fromUrl url
+            let 
+                route = Route.fromUrl url
+                headerModel = model.headerModel
             in
-            ( { model | route = newRoute }, Cmd.none )
-                |> initCurrentPage
+            initCurrentPage 
+                ({ model | route = route, headerModel = { headerModel | route = route } }, Cmd.none )
 
         ( _ , LinkClicked urlRequest ) ->
             case urlRequest of 
