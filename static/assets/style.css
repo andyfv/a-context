@@ -35,6 +35,39 @@ img, embed, object, video {
         flex-direction: row;
         justify-content: space-between;
     }
+
+
+    #nav-links > ul {
+        min-width: 400px;
+        display : flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 12px 12px 0 0;
+        /**/
+        counter-reset: none;
+        list-style-type: none;
+    }
+
+    #nav-links a {
+        height: 48px;
+        padding-left: 10px;
+        padding-right: 10px;
+        display: inline-block;
+        margin-left: 15px;
+        line-height: 49px;
+
+        /* Fonts: */
+        font-size: 24px;
+        font-weight: 100;
+        text-decoration: none;
+        color: rgb(77, 72, 71);
+    }
+
+    .selected-nav-link {
+        box-shadow: inset 0px 0px 4px -1px rgba(0,0,0,0.9);
+        background-color: rgb(255, 250, 240);
+        border-radius: 6px;
+    }
 }
 
 
@@ -57,6 +90,38 @@ img, embed, object, video {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+    }
+
+    #nav-links > ul {
+        min-width: 400px;
+        display : flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 12px 12px 0 0;
+        /**/
+        counter-reset: none;
+        list-style-type: none;
+    }
+
+    #nav-links a {
+        height: 48px;
+        padding-left: 10px;
+        padding-right: 10px;
+        display: inline-block;
+        margin-left: 15px;
+        line-height: 49px;
+
+        /* Fonts: */
+        font-size: 24px;
+        font-weight: 100;
+        text-decoration: none;
+        color: rgb(77, 72, 71);
+    }
+
+    .selected-nav-link {
+        box-shadow: inset 0px 0px 4px -1px rgba(0,0,0,0.9);
+        background-color: rgb(255, 250, 240);
+        border-radius: 6px;
     }
 }
 
@@ -99,6 +164,65 @@ img, embed, object, video {
         flex-direction: row;
         justify-content: space-between;
     }
+
+    #nav-links ul {
+        padding: 0;
+        overflow: hidden;
+        margin: 10px auto;
+        max-width: 300px;
+        border-radius: 25px;
+        background-color: rgba(255,251,238, 1);
+        display : flex;
+        flex-direction: column-reverse;
+        /**/
+        counter-reset: none;
+        list-style-type: none;
+    }
+
+    #nav-links ul li:first-child {
+        border-bottom: none;
+    }
+
+    #nav-links li {
+        max-width: 300px;
+        display: block;
+        border-bottom: 1px solid grey;
+    }
+
+    #nav-links a {
+        height: 48px;
+        padding-left: 10px;
+        padding-right: 10px;
+        display: block;
+        line-height: 49px;
+        margin: auto;
+        text-align: center;
+
+        /* Fonts: */
+        font-size: 24px;
+        font-weight: 100;
+        text-decoration: none;
+        color: #525252;
+    }
+
+
+    .selected-nav-link {
+        background-color: #FFAA00;
+    }
+
+    #menu {
+        top: 0;
+        bottom: 0;
+        z-index: 99;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        background-color: rgba(100, 100, 100, 0.8);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
 }
 
 
@@ -114,58 +238,6 @@ img, embed, object, video {
 
 .header-bg-scroll {
     background-color: rgba(127, 158, 131, 0.9);
-}
-
-/*.header {
-    height : 72px;
-    max-width : 800px;
-    margin: 0 auto;
-    border-radius: 10px;
-    background-color: rgb(255, 192, 0);
-    box-shadow: 0px 1px 5px -2px rgba(0,0,0,0.75);
-    --moz-box-shadow: 0px 1px 5px -2px rgba(0,0,0,0.75);
-    --webkit-box-shadow: 0px 1px 5px -2px rgba(0,0,0,0.75);
- 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-*/
-#nav-links > ol {
-    min-width: 400px;
-    display : flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 12px 12px 0 0;
-    /**/
-    counter-reset: none;
-    list-style-type: none;
-}
-
-/*#nav-links span {
-    line-height: 480px;
-}
-*/
-
-#nav-links a {
-    height: 48px;
-    padding-left: 10px;
-    padding-right: 10px;
-    display: inline-block;
-    margin-left: 15px;
-    line-height: 49px;
-
-    /* Fonts: */
-    font-size: 24px;
-    font-weight: 100;
-    text-decoration: none;
-    color: rgb(77, 72, 71);
-}
-
-.selected-nav-link {
-    box-shadow: inset 0px 0px 4px -1px rgba(0,0,0,0.9);
-    background-color: rgb(255, 250, 240);
-    border-radius: 6px;
 }
 
 
