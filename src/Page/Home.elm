@@ -1,9 +1,8 @@
 module Page.Home exposing (Model, Msg, view, init, update)
 
-import Browser
-import Route.Route exposing (Route)
+import Html exposing (Html)
 import Article exposing (Article, ArticleCard, Image)
-import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
+import Page exposing (viewCards)
 
 import Projects.NeighborhoodHere as NH exposing (..)
 import Projects.SymbolRecognition as SR exposing (..)
@@ -50,6 +49,6 @@ update msg model =
 -- VIEW
 
 
-view : Route -> Model -> Browser.Document msg
-view route model =
-    Page.view route (viewCards model.articles)
+view : Model -> Html msg
+view model  =
+    viewCards model.articles

@@ -1,12 +1,9 @@
 module Page.About exposing (Model, Msg, view, init, update)
 
-import Browser
 import Center
 import Markdown
 import Html exposing (Html, div)
 import Html.Attributes exposing (id)
-import Route.Route exposing (Route(..))
-import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
 
 -- MODEL
 
@@ -37,9 +34,9 @@ update msg model =
 -- VIEW
 
 
-view : Route -> Model -> Browser.Document msg
-view route model =
-    Page.view route info
+view : Model -> Html msg
+view model =
+    info
 
 
 info : Html msg

@@ -3,7 +3,6 @@ module Route.Route exposing (Route(..), fromUrl)
 import Url exposing (Url)
 import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
 import Browser.Navigation as Nav
---import Article as Article exposing (..)
 
 
 type Route

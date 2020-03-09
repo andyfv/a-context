@@ -1,14 +1,9 @@
 module Projects.SymbolRecognition exposing (Model, Msg, view, init, update, article)
 
-import Browser
 import Center
-import Markdown
 import Article exposing (..)
 import Html exposing (Html, div, h1, h3, h4, h5, text, hr)
 import Html.Attributes exposing (id, class)
-import Page as Page
-import Route.Route exposing (Route(..))
-
 
 -- MODEL
 
@@ -52,9 +47,8 @@ update msg model =
 -- VIEW
 
 
-view : Route -> Model -> Browser.Document msg
-view route model = Page.view route (articleBody article)
---view route model = Page.view Route.Mindstorms (Page.viewArticle article articleBody)
+view : Model -> Html msg
+view model = articleBody article
 
 
 articleBody : Article -> Html msg

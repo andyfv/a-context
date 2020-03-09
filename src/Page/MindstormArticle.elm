@@ -1,12 +1,12 @@
 module Page.MindstormArticle exposing (Model, Msg, view, init, update)
 
 
-import Browser
+import Html exposing (Html)
 import Article exposing (Article, ArticleCard, Image)
-import Mindstorms.Learning as Learning exposing (..)
-import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
-import Route.Route as Route exposing (Route)
+import Page exposing (viewNotFound)
 import Route.MindstormsRoute as MindstormsRoute exposing (MindstormsRoute, fromString)
+
+import Mindstorms.Learning as Learning exposing (..)
 
 
 -- MODEL
@@ -60,15 +60,14 @@ initCurrentPage (model, existingCmds) =
 
 -- VIEW
 
-view : Model -> Browser.Document msg
+view : Model -> Html msg
 view model =
     case model.page of
         NotFoundPage ->
             Page.viewNotFound
 
         LearningPage pageModel ->
-            Learning.view Route.Mindstorms pageModel
-
+            Learning.view pageModel
 
 
 
@@ -86,7 +85,7 @@ update msg model =
             ( model, Cmd.none )
 
 
--- 
+------
 updateWith : (subModel -> MindstormPage) -> (subMsg -> Msg) -> (subModel, Cmd subMsg) -> (MindstormPage, Cmd Msg)
 updateWith toModel toMsg (subModel, subCmd) =
     (toModel subModel, Cmd.map toMsg subCmd)

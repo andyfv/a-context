@@ -1,14 +1,9 @@
 module Projects.SailfishOS exposing (Model, Msg, view, init, update, article)
 
-import Browser
-import Center
-import Markdown
-import Article exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Page as Page
-import Route.Route exposing (Route(..))
-
+import Article exposing (..)
+import Center
 
 -- MODEL
 
@@ -52,9 +47,8 @@ update msg model =
 -- VIEW
 
 
-view : Route -> Model -> Browser.Document msg
-view route model = Page.view route (articleBody article)
---view route model = Page.view Route.Mindstorms (Page.viewArticle article articleBody)
+view : Model -> Html msg
+view model = articleBody article
 
 
 articleBody : Article -> Html msg
@@ -421,7 +415,7 @@ highlightColor str color =
         [ style "background-color" color
         , style "border-radius" "4px"
         , style "padding" "2px 2px 1px 2px"
-        , style "font-weight" "ligther"
+        , style "font-weigth" "ligther"
         , style "font-size" "0.85em"
         , style "color" "white"
         , style "-webkit-box-shadow" "0px 1px 2px 0px rgba(0,0,0,0.75)"

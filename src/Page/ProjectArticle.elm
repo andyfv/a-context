@@ -1,10 +1,9 @@
 module Page.ProjectArticle exposing (Model, Msg, view, init, update)
 
 
-import Browser
+import Html exposing (Html)
 import Article exposing (Article, ArticleCard, Image)
-import Page as Page exposing (viewCards, viewCard, viewCardImage, viewCardInfo)
-import Route.Route as Route exposing (Route)
+import Page exposing (viewNotFound)
 import Route.ProjectsRoute as ProjectsRoute exposing (..)
 
 import Projects.NeighborhoodHere as NH exposing (..)
@@ -81,23 +80,20 @@ updateWith toModel toMsg (subModel, subCmd) =
 
 -- VIEW
 
-view : Model -> Browser.Document msg
+view : Model -> Html msg
 view model =
-    let 
-        route = Route.Projects
-    in
     case model.page of
         NotFoundPage ->
             Page.viewNotFound
 
         Neighborhood pageModel ->
-            NH.view route pageModel
+            NH.view pageModel
 
         SymbolRecognition pageModel ->
-            SR.view route pageModel
+            SR.view pageModel
 
         SailfishOS pageModel ->
-            SOS.view route pageModel
+            SOS.view pageModel
 
 
 
