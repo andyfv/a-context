@@ -5374,6 +5374,33 @@ var $elm$url$Url$Parser$State = F5(
 	function (visited, unvisited, params, frag, value) {
 		return {frag: frag, params: params, unvisited: unvisited, value: value, visited: visited};
 	});
+var $elm$url$Url$Parser$s = function (str) {
+	return $elm$url$Url$Parser$Parser(
+		function (_v0) {
+			var visited = _v0.visited;
+			var unvisited = _v0.unvisited;
+			var params = _v0.params;
+			var frag = _v0.frag;
+			var value = _v0.value;
+			if (!unvisited.b) {
+				return _List_Nil;
+			} else {
+				var next = unvisited.a;
+				var rest = unvisited.b;
+				return _Utils_eq(next, str) ? _List_fromArray(
+					[
+						A5(
+						$elm$url$Url$Parser$State,
+						A2($elm$core$List$cons, next, visited),
+						rest,
+						params,
+						frag,
+						value)
+					]) : _List_Nil;
+			}
+		});
+};
+var $author$project$Route$Route$gitHubBase = $elm$url$Url$Parser$s('z-context');
 var $elm$url$Url$Parser$mapState = F2(
 	function (func, _v0) {
 		var visited = _v0.visited;
@@ -5432,32 +5459,6 @@ var $elm$url$Url$Parser$oneOf = function (parsers) {
 					return parser(state);
 				},
 				parsers);
-		});
-};
-var $elm$url$Url$Parser$s = function (str) {
-	return $elm$url$Url$Parser$Parser(
-		function (_v0) {
-			var visited = _v0.visited;
-			var unvisited = _v0.unvisited;
-			var params = _v0.params;
-			var frag = _v0.frag;
-			var value = _v0.value;
-			if (!unvisited.b) {
-				return _List_Nil;
-			} else {
-				var next = unvisited.a;
-				var rest = unvisited.b;
-				return _Utils_eq(next, str) ? _List_fromArray(
-					[
-						A5(
-						$elm$url$Url$Parser$State,
-						A2($elm$core$List$cons, next, visited),
-						rest,
-						params,
-						frag,
-						value)
-					]) : _List_Nil;
-			}
 		});
 };
 var $elm$url$Url$Parser$slash = F2(
@@ -5520,14 +5521,14 @@ var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 			$author$project$Route$Route$Mindstorms,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$elm$url$Url$Parser$s('z-context'),
+				$author$project$Route$Route$gitHubBase,
 				$elm$url$Url$Parser$s('mindstorms'))),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$MindstormArticle,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$elm$url$Url$Parser$s('z-context'),
+				$author$project$Route$Route$gitHubBase,
 				A2(
 					$elm$url$Url$Parser$slash,
 					$elm$url$Url$Parser$s('mindstorms'),
@@ -5537,14 +5538,14 @@ var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 			$author$project$Route$Route$Projects,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$elm$url$Url$Parser$s('z-context'),
+				$author$project$Route$Route$gitHubBase,
 				$elm$url$Url$Parser$s('projects'))),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$ProjectsArticle,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$elm$url$Url$Parser$s('z-context'),
+				$author$project$Route$Route$gitHubBase,
 				A2(
 					$elm$url$Url$Parser$slash,
 					$elm$url$Url$Parser$s('projects'),
@@ -5554,7 +5555,7 @@ var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 			$author$project$Route$Route$About,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$elm$url$Url$Parser$s('z-context'),
+				$author$project$Route$Route$gitHubBase,
 				$elm$url$Url$Parser$s('about')))
 		]));
 var $elm$url$Url$Parser$getFirstMatch = function (states) {
@@ -8674,7 +8675,7 @@ var $author$project$Projects$SailfishOS$articleBody = function (a) {
 var $author$project$Projects$SailfishOS$view = function (model) {
 	return $author$project$Projects$SailfishOS$articleBody($author$project$Projects$SailfishOS$article);
 };
-var $author$project$Projects$SymbolRecognition$articleText = '\n\n# Symbol Recognition\n\n## Table Of Contents\n \n* [About](#about)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n* [Issues](#issues)\n\n\n## About\n\nThe **Symbol Recognition** project is Web app written in Elm. \nYou can handwrite symbols (the letters from A-Z and numbers 1-9) on\nthe canvas and get it recognized. Second point of the project is to use the time-sequenced\n symbol recognition for gesture navigation UI .The project is inspired by one of the most \nproductive studies in HCI - The [GRAIL/BIOMOD system](https://www.youtube.com/watch?v=2Cq8S3jzJiQ).\n\n![GRAIL System](./img/projects/symbol-rec/GRAIL_system.png)\n\nThe [text recognition scheme (_Real-Time Recognition of Handprinted Text_, 1966)](https://www.rand.org/pubs/research_memoranda/RM5016.html) was designed and implemented mainly by Garbriel F. Groner to permit an on-line computer user \nto print text naturally and have it recognized accurately. The original scheme was able to recognize a set of\n53 symbols entered with the help of the RAND tablet with its pen as input device.\nRecognition of the symbols was done as analysis of the data in a time-sequenced matter, \nwith a series of test to identify a specific symbol:\n\n<br>\n\n#### 1) Getting Raw Data\n        \nOriginally, pressing the pen against the tablet  surface activated\nthe symbol recognition scheme by indicating the start of a stroke.\nAs the pen was moved data-points were added to the stroke. And finally \nwhen the pen was lifted the recognition scheme was notified that the \nstroke is complete. Next is the series of data analysis of the stroke.\n\n#### 2) Smoothing \n\nAs taken from _Real-Time Recognition of Handprinted Text (Groner, 1966)_ :\n\n"The scheme smooths the data by averaging a newly arrived data-point with the \npreviously smoothed data-point, thus reducing the noise due to discreteness of the pen\nlocation as measured by the tablet. Smoothing is based on the equations"\n\n\n#### 3) Thinning\n\n"Thinning is the process of removing some of the data-points from the pen track.\nThis is accomplished by comparing the position of a new smoothed data-point with the\nposition of the last point in a thinned track. If these points are sufficiently apart,\nthe analysis scheme accepts the smoothed points as part of the thinned track; otherwise, \nit is discarded. Thinning eliminates small perturbation in the track, and reduces \nthe data processing requirements by drastically reducing (by a factor of seven or so) \nthe number of data-points."\n          \n          \n#### 4) Curvature\n\nThis test assigned a *direction* to each point so the stroke/symbol can be represented by \na sequence of directions - eg. UP, DOWN, UP, LEFT which results in the letter A. \n\n"If the same direction occurs twice in succession, and it is not the same as the last \ndirection listed in the sequence, then it is added to the list; otherwise it is discarded." \n\n\n#### 5) Corner Detection\n\nA corner is detected whenever the pen is moves in the same direction for at least \ntwo segments, changes direction by at least 90°, and \nthen proceeds along the new direction for at least two segments.\n\n#### 6) Additional features (Partially implemented, but not used yet)\n\nIn this implementation the Start and End positions of a stroke are stored for\nfurther testing in the decision process of the recognition.\n\nAdditional features were used in the original, such as the size, position and ratio of the stroke.\n\n\n## How to run it\n\n#### [Open the Link](https://andyfv.github.io/symbol-recognition/)\n\n```Or download/clone locally:```\n\n1) Download or Clone the repository\n\n2) Open index.html in a browser\n\n\n## How to use it\n\nOn the page you will see three Boxes:\n\n* Raw Input \n* Smoothed Input\n* Thinned Input \n\nJust draw/write a stroke in one of the boxes (it doesn\'t matter which one).\nBelow is the table of the symbols and their single-stroke representation.\n\n![Symbols](.s/img/projects/symbol-rec/table_800.png)\n\n***\n\n## Dependencies\n\n* mdgriffith/elm-ui\n* elm/svg\n\n\n## TODO\n\nThere is much to be done: \n\n* Fix issue in Firefox where the cursor is constantly jumping to top-left of the canvas  \n* The code is not taking full advantage of the Elm features - some "shortcuts" need to be fixed\n* Making the experience more interactive\n* Migrating from elm/svg to elm-vizualization\n* Add more symbols by implementing more recognition features\n\n## Issues\n\n* In Firefox the cursor is constantly jumping to top-left of the canvas.\n\n';
+var $author$project$Projects$SymbolRecognition$articleText = '\n\n# Symbol Recognition\n\n## Table Of Contents\n \n* [About](#about)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n* [Issues](#issues)\n\n\n## About\n\nThe **Symbol Recognition** project is Web app written in Elm. \nYou can handwrite symbols (the letters from A-Z and numbers 1-9) on\nthe canvas and get it recognized. Second point of the project is to use the time-sequenced\n symbol recognition for gesture navigation UI .The project is inspired by one of the most \nproductive studies in HCI - The [GRAIL/BIOMOD system](https://www.youtube.com/watch?v=2Cq8S3jzJiQ).\n\n![GRAIL System](img/projects/symbol-rec/GRAIL_system.png)\n\nThe [text recognition scheme (_Real-Time Recognition of Handprinted Text_, 1966)](https://www.rand.org/pubs/research_memoranda/RM5016.html) was designed and implemented mainly by Garbriel F. Groner to permit an on-line computer user \nto print text naturally and have it recognized accurately. The original scheme was able to recognize a set of\n53 symbols entered with the help of the RAND tablet with its pen as input device.\nRecognition of the symbols was done as analysis of the data in a time-sequenced matter, \nwith a series of test to identify a specific symbol:\n\n<br>\n\n#### 1) Getting Raw Data\n        \nOriginally, pressing the pen against the tablet  surface activated\nthe symbol recognition scheme by indicating the start of a stroke.\nAs the pen was moved data-points were added to the stroke. And finally \nwhen the pen was lifted the recognition scheme was notified that the \nstroke is complete. Next is the series of data analysis of the stroke.\n\n#### 2) Smoothing \n\nAs taken from _Real-Time Recognition of Handprinted Text (Groner, 1966)_ :\n\n"The scheme smooths the data by averaging a newly arrived data-point with the \npreviously smoothed data-point, thus reducing the noise due to discreteness of the pen\nlocation as measured by the tablet. Smoothing is based on the equations"\n\n\n#### 3) Thinning\n\n"Thinning is the process of removing some of the data-points from the pen track.\nThis is accomplished by comparing the position of a new smoothed data-point with the\nposition of the last point in a thinned track. If these points are sufficiently apart,\nthe analysis scheme accepts the smoothed points as part of the thinned track; otherwise, \nit is discarded. Thinning eliminates small perturbation in the track, and reduces \nthe data processing requirements by drastically reducing (by a factor of seven or so) \nthe number of data-points."\n          \n          \n#### 4) Curvature\n\nThis test assigned a *direction* to each point so the stroke/symbol can be represented by \na sequence of directions - eg. UP, DOWN, UP, LEFT which results in the letter A. \n\n"If the same direction occurs twice in succession, and it is not the same as the last \ndirection listed in the sequence, then it is added to the list; otherwise it is discarded." \n\n\n#### 5) Corner Detection\n\nA corner is detected whenever the pen is moves in the same direction for at least \ntwo segments, changes direction by at least 90°, and \nthen proceeds along the new direction for at least two segments.\n\n#### 6) Additional features (Partially implemented, but not used yet)\n\nIn this implementation the Start and End positions of a stroke are stored for\nfurther testing in the decision process of the recognition.\n\nAdditional features were used in the original, such as the size, position and ratio of the stroke.\n\n\n## How to run it\n\n#### [Open the Link](https://andyfv.github.io/symbol-recognition/)\n\n```Or download/clone locally:```\n\n1) Download or Clone the repository\n\n2) Open index.html in a browser\n\n\n## How to use it\n\nOn the page you will see three Boxes:\n\n* Raw Input \n* Smoothed Input\n* Thinned Input \n\nJust draw/write a stroke in one of the boxes (it doesn\'t matter which one).\nBelow is the table of the symbols and their single-stroke representation.\n\n![Symbols](img/projects/symbol-rec/table_800.png)\n\n***\n\n## Dependencies\n\n* mdgriffith/elm-ui\n* elm/svg\n\n\n## TODO\n\nThere is much to be done: \n\n* Fix issue in Firefox where the cursor is constantly jumping to top-left of the canvas  \n* The code is not taking full advantage of the Elm features - some "shortcuts" need to be fixed\n* Making the experience more interactive\n* Migrating from elm/svg to elm-vizualization\n* Add more symbols by implementing more recognition features\n\n## Issues\n\n* In Firefox the cursor is constantly jumping to top-left of the canvas.\n\n';
 var $author$project$Projects$SymbolRecognition$articleBody = function (a) {
 	return A2(
 		$elm$html$Html$div,
