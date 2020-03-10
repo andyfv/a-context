@@ -1,6 +1,7 @@
-module Route.Route exposing (Route(..), fromUrl)
+module Route.Route exposing (Route(..), fromUrl, internalLink, absoluteLink)
 
 import Url exposing (Url)
+import Url.Builder exposing (relative, absolute)
 import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
 import Browser.Navigation as Nav
 
@@ -15,20 +16,20 @@ type Route
     | NotFound
 
 
-gitHubBase : Parser a a
+gitHubBase : String
 gitHubBase =
-    s "z-context"
+    "z-context"
 
 
 matchRoute : Parser (Route -> a) a
 matchRoute =
     oneOf
         [ Parser.map Home Parser.top
-        , Parser.map Mindstorms ( gitHubBase </> s "mindstorms")
-        , Parser.map MindstormArticle (gitHubBase </> s "mindstorms" </> string)
-        , Parser.map Projects (gitHubBase </> s "projects")
-        , Parser.map ProjectsArticle (gitHubBase </> s "projects" </> string)
-        , Parser.map About ( gitHubBase </> s "about")
+        , Parser.map Mindstorms (s gitHubBase </> s "mindstorms")
+        , Parser.map MindstormArticle (s gitHubBase </> s "mindstorms" </> string)
+        , Parser.map Projects (s gitHubBase </> s "projects")
+        , Parser.map ProjectsArticle (s gitHubBase </> s "projects" </> string)
+        , Parser.map About (s gitHubBase </> s "about")
         ]
 
 
@@ -78,9 +79,14 @@ routeToString page =
     "#/" ++ (routeToPieces page)
 
 
+-- LINKS
 
--- PUBLIC HELPERS
+internalLink : String -> String
+internalLink path =
+    absolute [ gitHubBase, String.dropLeft 1 path ] []
 
--- href: Route -> Element msg
 
--- replaceUrl : Nav.Key -> Route -> Cmd msg
+absoluteLink : String -> String
+absoluteLink path =
+    absolute [ path ] []
+

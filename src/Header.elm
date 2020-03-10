@@ -5,7 +5,7 @@ import Browser.Dom exposing (Viewport, getViewport)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Route.Route exposing (Route(..))
+import Route.Route exposing (Route(..), internalLink)
 
 
 
@@ -176,5 +176,11 @@ viewLink currentTab targetTab name link =
             else
                 []
     in
-    li [] [ a (href link :: attrs) [ text name ] ]
+    li [] 
+        [ a 
+            ( href (internalLink link) 
+            :: attrs 
+            )
+            [ text name ] 
+        ]
 

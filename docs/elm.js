@@ -5367,6 +5367,7 @@ var $author$project$Route$Route$Projects = {$: 'Projects'};
 var $author$project$Route$Route$ProjectsArticle = function (a) {
 	return {$: 'ProjectsArticle', a: a};
 };
+var $author$project$Route$Route$gitHubBase = 'z-context';
 var $elm$url$Url$Parser$Parser = function (a) {
 	return {$: 'Parser', a: a};
 };
@@ -5374,33 +5375,6 @@ var $elm$url$Url$Parser$State = F5(
 	function (visited, unvisited, params, frag, value) {
 		return {frag: frag, params: params, unvisited: unvisited, value: value, visited: visited};
 	});
-var $elm$url$Url$Parser$s = function (str) {
-	return $elm$url$Url$Parser$Parser(
-		function (_v0) {
-			var visited = _v0.visited;
-			var unvisited = _v0.unvisited;
-			var params = _v0.params;
-			var frag = _v0.frag;
-			var value = _v0.value;
-			if (!unvisited.b) {
-				return _List_Nil;
-			} else {
-				var next = unvisited.a;
-				var rest = unvisited.b;
-				return _Utils_eq(next, str) ? _List_fromArray(
-					[
-						A5(
-						$elm$url$Url$Parser$State,
-						A2($elm$core$List$cons, next, visited),
-						rest,
-						params,
-						frag,
-						value)
-					]) : _List_Nil;
-			}
-		});
-};
-var $author$project$Route$Route$gitHubBase = $elm$url$Url$Parser$s('z-context');
 var $elm$url$Url$Parser$mapState = F2(
 	function (func, _v0) {
 		var visited = _v0.visited;
@@ -5459,6 +5433,32 @@ var $elm$url$Url$Parser$oneOf = function (parsers) {
 					return parser(state);
 				},
 				parsers);
+		});
+};
+var $elm$url$Url$Parser$s = function (str) {
+	return $elm$url$Url$Parser$Parser(
+		function (_v0) {
+			var visited = _v0.visited;
+			var unvisited = _v0.unvisited;
+			var params = _v0.params;
+			var frag = _v0.frag;
+			var value = _v0.value;
+			if (!unvisited.b) {
+				return _List_Nil;
+			} else {
+				var next = unvisited.a;
+				var rest = unvisited.b;
+				return _Utils_eq(next, str) ? _List_fromArray(
+					[
+						A5(
+						$elm$url$Url$Parser$State,
+						A2($elm$core$List$cons, next, visited),
+						rest,
+						params,
+						frag,
+						value)
+					]) : _List_Nil;
+			}
 		});
 };
 var $elm$url$Url$Parser$slash = F2(
@@ -5521,14 +5521,14 @@ var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 			$author$project$Route$Route$Mindstorms,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$author$project$Route$Route$gitHubBase,
+				$elm$url$Url$Parser$s($author$project$Route$Route$gitHubBase),
 				$elm$url$Url$Parser$s('mindstorms'))),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$MindstormArticle,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$author$project$Route$Route$gitHubBase,
+				$elm$url$Url$Parser$s($author$project$Route$Route$gitHubBase),
 				A2(
 					$elm$url$Url$Parser$slash,
 					$elm$url$Url$Parser$s('mindstorms'),
@@ -5538,14 +5538,14 @@ var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 			$author$project$Route$Route$Projects,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$author$project$Route$Route$gitHubBase,
+				$elm$url$Url$Parser$s($author$project$Route$Route$gitHubBase),
 				$elm$url$Url$Parser$s('projects'))),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$ProjectsArticle,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$author$project$Route$Route$gitHubBase,
+				$elm$url$Url$Parser$s($author$project$Route$Route$gitHubBase),
 				A2(
 					$elm$url$Url$Parser$slash,
 					$elm$url$Url$Parser$s('projects'),
@@ -5555,7 +5555,7 @@ var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 			$author$project$Route$Route$About,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$author$project$Route$Route$gitHubBase,
+				$elm$url$Url$Parser$s($author$project$Route$Route$gitHubBase),
 				$elm$url$Url$Parser$s('about')))
 		]));
 var $elm$url$Url$Parser$getFirstMatch = function (states) {
@@ -7459,6 +7459,35 @@ var $elm$html$Html$Attributes$href = function (url) {
 		'href',
 		_VirtualDom_noJavaScriptUri(url));
 };
+var $elm$url$Url$Builder$toQueryPair = function (_v0) {
+	var key = _v0.a;
+	var value = _v0.b;
+	return key + ('=' + value);
+};
+var $elm$url$Url$Builder$toQuery = function (parameters) {
+	if (!parameters.b) {
+		return '';
+	} else {
+		return '?' + A2(
+			$elm$core$String$join,
+			'&',
+			A2($elm$core$List$map, $elm$url$Url$Builder$toQueryPair, parameters));
+	}
+};
+var $elm$url$Url$Builder$absolute = F2(
+	function (pathSegments, parameters) {
+		return '/' + (A2($elm$core$String$join, '/', pathSegments) + $elm$url$Url$Builder$toQuery(parameters));
+	});
+var $author$project$Route$Route$internalLink = function (path) {
+	return A2(
+		$elm$url$Url$Builder$absolute,
+		_List_fromArray(
+			[
+				$author$project$Route$Route$gitHubBase,
+				A2($elm$core$String$dropLeft, 1, path)
+			]),
+		_List_Nil);
+};
 var $elm$html$Html$li = _VirtualDom_node('li');
 var $author$project$Header$viewLink = F4(
 	function (currentTab, targetTab, name, link) {
@@ -7475,7 +7504,8 @@ var $author$project$Header$viewLink = F4(
 					$elm$html$Html$a,
 					A2(
 						$elm$core$List$cons,
-						$elm$html$Html$Attributes$href(link),
+						$elm$html$Html$Attributes$href(
+							$author$project$Route$Route$internalLink(link)),
 						attrs),
 					_List_fromArray(
 						[
