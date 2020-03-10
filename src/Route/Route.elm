@@ -15,15 +15,20 @@ type Route
     | NotFound
 
 
+gitHubBase : Parser a a
+gitHubBase =
+    s "z-context"
+
+
 matchRoute : Parser (Route -> a) a
 matchRoute =
     oneOf
         [ Parser.map Home Parser.top
-        , Parser.map Mindstorms (s "z-context" </> s "mindstorms")
-        , Parser.map MindstormArticle (s "z-context" </> s "mindstorms" </> string)
-        , Parser.map Projects (s "z-context" </> s "projects")
-        , Parser.map ProjectsArticle (s "z-context" </> s "projects" </> string)
-        , Parser.map About (s "z-context" </> s "about")
+        , Parser.map Mindstorms ( gitHubBase </> s "mindstorms")
+        , Parser.map MindstormArticle (gitHubBase </> s "mindstorms" </> string)
+        , Parser.map Projects (gitHubBase </> s "projects")
+        , Parser.map ProjectsArticle (gitHubBase </> s "projects" </> string)
+        , Parser.map About ( gitHubBase </> s "about")
         ]
 
 
