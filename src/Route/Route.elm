@@ -25,6 +25,7 @@ matchRoute : Parser (Route -> a) a
 matchRoute =
     oneOf
         [ Parser.map Home Parser.top
+        , Parser.map Home (s gitHubBase)
         , Parser.map Mindstorms (s gitHubBase </> s "mindstorms")
         , Parser.map MindstormArticle (s gitHubBase </> s "mindstorms" </> string)
         , Parser.map Projects (s gitHubBase </> s "projects")

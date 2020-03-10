@@ -5518,6 +5518,10 @@ var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 			A2($elm$url$Url$Parser$map, $author$project$Route$Route$Home, $elm$url$Url$Parser$top),
 			A2(
 			$elm$url$Url$Parser$map,
+			$author$project$Route$Route$Home,
+			$elm$url$Url$Parser$s($author$project$Route$Route$gitHubBase)),
+			A2(
+			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$Mindstorms,
 			A2(
 				$elm$url$Url$Parser$slash,
