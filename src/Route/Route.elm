@@ -19,11 +19,11 @@ matchRoute : Parser (Route -> a) a
 matchRoute =
     oneOf
         [ Parser.map Home Parser.top
-        , Parser.map Mindstorms (s "mindstorms")
-        , Parser.map MindstormArticle (s "mindstorms" </> string)
-        , Parser.map Projects (s "projects")
-        , Parser.map ProjectsArticle (s "projects" </> string)
-        , Parser.map About (s "about")
+        , Parser.map Mindstorms (s "z-context" </> s "mindstorms")
+        , Parser.map MindstormArticle (s "z-context" </> s "mindstorms" </> string)
+        , Parser.map Projects (s "z-context" </> s "projects")
+        , Parser.map ProjectsArticle (s "z-context" </> s "projects" </> string)
+        , Parser.map About (s "z-context" </> s "about")
         ]
 
 

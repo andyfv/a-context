@@ -5518,29 +5518,44 @@ var $author$project$Route$Route$matchRoute = $elm$url$Url$Parser$oneOf(
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$Mindstorms,
-			$elm$url$Url$Parser$s('mindstorms')),
+			A2(
+				$elm$url$Url$Parser$slash,
+				$elm$url$Url$Parser$s('z-context'),
+				$elm$url$Url$Parser$s('mindstorms'))),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$MindstormArticle,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$elm$url$Url$Parser$s('mindstorms'),
-				$elm$url$Url$Parser$string)),
+				$elm$url$Url$Parser$s('z-context'),
+				A2(
+					$elm$url$Url$Parser$slash,
+					$elm$url$Url$Parser$s('mindstorms'),
+					$elm$url$Url$Parser$string))),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$Projects,
-			$elm$url$Url$Parser$s('projects')),
+			A2(
+				$elm$url$Url$Parser$slash,
+				$elm$url$Url$Parser$s('z-context'),
+				$elm$url$Url$Parser$s('projects'))),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$ProjectsArticle,
 			A2(
 				$elm$url$Url$Parser$slash,
-				$elm$url$Url$Parser$s('projects'),
-				$elm$url$Url$Parser$string)),
+				$elm$url$Url$Parser$s('z-context'),
+				A2(
+					$elm$url$Url$Parser$slash,
+					$elm$url$Url$Parser$s('projects'),
+					$elm$url$Url$Parser$string))),
 			A2(
 			$elm$url$Url$Parser$map,
 			$author$project$Route$Route$About,
-			$elm$url$Url$Parser$s('about'))
+			A2(
+				$elm$url$Url$Parser$slash,
+				$elm$url$Url$Parser$s('z-context'),
+				$elm$url$Url$Parser$s('about')))
 		]));
 var $elm$url$Url$Parser$getFirstMatch = function (states) {
 	getFirstMatch:
