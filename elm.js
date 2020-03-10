@@ -7571,7 +7571,7 @@ var $author$project$Header$logo = A2(
 					_List_fromArray(
 						[
 							$elm$html$Html$Attributes$media('(max-width: 750px)'),
-							A2($elm$html$Html$Attributes$attribute, 'srcset', '/img/icon_mobile_dark.svg')
+							A2($elm$html$Html$Attributes$attribute, 'srcset', 'img/icon_mobile_dark.svg')
 						]),
 					_List_Nil),
 					A2(
@@ -7579,14 +7579,14 @@ var $author$project$Header$logo = A2(
 					_List_fromArray(
 						[
 							$elm$html$Html$Attributes$media('(min-width: 751px)'),
-							A2($elm$html$Html$Attributes$attribute, 'srcset', '/img/blog_desktop_dark.svg')
+							A2($elm$html$Html$Attributes$attribute, 'srcset', 'img/blog_desktop_dark.svg')
 						]),
 					_List_Nil),
 					A2(
 					$elm$html$Html$img,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$src('/img/icon_mobile_dark.svg'),
+							$elm$html$Html$Attributes$src('img/icon_mobile_dark.svg'),
 							$elm$html$Html$Attributes$alt('logo')
 						]),
 					_List_Nil)
@@ -7636,7 +7636,7 @@ var $author$project$Header$viewMenuButton = A2(
 			$elm$html$Html$img,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$src('/img/menu_icon_dark.svg'),
+					$elm$html$Html$Attributes$src('img/menu_icon_dark.svg'),
 					$elm$html$Html$Attributes$id('menu-icon')
 				]),
 			_List_Nil)
