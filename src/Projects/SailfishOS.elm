@@ -14,7 +14,7 @@ article =
         { title = "Sailfish OS: UX Design Study"
         , subtitle = ""
         , date = "2018/2019"
-        , image = Image "/img/projects/sailfish/SailFishOS_icon.svg" "Turtle"
+        , image = Image "/z-context/img/projects/sailfish/SailfishOS_icon.svg" "Turtle"
         , href = "projects/sailfish-design-study"
         , summary = ""
         }
@@ -97,7 +97,7 @@ chapter1 =
         , paragraph "In the context of hardware, the differences are mostly dimensional. Sadly, different and more innovative types of hardware for interacting with the devices are hard to find. So let’s focus just on the screen dimensions for now. "
         , paragraph "Let's take the current line of phones in the eco-system to find potential weak points." 
         , strong [] [ text "Current Device Line" ]
-        , img [ src "/img/projects/sailfish/sailfish-current-devices.png", alt "Devices"] []
+        , img [ src "/z-context/img/projects/sailfish/sailfish-current-devices.png", alt "Devices"] []
         , paragraph "Since not having a proper crowdsourcing I will be using screenshots (from review videos) of `one-handed use` of actual people interacting with the various version and not just posing for picture with the product. We can see the following: "
         , handling
         , paragraph "With the this information (which to be honest is not much, but still something) we can start analyzing:"
@@ -111,7 +111,7 @@ chapter1 =
         , paragraph "Thinking about worst case scenario, I tried to make a heatmap of the reachability situation on the XA2 Plus."
         , paragraph "Now, I will excuse myself again. This was done within limited time. And without proper crowdsourcing this shouldn't be taken seriously. Based on my hand size(considering myself having normal hand size)."
         , reachability
-        , img [ src "/img/projects/sailfish/sailfish-devices-reachability.svg", alt "Reachability" ][]
+        , img [ src "/z-context/img/projects/sailfish/sailfish-devices-reachability.svg", alt "Reachability" ][]
         , hr [] []
         ]
 
@@ -190,7 +190,7 @@ chapter2 =
             , highlightColor "gesture based navigation" red
             , text ". And in it's current state it looks like this: "
             ]
-        , centerImage "/img/projects/sailfish/sailfish-navigation.svg" "Navigation" "320px"
+        , centerImage "/z-context/img/projects/sailfish/sailfish-navigation.svg" "Navigation" "320px"
         , p []
             [ text "Let's examine the "
             , highlightColor "navigation screens" red
@@ -236,7 +236,7 @@ chapter3 =
             , highlightColor "Quick Close" red
             ]
         , h3 [] [ text "Quick Close" ]
-        , centerImage "/img/projects/sailfish/sailfish-quick-close.svg" "Quick Close" "320px"
+        , centerImage "/z-context/img/projects/sailfish/sailfish-quick-close.svg" "Quick Close" "320px"
         , p []
             [ text "Currently the "
             , highlightColor "Quick Close" red
@@ -263,9 +263,9 @@ chapter3 =
             , highlightColor "Quick Closing" red
             , text " an App, this will prevent from accidental closing. Let's check it."
             ]
-        , centerImage "/img/projects/sailfish/sailfish-swipe-comparison.svg" "Swipe Comparison" "640px"
+        , centerImage "/z-context/img/projects/sailfish/sailfish-swipe-comparison.svg" "Swipe Comparison" "640px"
         , paragraph "And here it is a more complete overview, with a hint at the top of the screen, telling the user what is going to happen. "
-        , centerImage "/img/projects/sailfish/SailfishOS_CloseApp.gif" "Close App" "320px"
+        , centerImage "/z-context/img/projects/sailfish/SailfishOS_CloseApp.gif" "Close App" "320px"
         , p [] [ text "Now the ", highlightColor "Top Edge" red, text " is decluttered." ]
         , p [] [ text "Which lead us to the ", highlightColor "Top Menu" red, text "." ]
         , hr [] []
@@ -302,21 +302,21 @@ topMenu =
             ]
             [ div [] 
                 [ p [] [ text "Left Swipe"]
-                , centerImage "/img/projects/sailfish/SailfishOS_TopMenuLeft.gif" "Left Swipe" "200px"
+                , centerImage "/z-context/img/projects/sailfish/SailfishOS_TopMenuLeft.gif" "Left Swipe" "200px"
                 ]
             , div [] 
                 [ p [] [ text "From Home Swipe"]
-                , centerImage "/img/projects/sailfish/SailfishOS_TopMenu.gif" "Home Swipe" "200px"
+                , centerImage "/z-context/img/projects/sailfish/SailfishOS_TopMenu.gif" "Home Swipe" "200px"
                 ]
             , div [] 
                 [ p [] [ text "Right Swipe"]
-                , centerImage "/img/projects/sailfish/SailfishOS_TopMenuRight.gif" "Right Swipe" "200px"
+                , centerImage "/z-context/img/projects/sailfish/SailfishOS_TopMenuRight.gif" "Right Swipe" "200px"
                 ]
             ]
         , paragraph "This is not the about the UI (colors, icon shapes. etc), but more about the UX, so here is a little comparison of the proposed vs the old:"
-        , centerImage "/img/projects/sailfish/sailfish-topmenu-comparison.svg" "Top Menu Comparison" "640px"
+        , centerImage "/z-context/img/projects/sailfish/sailfish-topmenu-comparison.svg" "Top Menu Comparison" "640px"
         , p [ style "text-align" "center"] [ text "Landscape" ]
-        , centerImage "/img/projects/sailfish/sailfish-new-topmenu-landscape.svg" "Landscape" "480px"
+        , centerImage "/z-context/img/projects/sailfish/sailfish-new-topmenu-landscape.svg" "Landscape" "480px"
         , p []
             [ text "And the "
             , highlightColor "Presentational Component" red
@@ -357,11 +357,11 @@ systemSearch =
             , style "flex-wrap" "wrap"
             , style "justify-content" "space-around"
             ]
-            [ centerImage "/img/projects/sailfish/SailfishOS_Search.gif" "Search" "320px"
-            , centerImage "/img/projects/sailfish/SailfishOS_SearchResults.gif" "Search" "320px"
+            [ centerImage "/z-context/img/projects/sailfish/SailfishOS_Search.gif" "Search" "320px"
+            , centerImage "/z-context/img/projects/sailfish/SailfishOS_SearchResults.gif" "Search" "320px"
             ]
         , paragraph "View from above of the proposed navigation improvements:"
-        , centerImage "/img/projects/sailfish/sailfish-proposition-view.png" "Sailfish Swipe Comparison" "640px"
+        , centerImage "/z-context/img/projects/sailfish/sailfish-proposition-view.png" "Sailfish Swipe Comparison" "640px"
         ]
 
 
