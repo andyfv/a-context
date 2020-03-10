@@ -14,7 +14,7 @@ article =
         { title = "Symbol Recognition"
         , subtitle = "Inspired by GRAIL"
         , date = "2019"
-        , image = Image "/img/projects/symbol-rec/table_250.png" "Turtle"
+        , image = Image "./img/projects/symbol-rec/table_250.png" "Turtle"
         , href = "projects/symbol-recognition"
         , summary = ""
         }
@@ -86,7 +86,7 @@ the canvas and get it recognized. Second point of the project is to use the time
  symbol recognition for gesture navigation UI .The project is inspired by one of the most 
 productive studies in HCI - The [GRAIL/BIOMOD system](https://www.youtube.com/watch?v=2Cq8S3jzJiQ).
 
-![GRAIL System](/img/projects/symbol-rec/GRAIL_system.png)
+![GRAIL System](./img/projects/symbol-rec/GRAIL_system.png)
 
 The [text recognition scheme (_Real-Time Recognition of Handprinted Text_, 1966)](https://www.rand.org/pubs/research_memoranda/RM5016.html) was designed and implemented mainly by Garbriel F. Groner to permit an on-line computer user 
 to print text naturally and have it recognized accurately. The original scheme was able to recognize a set of
@@ -169,7 +169,7 @@ On the page you will see three Boxes:
 Just draw/write a stroke in one of the boxes (it doesn't matter which one).
 Below is the table of the symbols and their single-stroke representation.
 
-![Symbols](/img/projects/symbol-rec/table_800.png)
+![Symbols](.s/img/projects/symbol-rec/table_800.png)
 
 ***
 
