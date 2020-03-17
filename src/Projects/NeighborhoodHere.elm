@@ -2,8 +2,8 @@ module Projects.NeighborhoodHere exposing (Model, Msg, view, init, update, artic
 
 import Center
 import Article exposing (..)
-import Html exposing (Html, div, h1, h3, h4, h5, text, hr)
-import Html.Attributes exposing (id, class)
+import Html exposing (Html, div, h1, h3, h4, h5, text, hr, a)
+import Html.Attributes exposing (id, class, href, attribute, style)
 import Route.Route exposing (internalLink)
 
 
@@ -58,9 +58,24 @@ articleBody a =
     div [ class "article" ]
         [ h1 [ class "article-title" ] [ text (Article.getTitle a) ]
         , h3 [ class "article-subtitle" ] [ text (Article.getSubtitle a) ]
-        , h5 [ class "article-date" ] [ text (Article.getDate a) ]
+        , dateAndLink (Article.getDate a) "https://github.com/andyfv/neighborhood-here-source"
         , hr [] []
         , Center.markdown "800px" articleText
+        ]
+
+
+dateAndLink : String -> String -> Html msg
+dateAndLink date link =
+    div 
+        [ style "display" "flex"
+        , style "justify-content" "space-between"
+        , style "align-items" "baseline"
+        ]
+        [ h5 [ class "article-date" ] [ text date ]
+        , a [ href link
+            , style "padding" "5px"
+            ] 
+            [ h5 [] [ text "Project Source" ] ]
         ]
 
 

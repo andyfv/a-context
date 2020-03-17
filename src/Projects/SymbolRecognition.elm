@@ -2,8 +2,8 @@ module Projects.SymbolRecognition exposing (Model, Msg, view, init, update, arti
 
 import Center
 import Article exposing (..)
-import Html exposing (Html, div, h1, h3, h4, h5, text, hr)
-import Html.Attributes exposing (id, class)
+import Html exposing (Html, div, h1, h3, h4, h5, text, hr, a)
+import Html.Attributes exposing (id, class, href, style)
 
 -- MODEL
 
@@ -14,7 +14,7 @@ article =
         { title = "Symbol Recognition"
         , subtitle = "Inspired by GRAIL"
         , date = "2019"
-        , image = Image "/z-context/img/projects/symbol-rec/table_250.png" "Turtle"
+        , image = Image "/z-context/img/projects/symbol-rec/table_250.png" "Symbols"
         , href = "projects/symbol-recognition"
         , summary = ""
         }
@@ -56,11 +56,25 @@ articleBody a =
     div [ class "article" ]
         [ h1 [ class "article-title" ] [ text (Article.getTitle a) ]
         , h3 [ class "article-subtitle" ] [ text (Article.getSubtitle a) ]
-        , h5 [ class "article-date" ] [ text (Article.getDate a) ]
+        , dateAndLink (Article.getDate a) "https://github.com/andyfv/symbol-recognition"
         , hr [] []
         , Center.markdown "800px" articleText
         ]
-    --Page.viewArticle article
+
+
+dateAndLink : String -> String -> Html msg
+dateAndLink date link =
+    div 
+        [ style "display" "flex"
+        , style "justify-content" "space-between"
+        , style "align-items" "baseline"
+        ]
+        [ h5 [ class "article-date" ] [ text date ]
+        , a [ href link
+            ] 
+            [ h5 [] [ text "Project Source" ] ]
+        ]
+
 
 
 articleText : String 
