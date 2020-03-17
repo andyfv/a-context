@@ -102,4 +102,5 @@ viewArticle article =
 viewFooter : Html msg
 viewFooter = 
     div [ id "footer" ]
-        []
+        [ a [ href "https://github.com/andyfv/z-context" ] [ text "This site source code" ]
+        ]
