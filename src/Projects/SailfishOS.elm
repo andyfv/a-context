@@ -14,7 +14,7 @@ article =
         { title = "Sailfish OS: UX Design Study"
         , subtitle = ""
         , date = "2018/2019"
-        , image = Image "/z-context/img/projects/sailfish/SailfishOS_icon.svg" "Turtle"
+        , image = Image "/z-context/img/projects/sailfish/SailfishOS_icon.svg" "Sailfish Logo"
         , href = "projects/sailfish-design-study"
         , summary = ""
         }
@@ -63,7 +63,6 @@ articleBody a =
         , chapter2
         , chapter3
         ]
-    --Page.viewArticle article
 
 
 
