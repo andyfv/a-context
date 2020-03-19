@@ -12,7 +12,7 @@ module Page exposing
 import Browser 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Route.Route exposing (Route(..))
+import Route.Route exposing (Route(..), internalLink)
 import Article exposing (Article, ArticleCard, Image)
 
 
@@ -37,7 +37,7 @@ viewNotFound : Html msg
 viewNotFound =
     div [ id "page-not-found" ] 
         [ h1 [] [ text "Page Not Found"] 
-        , a [ href "/" ] [ text "Go to Home Page"]
+        , a [ href (internalLink "/") ] [ text "Go to Home Page"]
         ]
 
 

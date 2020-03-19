@@ -7603,7 +7603,8 @@ var $author$project$Header$logo = A2(
 	$elm$html$Html$a,
 	_List_fromArray(
 		[
-			$elm$html$Html$Attributes$href('/')
+			$elm$html$Html$Attributes$href(
+			$author$project$Route$Route$internalLink('/'))
 		]),
 	_List_fromArray(
 		[
@@ -7980,7 +7981,8 @@ var $author$project$Page$viewNotFound = A2(
 			$elm$html$Html$a,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$href('/')
+					$elm$html$Html$Attributes$href(
+					$author$project$Route$Route$internalLink('/'))
 				]),
 			_List_fromArray(
 				[

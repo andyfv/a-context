@@ -119,7 +119,7 @@ viewHeader route =
 
 logo : Html msg
 logo =
-    a [ href "/"]
+    a [ href (internalLink "/")]
         [ node "picture" [ id "header-icon" ]
             [ source 
                 [ media "(max-width: 750px)"
