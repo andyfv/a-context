@@ -100,7 +100,7 @@ The **Neighborhood-Here** project is Map app written in React and Redux. You can
 
 <br>
 
-```Or download/clone locally:```
+**Or download/clone locally:**
 
 1) Download or Clone the repository
 
@@ -108,23 +108,25 @@ The **Neighborhood-Here** project is Map app written in React and Redux. You can
 
 3) Install dependencies using **npm**:
 
-        npm install
+> `npm install`
 
 4) Start the application:
 
-* The service worker is only enabled in the production environment, so if you want to use it build the project first. For more information check [Making a Progressive Web App](https://goo.gl/KwvDNy).
+ The service worker is only enabled in the production environment, so if you want to use it build the project first. For more information check [Making a Progressive Web App](https://goo.gl/KwvDNy).
 
-        npm run build
-        npm install -g serve
-        serve -s build
+> `npm run build`
+
+> `npm install -g serve`
+
+> `serve -s build`
 
 * Otherwise just start the server
 
-        npm start
+    
 
 5) This will open new browser window/tab. If it doesn't navigate to:
 
-        http://localhost:3000/
+- `http://localhost:3000/`
 
 ## How to use it
 
