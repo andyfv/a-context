@@ -8275,11 +8275,12 @@ var $author$project$Projects$SailfishOS$chapter1 = A2(
 				[
 					$elm$html$Html$text('Current Device Line')
 				])),
+			A2($author$project$Center$markdown, '800px', '![Devices](/z-context/img/projects/sailfish/sailfish-current-devices.png)'),
 			A2(
 			$elm$html$Html$img,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$src('/z-context/img/projects/sailfish/sailfish-current-devices.png'),
+					$elm$html$Html$Attributes$src(''),
 					$elm$html$Html$Attributes$alt('Devices')
 				]),
 			_List_Nil),
@@ -8312,27 +8313,6 @@ var $author$project$Projects$SailfishOS$chapter1 = A2(
 			_List_Nil),
 			A2($elm$html$Html$hr, _List_Nil, _List_Nil)
 		]));
-var $author$project$Projects$SailfishOS$centerImage = F3(
-	function (imgSrc, altName, maxWidth) {
-		return A2(
-			$elm$html$Html$p,
-			_List_fromArray(
-				[
-					A2($elm$html$Html$Attributes$style, 'text-align', 'center')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$img,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$src(imgSrc),
-							$elm$html$Html$Attributes$alt(altName),
-							A2($elm$html$Html$Attributes$style, 'max-width', maxWidth)
-						]),
-					_List_Nil)
-				]));
-	});
 var $author$project$Projects$SailfishOS$navScreens = A2(
 	$elm$html$Html$div,
 	$author$project$Projects$SailfishOS$block,
@@ -8397,7 +8377,7 @@ var $author$project$Projects$SailfishOS$chapter2 = A2(
 					A2($author$project$Projects$SailfishOS$highlightColor, 'gesture based navigation', $author$project$Projects$SailfishOS$red),
 					$elm$html$Html$text('. And in it\'s current state it looks like this: ')
 				])),
-			A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/sailfish-navigation.svg', 'Navigation', '320px'),
+			A2($author$project$Center$markdown, '320px', '![Navigation](/z-context/img/projects/sailfish/sailfish-navigation.svg)'),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
@@ -8478,12 +8458,33 @@ var $author$project$Projects$SailfishOS$systemSearch = A2(
 				]),
 			_List_fromArray(
 				[
-					A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/SailfishOS_Search.gif', 'Search', '320px'),
-					A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/SailfishOS_SearchResults.gif', 'Search', '320px')
+					A2($author$project$Center$markdown, '320px', '![Search](/z-context/img/projects/sailfish/SailfishOS_Search.gif)'),
+					A2($author$project$Center$markdown, '320px', '![Search](/z-context/img/projects/sailfish/SailfishOS_SearchResults.gif)')
 				])),
 			$author$project$Projects$SailfishOS$paragraph('View from above of the proposed navigation improvements:'),
-			A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/sailfish-proposition-view.png', 'Sailfish Swipe Comparison', '640px')
+			A2($author$project$Center$markdown, '640px', '![Sailfish Swipe Comparison](/z-context/img/projects/sailfish/sailfish-proposition-view.png)')
 		]));
+var $author$project$Projects$SailfishOS$centerImage = F3(
+	function (imgSrc, altName, maxWidth) {
+		return A2(
+			$elm$html$Html$p,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'text-align', 'center')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$img,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$src(imgSrc),
+							$elm$html$Html$Attributes$alt(altName),
+							A2($elm$html$Html$Attributes$style, 'max-width', maxWidth)
+						]),
+					_List_Nil)
+				]));
+	});
 var $author$project$Projects$SailfishOS$topMenu = A2(
 	$elm$html$Html$div,
 	_List_Nil,
@@ -8569,7 +8570,7 @@ var $author$project$Projects$SailfishOS$topMenu = A2(
 						]))
 				])),
 			$author$project$Projects$SailfishOS$paragraph('This is not the about the UI (colors, icon shapes. etc), but more about the UX, so here is a little comparison of the proposed vs the old:'),
-			A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/sailfish-topmenu-comparison.svg', 'Top Menu Comparison', '640px'),
+			A2($author$project$Center$markdown, '640px', '![Top Menu Comparison](/z-context/img/projects/sailfish/sailfish-topmenu-comparison.svg)'),
 			A2(
 			$elm$html$Html$p,
 			_List_fromArray(
@@ -8580,7 +8581,7 @@ var $author$project$Projects$SailfishOS$topMenu = A2(
 				[
 					$elm$html$Html$text('Landscape')
 				])),
-			A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/sailfish-new-topmenu-landscape.svg', 'Landscape', '480px'),
+			A2($author$project$Center$markdown, '480px', '![Landscape](/z-context/img/projects/sailfish/sailfish-new-topmenu-landscape.svg)'),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
@@ -8637,7 +8638,7 @@ var $author$project$Projects$SailfishOS$chapter3 = A2(
 				[
 					$elm$html$Html$text('Quick Close')
 				])),
-			A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/sailfish-quick-close.svg', 'Quick Close', '320px'),
+			A2($author$project$Center$markdown, '320px', '![Quick Close](/z-context/img/projects/sailfish/sailfish-quick-close.svg)'),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
@@ -8676,9 +8677,9 @@ var $author$project$Projects$SailfishOS$chapter3 = A2(
 					A2($author$project$Projects$SailfishOS$highlightColor, 'Quick Closing', $author$project$Projects$SailfishOS$red),
 					$elm$html$Html$text(' an App, this will prevent from accidental closing. Let\'s check it.')
 				])),
-			A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/sailfish-swipe-comparison.svg', 'Swipe Comparison', '640px'),
+			A2($author$project$Center$markdown, '640px', '![Swipe Comparison](/z-context/img/projects/sailfish/sailfish-swipe-comparison.svg)'),
 			$author$project$Projects$SailfishOS$paragraph('And here it is a more complete overview, with a hint at the top of the screen, telling the user what is going to happen. '),
-			A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/SailfishOS_CloseApp.gif', 'Close App', '320px'),
+			A2($author$project$Center$markdown, '320px', '![Close App Gesture](/z-context/img/projects/sailfish/SailfishOS_CloseApp.gif)'),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,

@@ -96,7 +96,8 @@ chapter1 =
         , paragraph "In the context of hardware, the differences are mostly dimensional. Sadly, different and more innovative types of hardware for interacting with the devices are hard to find. So let’s focus just on the screen dimensions for now. "
         , paragraph "Let's take the current line of phones in the eco-system to find potential weak points." 
         , strong [] [ text "Current Device Line" ]
-        , img [ src "/z-context/img/projects/sailfish/sailfish-current-devices.png", alt "Devices"] []
+        , Center.markdown "800px" "![Devices](/z-context/img/projects/sailfish/sailfish-current-devices.png)"
+        , img [ src "", alt "Devices"] []
         , paragraph "Since not having a proper crowdsourcing I will be using screenshots (from review videos) of `one-handed use` of actual people interacting with the various version and not just posing for picture with the product. We can see the following: "
         , handling
         , paragraph "With the this information (which to be honest is not much, but still something) we can start analyzing:"
@@ -189,7 +190,7 @@ chapter2 =
             , highlightColor "gesture based navigation" red
             , text ". And in it's current state it looks like this: "
             ]
-        , centerImage "/z-context/img/projects/sailfish/sailfish-navigation.svg" "Navigation" "320px"
+        , Center.markdown "320px" "![Navigation](/z-context/img/projects/sailfish/sailfish-navigation.svg)"
         , p []
             [ text "Let's examine the "
             , highlightColor "navigation screens" red
@@ -235,7 +236,7 @@ chapter3 =
             , highlightColor "Quick Close" red
             ]
         , h3 [] [ text "Quick Close" ]
-        , centerImage "/z-context/img/projects/sailfish/sailfish-quick-close.svg" "Quick Close" "320px"
+        , Center.markdown "320px" "![Quick Close](/z-context/img/projects/sailfish/sailfish-quick-close.svg)"
         , p []
             [ text "Currently the "
             , highlightColor "Quick Close" red
@@ -262,9 +263,9 @@ chapter3 =
             , highlightColor "Quick Closing" red
             , text " an App, this will prevent from accidental closing. Let's check it."
             ]
-        , centerImage "/z-context/img/projects/sailfish/sailfish-swipe-comparison.svg" "Swipe Comparison" "640px"
+        , Center.markdown "640px" "![Swipe Comparison](/z-context/img/projects/sailfish/sailfish-swipe-comparison.svg)"
         , paragraph "And here it is a more complete overview, with a hint at the top of the screen, telling the user what is going to happen. "
-        , centerImage "/z-context/img/projects/sailfish/SailfishOS_CloseApp.gif" "Close App" "320px"
+        , Center.markdown "320px" "![Close App Gesture](/z-context/img/projects/sailfish/SailfishOS_CloseApp.gif)"
         , p [] [ text "Now the ", highlightColor "Top Edge" red, text " is decluttered." ]
         , p [] [ text "Which lead us to the ", highlightColor "Top Menu" red, text "." ]
         , hr [] []
@@ -313,9 +314,9 @@ topMenu =
                 ]
             ]
         , paragraph "This is not the about the UI (colors, icon shapes. etc), but more about the UX, so here is a little comparison of the proposed vs the old:"
-        , centerImage "/z-context/img/projects/sailfish/sailfish-topmenu-comparison.svg" "Top Menu Comparison" "640px"
+        , Center.markdown "640px" "![Top Menu Comparison](/z-context/img/projects/sailfish/sailfish-topmenu-comparison.svg)"
         , p [ style "text-align" "center"] [ text "Landscape" ]
-        , centerImage "/z-context/img/projects/sailfish/sailfish-new-topmenu-landscape.svg" "Landscape" "480px"
+        , Center.markdown "480px" "![Landscape](/z-context/img/projects/sailfish/sailfish-new-topmenu-landscape.svg)"
         , p []
             [ text "And the "
             , highlightColor "Presentational Component" red
@@ -356,11 +357,11 @@ systemSearch =
             , style "flex-wrap" "wrap"
             , style "justify-content" "space-around"
             ]
-            [ centerImage "/z-context/img/projects/sailfish/SailfishOS_Search.gif" "Search" "320px"
-            , centerImage "/z-context/img/projects/sailfish/SailfishOS_SearchResults.gif" "Search" "320px"
+            [ Center.markdown "320px" "![Search](/z-context/img/projects/sailfish/SailfishOS_Search.gif)"
+            , Center.markdown "320px" "![Search](/z-context/img/projects/sailfish/SailfishOS_SearchResults.gif)"
             ]
         , paragraph "View from above of the proposed navigation improvements:"
-        , centerImage "/z-context/img/projects/sailfish/sailfish-proposition-view.png" "Sailfish Swipe Comparison" "640px"
+        , Center.markdown "640px" "![Sailfish Swipe Comparison](/z-context/img/projects/sailfish/sailfish-proposition-view.png)"
         ]
 
 
