@@ -2,8 +2,8 @@ module Page.About exposing (Model, Msg, view, init, update)
 
 import Center
 import Markdown
-import Html exposing (Html, div)
-import Html.Attributes exposing (id)
+import Html exposing (Html, div, a, h3, h5, text, hr)
+import Html.Attributes exposing (id, class, href)
 
 -- MODEL
 
@@ -36,17 +36,15 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    info
-
-
-info : Html msg
-info =
     div [ id "about-page" ]
-        [ Markdown.toHtmlWith Center.options [] text ]
+        [ socialNetworks
+        , hr [] []
+        , Markdown.toHtmlWith Center.options [] info 
+        ]
 
 
-text : String
-text = """
+info : String
+info = """
 
 Hi. 
 
@@ -58,3 +56,32 @@ I like to read... and find language and symbols amusing.
 
      
 """
+
+
+
+-- Social Networks
+
+socialNetworks : Html msg
+socialNetworks =
+    div
+        [ id "social-networks-wrapper" ]
+        [ linkedin ]
+
+
+
+linkedin : Html msg
+linkedin =
+    a 
+        [ class "social-network"
+        , href "https://www.linkedin.com/in/andreafilchev/"
+        ] 
+        [ text "LinkedIn" ]
+
+
+github : Html msg
+github =
+    a 
+        [ class "social-network"
+        , href ""
+        ] 
+        [ text "GitHub" ]

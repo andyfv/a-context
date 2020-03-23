@@ -7758,6 +7758,8 @@ var $author$project$Page$view = function (_v0) {
 		title: 'Z Context'
 	};
 };
+var $elm$html$Html$hr = _VirtualDom_node('hr');
+var $author$project$Page$About$info = '\n\nHi. \n\nThis is part of my point of view at a cross section of relative time.\n\nInterested in nothing specific and everything unspecified. Probably just a generalist.\n\nI like to read... and find language and symbols amusing.\n\n     \n';
 var $author$project$Center$options = {
 	defaultHighlighting: $elm$core$Maybe$Nothing,
 	githubFlavored: $elm$core$Maybe$Just(
@@ -7765,7 +7767,25 @@ var $author$project$Center$options = {
 	sanitize: false,
 	smartypants: false
 };
-var $author$project$Page$About$text = '\n\nHi. \n\nThis is part of my point of view at a cross section of relative time.\n\nInterested in nothing specific and everything unspecified. Probably just a generalist.\n\nI like to read... and find language and symbols amusing.\n\n     \n';
+var $author$project$Page$About$linkedin = A2(
+	$elm$html$Html$a,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('social-network'),
+			$elm$html$Html$Attributes$href('https://www.linkedin.com/in/andreafilchev/')
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('LinkedIn')
+		]));
+var $author$project$Page$About$socialNetworks = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$id('social-networks-wrapper')
+		]),
+	_List_fromArray(
+		[$author$project$Page$About$linkedin]));
 var $elm$core$Maybe$isJust = function (maybe) {
 	if (maybe.$ === 'Just') {
 		return true;
@@ -7774,18 +7794,19 @@ var $elm$core$Maybe$isJust = function (maybe) {
 	}
 };
 var $elm_explorations$markdown$Markdown$toHtmlWith = _Markdown_toHtml;
-var $author$project$Page$About$info = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$id('about-page')
-		]),
-	_List_fromArray(
-		[
-			A3($elm_explorations$markdown$Markdown$toHtmlWith, $author$project$Center$options, _List_Nil, $author$project$Page$About$text)
-		]));
 var $author$project$Page$About$view = function (model) {
-	return $author$project$Page$About$info;
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$id('about-page')
+			]),
+		_List_fromArray(
+			[
+				$author$project$Page$About$socialNetworks,
+				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+				A3($elm_explorations$markdown$Markdown$toHtmlWith, $author$project$Center$options, _List_Nil, $author$project$Page$About$info)
+			]));
 };
 var $author$project$Page$viewCardImage = function (image) {
 	return A2(
@@ -7889,7 +7910,6 @@ var $author$project$Article$getTitle = function (_v0) {
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h5 = _VirtualDom_node('h5');
-var $elm$html$Html$hr = _VirtualDom_node('hr');
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $author$project$Center$styles = function (width) {

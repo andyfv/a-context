@@ -75,6 +75,15 @@ img, embed, object, video {
         background-color: rgb(255, 250, 240);
         border-radius: 6px;
     }
+
+    /* CONTENT */
+    #content { 
+        flex: 1 0 100%;
+        align-self: stretch;
+        margin: 90px auto 0 auto;
+        max-width: 800px;
+    }
+
 }
 
 
@@ -130,6 +139,15 @@ img, embed, object, video {
         background-color: rgb(255, 250, 240);
         border-radius: 6px;
     }
+
+    /* CONTENT */
+    #content { 
+        flex: 1 0 100%;
+        align-self: stretch;
+        margin: 90px auto 0 auto;
+        max-width: 800px;
+    }
+
 }
 
 
@@ -245,6 +263,16 @@ img, embed, object, video {
     .selected-nav-link {
         background-color: #FFAA00;
     }
+
+
+    /* CONTENT */
+    #content { 
+        flex: 1 0 100%;
+        align-self: stretch;
+        margin: 60px auto 0 auto;
+        max-width: 800px;
+    }
+
 }
 
 
@@ -261,19 +289,6 @@ img, embed, object, video {
 .header-bg-scroll {
     background-color: rgba(127, 158, 131, 0.9);
 }
-
-
-/* CONTENT */
-#content { 
-    flex: 1 0 100%;
-    align-self: stretch;
-    margin: 90px auto 0 auto;
-    max-width: 800px;
-}
-
-
-/*  */
-
 
 #view-cards {
     max-width: 800px; 
@@ -415,6 +430,31 @@ img, embed, object, video {
     text-align: left;
     font-weight: 300;
     margin: 10px;
+}
+
+
+/* Social Networks*/
+#social-networks-wrapper {
+    display : flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.social-network {
+    margin: 5px;
+    padding: 5px;
+    color: white;
+    line-height: 28px;
+    font-weight: 200;
+    text-decoration: none;
+    /*color: rgb(77, 72, 71);*/
+    /*background-color: #F2F2F2;*/
+    background-color: #0077B5;
+    border : 2px solid rgb(255, 192, 0);
+    border-radius: 7px;
+    box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.75);
+    --moz-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.75);
+    --webkit-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.75);
 }
 
 
