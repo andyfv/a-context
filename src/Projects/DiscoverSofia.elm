@@ -2,8 +2,8 @@ module Projects.DiscoverSofia exposing (Model, Msg, view, init, update, article)
 
 import Center
 import Article exposing (..)
-import Html exposing (Html, div, h1, h3, h4, h5, text, hr, a)
-import Html.Attributes exposing (id, class, href, attribute, style)
+import Html exposing (Html, div, h1, h3, h4, h5, text, hr, a, p, img)
+import Html.Attributes exposing (id, class, href, attribute, style, alt)
 import Route.Route exposing (internalLink)
 
 
@@ -60,7 +60,39 @@ articleBody a =
         , h3 [ class "article-subtitle" ] [ text (Article.getSubtitle a) ]
         , dateAndLink (Article.getDate a) "https://github.com/andyfv/discover-sofia"
         , hr [] []
-        , Center.markdown "800px" articleText
+        , Center.markdown "800px" part1
+        , p (Center.styles "800px" )
+            [ img 
+                [ href "/z-context/img/projects/discover-sofia/app-arch.png"
+                , alt "App Arhitecture"
+                ] 
+                [] 
+            ]
+        , Center.markdown "800px" part2
+        , p ( Center.styles "800px" )
+            [ img 
+                [ href "/z-context/img/projects/discover-sofia/model-accuracy.png" 
+                , alt "Model Accuracy"
+                ] 
+                [] 
+            ]
+        , Center.markdown "800px" part3
+        , p ( Center.styles "800px" )
+            [ img 
+                [ href "/z-context/img/projects/discover-sofia/app-comms.png" 
+                , alt "App Communications"
+                ] 
+                [] 
+            ]
+        , Center.markdown "800px" part4
+        , p ( Center.styles "800px" )
+            [ img 
+                [ href "/z-context/img/projects/discover-sofia/app.png" 
+                , alt "App"
+                ] 
+                [] 
+            ]
+        , Center.markdown "800px" part5
         ]
 
 
@@ -79,9 +111,8 @@ dateAndLink date link =
         ]
 
 
-articleText : String 
-articleText = """
-
+part1 : String 
+part1 = """
 ## Table Of Contents
  
 * [About](#about)
@@ -115,23 +146,25 @@ video feed from the back camera or by uploading a photo
 ## Implementation
 
 The architecture of the application is the following:
+"""
 
-![image of the architecture](/z-context/img/projects/discover-sofia/app-arch.png)
+part2 : String 
+part2 = """
+The implementation is split in four parts:
 
-The implementation is split in three parts:
-
-1) Use Machine Learing to create model for Image Recognition using TensorFlow
-2) Create the UI using Elm
-3) Integrate the Image Recognition Model with the UI
-2) Integrate an Interactive Map with the UI
+1. Use Machine Learing to create model for Image Recognition using TensorFlow
+2. Create the UI using Elm
+3. Integrate the Image Recognition Model with the UI
+4. Integrate an Interactive Map with the UI
 
 #### Machine Learning
 
 Transfer Learning is used to improve the overall accuracy of the 
 model since the size of the photos set is extremely small.
+"""
 
-![accuracy and loss of the model](/z-context/img/projects/discover-sofia/model-accuracy.png)
-
+part3 : String
+part3 = """
 Post-training quantization is used to reduce the model size. 
 
 #### Create the UI
@@ -157,9 +190,11 @@ for inference using the Image Recognition model. The result is displayed below t
 Elm Ports are used for communication bewteen the UI and Image Recognition model. 
 The logic for working with the model and preparing the images for inference is
  implemented with the help of the TensorFlow.js library.
+ 
+"""
 
-![communication bewteen the UI and TF.js](/z-context/img/projects/discover-sofia/app-comms.png)
-
+part4 : String
+part4 = """
 #### Integrating the Interactive Map with the UI
 
 Two external APIs are used for implementing the interactive map:
@@ -191,23 +226,24 @@ Also provideing the basic navigation features.
 3) Start `cors-anywhere`. From the installation directory of `cors-anywhere` issue the 
 following command in a terminal:
     
-```
+```bash
 node server.js
 ```
 
 4) Start the local server. First checkout to the `development` branch. Then from the 
 base of the project directory issue the following command:
 
-```
+```bash
 elm-live src/Main.elm --pushstate -- --debug --output =elm.js
 ```
 
 ***
 
 ## How to use it
+"""
 
-![screenshot of the application](/z-context/img/projects/discover-sofia/app.png)
-
+part5 : String
+part5 = """
 Navigate through the three pages to use the functionality you want:
 
 * /map
