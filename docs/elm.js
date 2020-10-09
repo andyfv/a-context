@@ -8084,9 +8084,10 @@ var $author$project$Projects$DiscoverSofia$dateAndLink = F2(
 						]))
 				]));
 	});
+var $elm$html$Html$p = _VirtualDom_node('p');
 var $author$project$Projects$DiscoverSofia$part1 = '\n## Table Of Contents\n \n* [About](#about)\n* [Implementation](#implementation)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n* [Issues](#issues)\n\n***\n\n## About\n\nThe **Discover Sofia** project was my Bachelor Thesis. The main idea was to \nexplore the Web-browser\'s capabilties as a platform for Machine Learning. \nThe current implementation is far from complete but for now it allows the user to:\n\n- Use Image Recognition to recognize particular landmark by using the \nvideo feed from the back camera or by uploading a photo\n- Check interesting landmarks on the map and get short information about them\n- Get basic Navigation to the selected landmark\n\n**Functional programming** in the form of **Elm** was used for:\n- Being the single source of truth for the most of the application state \n- Implementing the UI \n- Putting together the logic from the additional JavaScript libraries.\n\n*** \n\n## Implementation\n\nThe architecture of the application is the following:\n';
 var $author$project$Projects$DiscoverSofia$part2 = '\nThe implementation is split in four parts:\n\n1. Use Machine Learing to create model for Image Recognition using TensorFlow\n2. Create the UI using Elm\n3. Integrate the Image Recognition Model with the UI\n4. Integrate an Interactive Map with the UI\n\n#### Machine Learning\n\nTransfer Learning is used to improve the overall accuracy of the \nmodel since the size of the photos set is extremely small.\n';
-var $author$project$Projects$DiscoverSofia$part3 = '\nPost-training quantization is used to reduce the model size. \n\n#### Create the UI\n\n![App UI](/z-context/img/projects/discover-sofia/app-ui.png)\n\nThe interface is devided in three pages:\n\n1) **Map**:Represents an interactive map with visualized landmarks. \nChoosing a certain landmark shows the user a basic info about the landmark \nand an option for basic navigation. \n\n2) **Camera**: Represents an interface which shows the video feed from the \nback camera if there is one. If there is back camera the video feed is used \nfor inference using the Image Recognition model. The result is displayed below the video element.\n\n3) **Photo**: Represents an interface for uploading photo from the device.\n The uploaded photo is then used for inference using the Image Recognitionn \n model and the result is displayed below the photo.\n\n#### Integrating the Image Recognition Model with the UI\n\nElm Ports are used for communication bewteen the UI and Image Recognition model. \nThe logic for working with the model and preparing the images for inference is\n implemented with the help of the TensorFlow.js library.\n \n';
+var $author$project$Projects$DiscoverSofia$part3 = '\nPost-training quantization is used to reduce the model size. \n\n#### Create the UI\n\n![App UI](/z-context/img/projects/discover-sofia/app-ui.jpg)\n\nThe interface is devided in three pages:\n\n1) **Map**:Represents an interactive map with visualized landmarks. \nChoosing a certain landmark shows the user a basic info about the landmark \nand an option for basic navigation. \n\n2) **Camera**: Represents an interface which shows the video feed from the \nback camera if there is one. If there is back camera the video feed is used \nfor inference using the Image Recognition model. The result is displayed below the video element.\n\n3) **Photo**: Represents an interface for uploading photo from the device.\n The uploaded photo is then used for inference using the Image Recognitionn \n model and the result is displayed below the photo.\n\n#### Integrating the Image Recognition Model with the UI\n\nElm Ports are used for communication bewteen the UI and Image Recognition model. \nThe logic for working with the model and preparing the images for inference is\n implemented with the help of the TensorFlow.js library.\n \n';
 var $author$project$Projects$DiscoverSofia$part4 = '\n#### Integrating the Interactive Map with the UI\n\nTwo external APIs are used for implementing the interactive map:\n\n1) Wikipedia REST API\n\n> Used to take request information about the landmarks(histoty, images, coordinates, etc.) \n\n2) HereMaps API\n\n> Used to display the map and vizualize the landmarks on it. \nAlso provideing the basic navigation features.\n\n***\n\n## How to run it\n\n#### [Open the Link](https://andyfv.github.io/discover-sofia/)\n\n#### Or download/clone locally:\n\n1) Download or Clone the repository\n\n2) Install the needed dependecies\n* elm \n* elm-live\n* cors-anywhere\n\n3) Start `cors-anywhere`. From the installation directory of `cors-anywhere` issue the \nfollowing command in a terminal:\n    \n```bash\nnode server.js\n```\n\n4) Start the local server. First checkout to the `development` branch. Then from the \nbase of the project directory issue the following command:\n\n```bash\nelm-live src/Main.elm --pushstate -- --debug --output =elm.js\n```\n\n***\n\n## How to use it\n';
 var $author$project$Projects$DiscoverSofia$part5 = '\nNavigate through the three pages to use the functionality you want:\n\n* /map\n* /camera\n* /photos \n\n***\n\n## Dependencies\n\n* TensorFlow.js\n* HereMaps API\n* Wikipedia REST API\n\nElm dependencies:\n\n* elm/file\n* elm/url\n* elm/http\n* elm/json\n* NoRedInk/elm-json-decode-pipeline\n* elm-explorations/test\n\n***\n\n## TODO\n\nThere is much to be done: \n\n* Use the inference result so that the user can be redirected to the Map page\n showing the basic information about the landmark. To do this it should be analized how \n and where to do it.\n* Implement back-end server and transform the app to PWA\n* Making the experience more interactive\n* Update the model architecture from MobilenetV2 to MobilenetV3\n* Try further optimizing the inference times by using smaller input images. \nCurrently using [224x224]\n\n***\n\n## Issues\n\n* In some versions of Firefox the GPU backend could not be used. Looks like an issue \nwith Firefox and not TensorFlow.js.\n';
 var $author$project$Projects$DiscoverSofia$articleBody = function (a) {
@@ -8130,7 +8131,7 @@ var $author$project$Projects$DiscoverSofia$articleBody = function (a) {
 				$elm$html$Html$img,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$src('/z-context/img/projects/discover-sofia/app-arch.png'),
+						$elm$html$Html$Attributes$src('/z-context/img/projects/discover-sofia/app-arch.jpg'),
 						A2($elm$html$Html$Attributes$style, 'max-width', '100%')
 					]),
 				_List_Nil),
@@ -8143,11 +8144,11 @@ var $author$project$Projects$DiscoverSofia$articleBody = function (a) {
 						$elm$html$Html$img,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$src('/z-context/img/projects/discover-sofia/app-arch.png')
+								$elm$html$Html$Attributes$src('/z-context/img/projects/discover-sofia/app-arch.jpg')
 							]),
 						_List_Nil)
 					])),
-				A2($author$project$Center$markdown, '800px', '![App Arhitecture](/z-context/img/projects/discover-sofia/app-arch.png)'),
+				A2($author$project$Center$markdown, '800px', '![App Arhitecture](/z-context/img/projects/discover-sofia/app-arch.jpg)'),
 				A2($author$project$Center$markdown, '800px', $author$project$Projects$DiscoverSofia$part2),
 				A2($author$project$Center$markdown, '800px', '![Model Accuracy](/z-context/img/projects/discover-sofia/model-accuracy.png)'),
 				A2($author$project$Center$markdown, '800px', $author$project$Projects$DiscoverSofia$part3),
@@ -8260,7 +8261,6 @@ var $author$project$Projects$SailfishOS$block = _List_fromArray(
 		A2($elm$html$Html$Attributes$style, '-moz-box-shadow', '0px 1px 2px 0px rgba(0,0,0,0.75)'),
 		A2($elm$html$Html$Attributes$style, 'box-shadow', '0px 1px 2px 0px rgba(0,0,0,0.75)')
 	]);
-var $elm$html$Html$p = _VirtualDom_node('p');
 var $author$project$Projects$SailfishOS$blockElement = function (str) {
 	return A2(
 		$elm$html$Html$p,

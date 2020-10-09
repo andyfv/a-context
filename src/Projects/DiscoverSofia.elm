@@ -61,10 +61,10 @@ articleBody a =
         , dateAndLink (Article.getDate a) "https://github.com/andyfv/discover-sofia"
         , hr [] []
         , Center.markdown "800px" part1
-        , img [ src "/z-context/img/projects/discover-sofia/app-arch.png", style "max-width" "100%" ] []
+        , img [ src "/z-context/img/projects/discover-sofia/app-arch.jpg", style "max-width" "100%" ] []
         , p ( Center.styles "800px" )
-            [ img [ src "/z-context/img/projects/discover-sofia/app-arch.png" ] [] ]
-        , Center.markdown "800px" "![App Arhitecture](/z-context/img/projects/discover-sofia/app-arch.png)"
+            [ img [ src "/z-context/img/projects/discover-sofia/app-arch.jpg" ] [] ]
+        , Center.markdown "800px" "![App Arhitecture](/z-context/img/projects/discover-sofia/app-arch.jpg)"
         , Center.markdown "800px" part2
         , Center.markdown "800px" "![Model Accuracy](/z-context/img/projects/discover-sofia/model-accuracy.png)"
         , Center.markdown "800px" part3
@@ -148,7 +148,7 @@ Post-training quantization is used to reduce the model size.
 
 #### Create the UI
 
-![App UI](/z-context/img/projects/discover-sofia/app-ui.png)
+![App UI](/z-context/img/projects/discover-sofia/app-ui.jpg)
 
 The interface is devided in three pages:
 
