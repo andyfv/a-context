@@ -190,16 +190,12 @@ Also provideing the basic navigation features.
 3) Start `cors-anywhere`. From the installation directory of `cors-anywhere` issue the 
 following command in a terminal:
     
-```bash
-node server.js
-```
+> `node server.js`
 
 4) Start the local server. First checkout to the `development` branch. Then from the 
 base of the project directory issue the following command:
 
-```bash
-elm-live src/Main.elm --pushstate -- --debug --output =elm.js
-```
+> `elm-live src/Main.elm --pushstate -- --debug --output =elm.js`
 
 ***
 
