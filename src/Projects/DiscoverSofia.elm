@@ -61,37 +61,13 @@ articleBody a =
         , dateAndLink (Article.getDate a) "https://github.com/andyfv/discover-sofia"
         , hr [] []
         , Center.markdown "800px" part1
-        , p (Center.styles "800px" )
-            [ img 
-                [ href "/z-context/img/projects/discover-sofia/app-arch.png"
-                , alt "App Arhitecture"
-                ] 
-                [] 
-            ]
+        , Center.markdown "800px" "![App Arhitecture](/z-context/img/projects/discover-sofia/app-arch.png)"
         , Center.markdown "800px" part2
-        , p ( Center.styles "800px" )
-            [ img 
-                [ href "/z-context/img/projects/discover-sofia/model-accuracy.png" 
-                , alt "Model Accuracy"
-                ] 
-                [] 
-            ]
+        , Center.markdown "800px" "![Model Accuracy](/z-context/img/projects/discover-sofia/model-accuracy.png)"
         , Center.markdown "800px" part3
-        , p ( Center.styles "800px" )
-            [ img 
-                [ href "/z-context/img/projects/discover-sofia/app-comms.png" 
-                , alt "App Communications"
-                ] 
-                [] 
-            ]
+        , Center.markdown "800px" "![App Communications](/z-context/img/projects/discover-sofia/app-comms.png)"
         , Center.markdown "800px" part4
-        , p ( Center.styles "800px" )
-            [ img 
-                [ href "/z-context/img/projects/discover-sofia/app.png" 
-                , alt "App"
-                ] 
-                [] 
-            ]
+        , Center.markdown "800px" "![App](/z-context/img/projects/discover-sofia/app.png)"
         , Center.markdown "800px" part5
         ]
 
