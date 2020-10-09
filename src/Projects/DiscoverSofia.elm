@@ -14,7 +14,7 @@ article : Article
 article =
     getArticle 
         { title = "Discover Sofia"
-        , subtitle = "Design and implementation of Web-based tourist guide"
+        , subtitle = "Design and Implementation of Web-based Tourist Guide"
         , date = "2020"
         , image = Image "/z-context/img/projects/discover-sofia/discover_sofia_icon.svg" "App Icon"
         , href = "projects/discover-sofia"
@@ -71,17 +71,16 @@ dateAndLink date link =
         , style "justify-content" "space-between"
         , style "align-items" "baseline"
         ]
-        [ h5 [ class "article-date" ] [ text date ]
+        [ h4 [ class "article-date" ] [ text date ]
         , a [ href link
             , style "padding" "5px"
             ] 
-            [ h5 [] [ text "Project Source" ] ]
+            [ h4 [] [ text "Project Source" ] ]
         ]
 
 
 articleText : String 
 articleText = """
-# Symbol Recognition
 
 ## Table Of Contents
  
@@ -137,17 +136,11 @@ Post-training quantization is used to reduce the model size.
 
 The interface is devided in three pages:
 
-1) **Map** Page
+1) **Map**:Represents an interactive map with visualized landmarks. Choosing a certain landmark shows the user a basic info about the landmark and an option for basic navigation. 
 
-    Represents an interactive map with visualized landmarks. Choosing a certain landmark shows the user a basic info about the landmark and an option for basic navigation. 
+2) **Camera**: Represents an interface which shows the video feed from the back camera if there is one. If there is back camera the video feed is used for inference using the Image Recognition model. The result is displayed below the video element.
 
-2) **Camera** Page
-
-    Represents an interface which shows the video feed from the back camera if there is one. If there is back camera the video feed is used for inference using the Image Recognition model. The result is displayed below the video element.
-
-3) **Photo** Page
-
-    Represents an interface for uploading photo from the device. The uploaded photo is then used for inference using the Image Recognitionn model and the result is displayed below the photo.
+3) **Photo**: Represents an interface for uploading photo from the device. The uploaded photo is then used for inference using the Image Recognitionn model and the result is displayed below the photo.
 
 #### Integrating the Image Recognition Model with the UI
 
@@ -161,11 +154,11 @@ Two external APIs are used for implementing the interactive map:
 
 1) Wikipedia REST API
 
-    Used to take request information about the landmarks(histoty, images, coordinates, etc.) 
+> Used to take request information about the landmarks(histoty, images, coordinates, etc.) 
 
 2) HereMaps API
 
-    Used to display the map and vizualize the landmarks on it. Also provideing the basic navigation features.
+> Used to display the map and vizualize the landmarks on it. Also provideing the basic navigation features.
 
 ***
 
