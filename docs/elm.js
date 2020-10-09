@@ -8143,7 +8143,7 @@ var $author$project$Projects$DiscoverSofia$articleBody = function (a) {
 				A2(
 				$author$project$Projects$DiscoverSofia$dateAndLink,
 				$author$project$Article$getDate(a),
-				'https://github.com/andyfv/neighborhood-here-source'),
+				'https://github.com/andyfv/discover-sofia'),
 				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
 				A2($author$project$Center$markdown, '800px', $author$project$Projects$DiscoverSofia$articleText)
 			]));

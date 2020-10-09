@@ -58,7 +58,7 @@ articleBody a =
     div [ class "article" ]
         [ h1 [ class "article-title" ] [ text (Article.getTitle a) ]
         , h3 [ class "article-subtitle" ] [ text (Article.getSubtitle a) ]
-        , dateAndLink (Article.getDate a) "https://github.com/andyfv/neighborhood-here-source"
+        , dateAndLink (Article.getDate a) "https://github.com/andyfv/discover-sofia"
         , hr [] []
         , Center.markdown "800px" articleText
         ]
