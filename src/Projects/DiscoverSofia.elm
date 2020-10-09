@@ -60,18 +60,7 @@ articleBody a =
         , h3 [ class "article-subtitle" ] [ text (Article.getSubtitle a) ]
         , dateAndLink (Article.getDate a) "https://github.com/andyfv/discover-sofia"
         , hr [] []
-        , Center.markdown "800px" part1
-        , img [ src "/z-context/img/projects/discover-sofia/app-arch.jpg", style "max-width" "100%" ] []
-        , p ( Center.styles "800px" )
-            [ img [ src "/z-context/img/projects/discover-sofia/app-arch.jpg" ] [] ]
-        , Center.markdown "800px" "![App Arhitecture](/z-context/img/projects/discover-sofia/app-arch.jpg)"
-        , Center.markdown "800px" part2
-        , Center.markdown "800px" "![Model Accuracy](/z-context/img/projects/discover-sofia/model-accuracy.png)"
-        , Center.markdown "800px" part3
-        , Center.markdown "800px" "![App Communications](/z-context/img/projects/discover-sofia/app-comms.png)"
-        , Center.markdown "800px" part4
-        , Center.markdown "800px" "![App](/z-context/img/projects/discover-sofia/app.png)"
-        , Center.markdown "800px" part5
+        , Center.markdown "800px" articleText
         ]
 
 
@@ -90,8 +79,8 @@ dateAndLink date link =
         ]
 
 
-part1 : String 
-part1 = """
+articleText : String 
+articleText = """
 ## Table Of Contents
  
 * [About](#about)
@@ -125,10 +114,9 @@ video feed from the back camera or by uploading a photo
 ## Implementation
 
 The architecture of the application is the following:
-"""
 
-part2 : String 
-part2 = """
+![App Architecture](/z-context/img/projects/discover-sofia/app-arch.jpg)
+
 The implementation is split in four parts:
 
 1. Use Machine Learing to create model for Image Recognition using TensorFlow
@@ -140,10 +128,9 @@ The implementation is split in four parts:
 
 Transfer Learning is used to improve the overall accuracy of the 
 model since the size of the photos set is extremely small.
-"""
 
-part3 : String
-part3 = """
+![Model Accuracy](/z-context/img/projects/discover-sofia/model-accuracy.png)
+
 Post-training quantization is used to reduce the model size. 
 
 #### Create the UI
@@ -170,10 +157,8 @@ Elm Ports are used for communication bewteen the UI and Image Recognition model.
 The logic for working with the model and preparing the images for inference is
  implemented with the help of the TensorFlow.js library.
  
-"""
+![App Communications](/z-context/img/projects/discover-sofia/app-comms.png)
 
-part4 : String
-part4 = """
 #### Integrating the Interactive Map with the UI
 
 Two external APIs are used for implementing the interactive map:
@@ -219,10 +204,9 @@ elm-live src/Main.elm --pushstate -- --debug --output =elm.js
 ***
 
 ## How to use it
-"""
 
-part5 : String
-part5 = """
+![App](/z-context/img/projects/discover-sofia/app.png)
+
 Navigate through the three pages to use the functionality you want:
 
 * /map
