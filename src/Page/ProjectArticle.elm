@@ -9,6 +9,7 @@ import Route.ProjectsRoute as ProjectsRoute exposing (..)
 import Projects.NeighborhoodHere as NH exposing (..)
 import Projects.SymbolRecognition as SR exposing (..)
 import Projects.SailfishOS as SOS exposing (..)
+import Projects.DiscoverSofia as DS exposing (..)
 
 
 -- MODEL
@@ -24,6 +25,7 @@ type ProjectPage
     = Neighborhood NH.Model
     | SymbolRecognition SR.Model
     | SailfishOS SOS.Model
+    | DiscoverSofia DS.Model
     | NotFoundPage
 
 
@@ -32,6 +34,7 @@ type Msg
     = NeighborhoodMsg NH.Msg
     | SymbolRecognitionMsg SR.Msg
     | SailfishOSMsg SOS.Msg
+    | DiscoverSofiaMsg DS.Msg
 
 
 
@@ -65,6 +68,9 @@ initCurrentPage (model, existingCmds) =
                 ProjectsRoute.SailfishOS ->
                     updateWith SailfishOS SailfishOSMsg SOS.init
 
+                ProjectsRoute.DiscoverSofia ->
+                    updateWith DiscoverSofia DiscoverSofiaMsg DS.init
+
     in
     ( { model | page = currentPage }
     , Cmd.batch [ existingCmds, mappedPageCmds ]
@@ -95,7 +101,8 @@ view model =
         SailfishOS pageModel ->
             SOS.view pageModel
 
-
+        DiscoverSofia pageModel ->
+            DS.view pageModel
 
 -- UPDATE
 
@@ -114,6 +121,10 @@ update msg model =
         ( SailfishOS pageModel, SailfishOSMsg subMsg ) ->
             (SOS.update subMsg pageModel)
             |> updateWithModel SailfishOS SailfishOSMsg model
+
+        ( DiscoverSofia pageModel, DiscoverSofiaMsg subMsg) ->
+            (DS.update subMsg pageModel)
+            |> updateWithModel DiscoverSofia DiscoverSofiaMsg model
 
         ( _, _ ) -> 
             ( model, Cmd.none )

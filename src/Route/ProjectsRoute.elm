@@ -7,6 +7,7 @@ type ProjectsRoute
     = NeighborhoodHere
     | SymbolRecognition
     | SailfishOS
+    | DiscoverSofia
     | NotFound
 
 
@@ -16,6 +17,7 @@ matchRoute =
         [ Parser.map (\_ -> NeighborhoodHere) (keyword "neighborhood-here")
         , Parser.map (\_ -> SymbolRecognition) (keyword "symbol-recognition")
         , Parser.map (\_ -> SailfishOS) (keyword "sailfish-design-study")
+        , Parser.map (\_ -> DiscoverSofia) (keyword "discover-sofia")
         ]
 
 

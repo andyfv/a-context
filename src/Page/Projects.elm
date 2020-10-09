@@ -9,6 +9,7 @@ import Page exposing (viewCards)
 import Projects.NeighborhoodHere as NH
 import Projects.SymbolRecognition as SR
 import Projects.SailfishOS as SOS
+import Projects.DiscoverSofia as DS
 
 
 -- MODEL
@@ -22,7 +23,8 @@ type alias Model =
 init : (Model, Cmd Msg)
 init =
     ( { articles = 
-        [ Article.getCard NH.article
+        [ Article.getCard DS.article
+        , Article.getCard NH.article
         , Article.getCard SR.article
         , Article.getCard SOS.article
         ]

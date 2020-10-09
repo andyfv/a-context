@@ -4,9 +4,10 @@ import Html exposing (Html)
 import Article exposing (Article, ArticleCard, Image)
 import Page exposing (viewCards)
 
-import Projects.NeighborhoodHere as NH exposing (..)
-import Projects.SymbolRecognition as SR exposing (..)
-import Projects.SailfishOS as SOS exposing (..)
+import Projects.NeighborhoodHere as NH
+import Projects.SymbolRecognition as SR
+import Projects.SailfishOS as SOS
+import Projects.DiscoverSofia as DS
 
 
 
@@ -21,7 +22,8 @@ type alias Model =
 init : (Model, Cmd msg)
 init =
     ( { articles = 
-        [ Article.getCard NH.article
+        [ Article.getCard DS.article
+        , Article.getCard NH.article
         , Article.getCard SR.article
         , Article.getCard SOS.article
         ]
