@@ -3,7 +3,7 @@ module Projects.DiscoverSofia exposing (Model, Msg, view, init, update, article)
 import Center
 import Article exposing (..)
 import Html exposing (Html, div, h1, h3, h4, h5, text, hr, a, p, img)
-import Html.Attributes exposing (id, class, href, attribute, style, alt)
+import Html.Attributes exposing (id, class, href, attribute, style, alt, src)
 import Route.Route exposing (internalLink)
 
 
@@ -61,37 +61,16 @@ articleBody a =
         , dateAndLink (Article.getDate a) "https://github.com/andyfv/discover-sofia"
         , hr [] []
         , Center.markdown "800px" part1
-        , p (Center.styles "800px" )
-            [ img 
-                [ href "/z-context/img/projects/discover-sofia/app-arch.png"
-                , alt "App Arhitecture"
-                ] 
-                [] 
-            ]
+        , img [ src "/z-context/img/projects/discover-sofia/app-arch.png", style "max-width" "100%" ] []
+        , p ( Center.styles "800px" )
+            [ img [ src "/z-context/img/projects/discover-sofia/app-arch.png" ] [] ]
+        , Center.markdown "800px" "![App Arhitecture](/z-context/img/projects/discover-sofia/app-arch.png)"
         , Center.markdown "800px" part2
-        , p ( Center.styles "800px" )
-            [ img 
-                [ href "/z-context/img/projects/discover-sofia/model-accuracy.png" 
-                , alt "Model Accuracy"
-                ] 
-                [] 
-            ]
+        , Center.markdown "800px" "![Model Accuracy](/z-context/img/projects/discover-sofia/model-accuracy.png)"
         , Center.markdown "800px" part3
-        , p ( Center.styles "800px" )
-            [ img 
-                [ href "/z-context/img/projects/discover-sofia/app-comms.png" 
-                , alt "App Communications"
-                ] 
-                [] 
-            ]
+        , Center.markdown "800px" "![App Communications](/z-context/img/projects/discover-sofia/app-comms.png)"
         , Center.markdown "800px" part4
-        , p ( Center.styles "800px" )
-            [ img 
-                [ href "/z-context/img/projects/discover-sofia/app.png" 
-                , alt "App"
-                ] 
-                [] 
-            ]
+        , Center.markdown "800px" "![App](/z-context/img/projects/discover-sofia/app.png)"
         , Center.markdown "800px" part5
         ]
 
