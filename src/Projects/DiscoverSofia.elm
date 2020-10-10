@@ -127,7 +127,7 @@ The implementation is split in four parts:
 #### Machine Learning
 
 Transfer Learning is used to improve the overall accuracy of the 
-model since the size of the photos set is extremely small.
+model since the size of the training set is extremely small.
 
 ![Model Accuracy](/z-context/img/projects/discover-sofia/model-accuracy.png)
 
@@ -233,9 +233,9 @@ Elm dependencies:
 There is much to be done: 
 
 * Use the inference result so that the user can be redirected to the Map page
- showing the basic information about the landmark. To do this it should be analized how 
+ showing the basic information about the landmark. First it should be analized how 
  and where to do it.
-* Implement back-end server and transform the app to PWA
+* Implement back-end server to host the page and transform to PWA
 * Making the experience more interactive
 * Update the model architecture from MobilenetV2 to MobilenetV3
 * Try further optimizing the inference times by using smaller input images. 
