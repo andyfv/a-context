@@ -46,14 +46,11 @@ view model =
 info : String
 info = """
 
-Hi. 
+Hi.  
 
-This is part of my point of view at a cross section of relative time.
+I like to read and find cognition interesting.
 
-Interested in nothing specific and everything unspecified. Probably just a generalist.
-
-I like to read... and find language and symbols amusing.
-
+The end... for now.
      
 """
 

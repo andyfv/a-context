@@ -7780,7 +7780,7 @@ var $author$project$Page$view = function (_v0) {
 	};
 };
 var $elm$html$Html$hr = _VirtualDom_node('hr');
-var $author$project$Page$About$info = '\n\nHi. \n\nThis is part of my point of view at a cross section of relative time.\n\nInterested in nothing specific and everything unspecified. Probably just a generalist.\n\nI like to read... and find language and symbols amusing.\n\n     \n';
+var $author$project$Page$About$info = '\n\nHi.  \n\nI like to read and find cognition interesting.\n\nThe end... for now.\n     \n';
 var $author$project$Center$options = {
 	aQ: $elm$core$Maybe$Nothing,
 	aU: $elm$core$Maybe$Just(
