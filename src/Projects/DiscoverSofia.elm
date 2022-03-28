@@ -16,7 +16,7 @@ article =
         { title = "Discover Sofia"
         , subtitle = "Design and Implementation of Web-based Tourist Guide"
         , date = "2020"
-        , image = Image "/z-context/img/projects/discover-sofia/discover_sofia_icon.svg" "App Icon"
+        , image = Image "/a-context/img/projects/discover-sofia/discover_sofia_icon.svg" "App Icon"
         , href = "projects/discover-sofia"
         , summary = ""
         }
@@ -115,7 +115,7 @@ video feed from the back camera or by uploading a photo
 
 The architecture of the application is the following:
 
-![App Architecture](/z-context/img/projects/discover-sofia/app-arch.jpg)
+![App Architecture](/a-context/img/projects/discover-sofia/app-arch.jpg)
 
 The implementation is split in four parts:
 
@@ -129,13 +129,13 @@ The implementation is split in four parts:
 Transfer Learning is used to improve the overall accuracy of the 
 model since the size of the training set is extremely small.
 
-![Model Accuracy](/z-context/img/projects/discover-sofia/model-accuracy.png)
+![Model Accuracy](/a-context/img/projects/discover-sofia/model-accuracy.png)
 
 Post-training quantization is used to reduce the model size. 
 
 #### Create the UI
 
-![App UI](/z-context/img/projects/discover-sofia/app-ui.jpg)
+![App UI](/a-context/img/projects/discover-sofia/app-ui.jpg)
 
 The interface is devided in three pages:
 
@@ -157,7 +157,7 @@ Elm Ports are used for communication bewteen the UI and Image Recognition model.
 The logic for working with the model and preparing the images for inference is
  implemented with the help of the TensorFlow.js library.
  
-![App Communications](/z-context/img/projects/discover-sofia/app-comms.png)
+![App Communications](/a-context/img/projects/discover-sofia/app-comms.png)
 
 #### Integrating the Interactive Map with the UI
 
@@ -201,7 +201,7 @@ base of the project directory issue the following command:
 
 ## How to use it
 
-![App](/z-context/img/projects/discover-sofia/app.png)
+![App](/a-context/img/projects/discover-sofia/app.png)
 
 Navigate through the three pages to use the functionality you want:
 

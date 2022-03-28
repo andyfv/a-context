@@ -1,4 +1,4 @@
-# Z-Context
+# A-Context
 
 ## Table Of Contents
 
@@ -12,13 +12,13 @@
 
 ## About
 
-The **Z-Context** personal website is a SPA written in Elm. 
+The **A-Context** personal website is a SPA written in Elm. 
 
 
 
 ## How to run it
 
-- #### [Open the Link](https://andyfv.github.io/z-context/)
+- #### [Open the Link](https://andyfv.github.io/a-context/)
 
 
 - #### `Or download/clone locally:`
@@ -26,11 +26,11 @@ The **Z-Context** personal website is a SPA written in Elm.
 1) Download or Clone the repository
 2) Install **`elm-live`** : `npm install elm-live` 
 
-From `z-context` directory:
+From `a-context` directory:
 
     elm-live src/Main.elm --pushstate -- --output=docs/elm.js
 
-`NOTE: Images won't be displayed by using elm-live for local development. The reason is that all image hrefs start with "/z-context/" so that they will be referenced correctly when deployed GitHub Pages.`
+`NOTE: Images won't be displayed by using elm-live for local development. The reason is that all image hrefs start with "/a-context/" so that they will be referenced correctly when deployed GitHub Pages.`
 
 
 ## Project Structure

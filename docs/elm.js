@@ -5367,7 +5367,7 @@ var $author$project$Route$Route$Projects = {$: 'Projects'};
 var $author$project$Route$Route$ProjectsArticle = function (a) {
 	return {$: 'ProjectsArticle', a: a};
 };
-var $author$project$Route$Route$gitHubBase = 'z-context';
+var $author$project$Route$Route$gitHubBase = 'a-context';
 var $elm$url$Url$Parser$Parser = function (a) {
 	return {$: 'Parser', a: a};
 };
@@ -6268,7 +6268,7 @@ var $author$project$Projects$DiscoverSofia$article = $author$project$Article$get
 	{
 		date: '2020',
 		href: 'projects/discover-sofia',
-		image: A2($author$project$Article$Image, '/z-context/img/projects/discover-sofia/discover_sofia_icon.svg', 'App Icon'),
+		image: A2($author$project$Article$Image, '/a-context/img/projects/discover-sofia/discover_sofia_icon.svg', 'App Icon'),
 		subtitle: 'Design and Implementation of Web-based Tourist Guide',
 		summary: '',
 		title: 'Discover Sofia'
@@ -6277,7 +6277,7 @@ var $author$project$Projects$NeighborhoodHere$article = $author$project$Article$
 	{
 		date: '2019',
 		href: 'projects/neighborhood-here',
-		image: A2($author$project$Article$Image, '/z-context/img/projects/neighborhood/desktop_250.png', 'Map'),
+		image: A2($author$project$Article$Image, '/a-context/img/projects/neighborhood/desktop_250.png', 'Map'),
 		subtitle: 'Redo with Redux',
 		summary: '',
 		title: 'Neighborhood Map'
@@ -6286,7 +6286,7 @@ var $author$project$Projects$SailfishOS$article = $author$project$Article$getArt
 	{
 		date: '2018/2019',
 		href: 'projects/sailfish-design-study',
-		image: A2($author$project$Article$Image, '/z-context/img/projects/sailfish/SailfishOS_icon.svg', 'Sailfish Logo'),
+		image: A2($author$project$Article$Image, '/a-context/img/projects/sailfish/SailfishOS_icon.svg', 'Sailfish Logo'),
 		subtitle: '',
 		summary: '',
 		title: 'Sailfish OS: UX Design Study'
@@ -6295,7 +6295,7 @@ var $author$project$Projects$SymbolRecognition$article = $author$project$Article
 	{
 		date: '2019',
 		href: 'projects/symbol-recognition',
-		image: A2($author$project$Article$Image, '/z-context/img/projects/symbol-rec/table_250.png', 'Symbols'),
+		image: A2($author$project$Article$Image, '/a-context/img/projects/symbol-rec/table_250.png', 'Symbols'),
 		subtitle: 'Inspired by GRAIL',
 		summary: '',
 		title: 'Symbol Recognition'
@@ -7668,7 +7668,7 @@ var $author$project$Header$logo = A2(
 					_List_fromArray(
 						[
 							$elm$html$Html$Attributes$media('(max-width: 750px)'),
-							A2($elm$html$Html$Attributes$attribute, 'srcset', '/z-context/img/icon_mobile_dark.svg')
+							A2($elm$html$Html$Attributes$attribute, 'srcset', '/a-context/img/icon_mobile_dark.svg')
 						]),
 					_List_Nil),
 					A2(
@@ -7676,14 +7676,14 @@ var $author$project$Header$logo = A2(
 					_List_fromArray(
 						[
 							$elm$html$Html$Attributes$media('(min-width: 751px)'),
-							A2($elm$html$Html$Attributes$attribute, 'srcset', '/z-context/img/blog_desktop_dark.svg')
+							A2($elm$html$Html$Attributes$attribute, 'srcset', '/a-context/img/blog_desktop_dark.svg')
 						]),
 					_List_Nil),
 					A2(
 					$elm$html$Html$img,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$src('/z-context/img/icon_mobile_dark.svg'),
+							$elm$html$Html$Attributes$src('/a-context/img/icon_mobile_dark.svg'),
 							$elm$html$Html$Attributes$alt('logo')
 						]),
 					_List_Nil)
@@ -7733,7 +7733,7 @@ var $author$project$Header$viewMenuButton = A2(
 			$elm$html$Html$img,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$src('/z-context/img/menu_icon_dark.svg'),
+					$elm$html$Html$Attributes$src('/a-context/img/menu_icon_dark.svg'),
 					$elm$html$Html$Attributes$id('menu-icon')
 				]),
 			_List_Nil)
@@ -7781,7 +7781,7 @@ var $author$project$Page$viewFooter = A2(
 			$elm$html$Html$a,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$href('https://github.com/andyfv/z-context')
+					$elm$html$Html$Attributes$href('https://github.com/andyfv/a-context')
 				]),
 			_List_fromArray(
 				[
@@ -7801,7 +7801,7 @@ var $author$project$Page$view = function (_v0) {
 				A2($author$project$Page$viewContent, content, route),
 				_List_fromArray(
 					[$author$project$Page$viewFooter]))),
-		title: 'Z Context'
+		title: 'A-Context'
 	};
 };
 var $elm$html$Html$hr = _VirtualDom_node('hr');
@@ -8067,7 +8067,7 @@ var $author$project$Page$MindstormArticle$view = function (model) {
 var $author$project$Page$Mindstorms$view = function (model) {
 	return $author$project$Page$viewCards(model.articles);
 };
-var $author$project$Projects$DiscoverSofia$articleText = '\n## Table Of Contents\n \n* [About](#about)\n* [Implementation](#implementation)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n* [Issues](#issues)\n\n***\n\n## About\n\nThe **Discover Sofia** project was my Bachelor Thesis. The main idea was to \nexplore the Web-browser\'s capabilties as a platform for Machine Learning. \nThe current implementation is far from complete but for now it allows the user to:\n\n- Use Image Recognition to recognize particular landmark by using the \nvideo feed from the back camera or by uploading a photo\n- Check interesting landmarks on the map and get short information about them\n- Get basic Navigation to the selected landmark\n\n**Functional programming** in the form of **Elm** was used for:\n- Being the single source of truth for the most of the application state \n- Implementing the UI \n- Putting together the logic from the additional JavaScript libraries.\n\n*** \n\n## Implementation\n\nThe architecture of the application is the following:\n\n![App Architecture](/z-context/img/projects/discover-sofia/app-arch.jpg)\n\nThe implementation is split in four parts:\n\n1. Use Machine Learing to create model for Image Recognition using TensorFlow\n2. Create the UI using Elm\n3. Integrate the Image Recognition Model with the UI\n4. Integrate an Interactive Map with the UI\n\n#### Machine Learning\n\nTransfer Learning is used to improve the overall accuracy of the \nmodel since the size of the training set is extremely small.\n\n![Model Accuracy](/z-context/img/projects/discover-sofia/model-accuracy.png)\n\nPost-training quantization is used to reduce the model size. \n\n#### Create the UI\n\n![App UI](/z-context/img/projects/discover-sofia/app-ui.jpg)\n\nThe interface is devided in three pages:\n\n1) **Map**:Represents an interactive map with visualized landmarks. \nChoosing a certain landmark shows the user a basic info about the landmark \nand an option for basic navigation. \n\n2) **Camera**: Represents an interface which shows the video feed from the \nback camera if there is one. If there is back camera the video feed is used \nfor inference using the Image Recognition model. The result is displayed below the video element.\n\n3) **Photo**: Represents an interface for uploading photo from the device.\n The uploaded photo is then used for inference using the Image Recognitionn \n model and the result is displayed below the photo.\n\n#### Integrating the Image Recognition Model with the UI\n\nElm Ports are used for communication bewteen the UI and Image Recognition model. \nThe logic for working with the model and preparing the images for inference is\n implemented with the help of the TensorFlow.js library.\n \n![App Communications](/z-context/img/projects/discover-sofia/app-comms.png)\n\n#### Integrating the Interactive Map with the UI\n\nTwo external APIs are used for implementing the interactive map:\n\n1) Wikipedia REST API\n\n> Used to take request information about the landmarks(histoty, images, coordinates, etc.) \n\n2) HereMaps API\n\n> Used to display the map and vizualize the landmarks on it. \nAlso provideing the basic navigation features.\n\n***\n\n## How to run it\n\n#### [Open the Link](https://andyfv.github.io/discover-sofia/)\n\n#### Or download/clone locally:\n\n1) Download or Clone the repository\n\n2) Install the needed dependecies\n* elm \n* elm-live\n* cors-anywhere\n\n3) Start `cors-anywhere`. From the installation directory of `cors-anywhere` issue the \nfollowing command in a terminal:\n    \n> `node server.js`\n\n4) Start the local server. First checkout to the `development` branch. Then from the \nbase of the project directory issue the following command:\n\n> `elm-live src/Main.elm --pushstate -- --debug --output =elm.js`\n\n***\n\n## How to use it\n\n![App](/z-context/img/projects/discover-sofia/app.png)\n\nNavigate through the three pages to use the functionality you want:\n\n* /map\n* /camera\n* /photos \n\n***\n\n## Dependencies\n\n* TensorFlow.js\n* HereMaps API\n* Wikipedia REST API\n\nElm dependencies:\n\n* elm/file\n* elm/url\n* elm/http\n* elm/json\n* NoRedInk/elm-json-decode-pipeline\n* elm-explorations/test\n\n***\n\n## TODO\n\nThere is much to be done: \n\n* Use the inference result so that the user can be redirected to the Map page\n showing the basic information about the landmark. First it should be analized how \n and where to do it.\n* Implement back-end server to host the page and transform to PWA\n* Making the experience more interactive\n* Update the model architecture from MobilenetV2 to MobilenetV3\n* Try further optimizing the inference times by using smaller input images. \nCurrently using [224x224]\n\n***\n\n## Issues\n\n* In some versions of Firefox the GPU backend could not be used. Looks like an issue \nwith Firefox and not TensorFlow.js.\n';
+var $author$project$Projects$DiscoverSofia$articleText = '\n## Table Of Contents\n \n* [About](#about)\n* [Implementation](#implementation)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n* [Issues](#issues)\n\n***\n\n## About\n\nThe **Discover Sofia** project was my Bachelor Thesis. The main idea was to \nexplore the Web-browser\'s capabilties as a platform for Machine Learning. \nThe current implementation is far from complete but for now it allows the user to:\n\n- Use Image Recognition to recognize particular landmark by using the \nvideo feed from the back camera or by uploading a photo\n- Check interesting landmarks on the map and get short information about them\n- Get basic Navigation to the selected landmark\n\n**Functional programming** in the form of **Elm** was used for:\n- Being the single source of truth for the most of the application state \n- Implementing the UI \n- Putting together the logic from the additional JavaScript libraries.\n\n*** \n\n## Implementation\n\nThe architecture of the application is the following:\n\n![App Architecture](/a-context/img/projects/discover-sofia/app-arch.jpg)\n\nThe implementation is split in four parts:\n\n1. Use Machine Learing to create model for Image Recognition using TensorFlow\n2. Create the UI using Elm\n3. Integrate the Image Recognition Model with the UI\n4. Integrate an Interactive Map with the UI\n\n#### Machine Learning\n\nTransfer Learning is used to improve the overall accuracy of the \nmodel since the size of the training set is extremely small.\n\n![Model Accuracy](/a-context/img/projects/discover-sofia/model-accuracy.png)\n\nPost-training quantization is used to reduce the model size. \n\n#### Create the UI\n\n![App UI](/a-context/img/projects/discover-sofia/app-ui.jpg)\n\nThe interface is devided in three pages:\n\n1) **Map**:Represents an interactive map with visualized landmarks. \nChoosing a certain landmark shows the user a basic info about the landmark \nand an option for basic navigation. \n\n2) **Camera**: Represents an interface which shows the video feed from the \nback camera if there is one. If there is back camera the video feed is used \nfor inference using the Image Recognition model. The result is displayed below the video element.\n\n3) **Photo**: Represents an interface for uploading photo from the device.\n The uploaded photo is then used for inference using the Image Recognitionn \n model and the result is displayed below the photo.\n\n#### Integrating the Image Recognition Model with the UI\n\nElm Ports are used for communication bewteen the UI and Image Recognition model. \nThe logic for working with the model and preparing the images for inference is\n implemented with the help of the TensorFlow.js library.\n \n![App Communications](/a-context/img/projects/discover-sofia/app-comms.png)\n\n#### Integrating the Interactive Map with the UI\n\nTwo external APIs are used for implementing the interactive map:\n\n1) Wikipedia REST API\n\n> Used to take request information about the landmarks(histoty, images, coordinates, etc.) \n\n2) HereMaps API\n\n> Used to display the map and vizualize the landmarks on it. \nAlso provideing the basic navigation features.\n\n***\n\n## How to run it\n\n#### [Open the Link](https://andyfv.github.io/discover-sofia/)\n\n#### Or download/clone locally:\n\n1) Download or Clone the repository\n\n2) Install the needed dependecies\n* elm \n* elm-live\n* cors-anywhere\n\n3) Start `cors-anywhere`. From the installation directory of `cors-anywhere` issue the \nfollowing command in a terminal:\n    \n> `node server.js`\n\n4) Start the local server. First checkout to the `development` branch. Then from the \nbase of the project directory issue the following command:\n\n> `elm-live src/Main.elm --pushstate -- --debug --output =elm.js`\n\n***\n\n## How to use it\n\n![App](/a-context/img/projects/discover-sofia/app.png)\n\nNavigate through the three pages to use the functionality you want:\n\n* /map\n* /camera\n* /photos \n\n***\n\n## Dependencies\n\n* TensorFlow.js\n* HereMaps API\n* Wikipedia REST API\n\nElm dependencies:\n\n* elm/file\n* elm/url\n* elm/http\n* elm/json\n* NoRedInk/elm-json-decode-pipeline\n* elm-explorations/test\n\n***\n\n## TODO\n\nThere is much to be done: \n\n* Use the inference result so that the user can be redirected to the Map page\n showing the basic information about the landmark. First it should be analized how \n and where to do it.\n* Implement back-end server to host the page and transform to PWA\n* Making the experience more interactive\n* Update the model architecture from MobilenetV2 to MobilenetV3\n* Try further optimizing the inference times by using smaller input images. \nCurrently using [224x224]\n\n***\n\n## Issues\n\n* In some versions of Firefox the GPU backend could not be used. Looks like an issue \nwith Firefox and not TensorFlow.js.\n';
 var $elm$html$Html$h4 = _VirtualDom_node('h4');
 var $author$project$Projects$DiscoverSofia$dateAndLink = F2(
 	function (date, link) {
@@ -8152,7 +8152,7 @@ var $author$project$Projects$DiscoverSofia$articleBody = function (a) {
 var $author$project$Projects$DiscoverSofia$view = function (model) {
 	return $author$project$Projects$DiscoverSofia$articleBody($author$project$Projects$DiscoverSofia$article);
 };
-var $author$project$Projects$NeighborhoodHere$articleText = '\n\n## Table of Contents\n\n* [About](#about)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n\n## About\n\nThe **Neighborhood-Here** project is Map app written in React and Redux. You can search different POI in the area and get basic information about them. The project emphasizes using React and Redux to build the application and the usage of third-party APIs (HereMapsAPI). \n\n## How to run it\n\n#### [Open the App Link](https://andyfv.github.io/neighborhood-map-here/)\n\n<br>\n\n**Or download/clone locally:**\n\n1) Download or Clone the repository\n\n2) Unzip the file if you have downloaded a ZIP\n\n3) Install dependencies using **npm**:\n\n> `npm install`\n\n4) Start the application:\n\n The service worker is only enabled in the production environment, so if you want to use it build the project first. For more information check [Making a Progressive Web App](https://goo.gl/KwvDNy).\n\n> `npm run build`\n\n> `npm install -g serve`\n\n> `serve -s build`\n\n* Otherwise just start the server\n\n    \n\n5) This will open new browser window/tab. If it doesn\'t navigate to:\n\n- `http://localhost:3000/`\n\n## How to use it\n\nOn the page you will see three main elements:\n\n* Map\n* Search Box\n* List\n\n![Page](/z-context/img/projects/neighborhood/desktop_800.jpg)\n\n* To view information about specific venue you can choose item either from the List or from the map Markers. The map will be centered on the opened InfoBubble for you.\n\n![POI](/z-context/img/projects/neighborhood/desktop_info_800.jpg)\n\n***\n\n* To search specific POI you are interested in just type in the Search Box and your results will update in both the **Map** and **List**\n\n<p align="center">\n    <img src="/z-context/img/projects/neighborhood/iphone5_results_200.jpg" width="200" alt="Search results on a phone">\n    <img src="/z-context/img/projects/neighborhood/iphone5_info_200.jpg" width="200" alt="InfoBubble on a phone">\n    <img src="/z-context/img/projects/neighborhood/iphone5_map_200.jpg" width="200" alt="Map results on a phone">\n</p>\n\n## Dependencies\n\n* redux\n* redux-thunk\n* react-redux\n* HereMapsAPI\n* PropTypes\n\n\n## TODO\n\n\n* If HTTP 503 error is given - send another request<br>\nSadly the HTTP 503 Error for ```Places API``` didn\'t go away by reducing the number of requests send.<br>\nAs per [Here Maps Places API Documentation](https://developer.here.com/documentation/places/topics/http-status-codes.html) :\n\n503 Service Unavailable Indicates that the service is temporarily unavailable due to system overload or maintenance.\n\n';
+var $author$project$Projects$NeighborhoodHere$articleText = '\n\n## Table of Contents\n\n* [About](#about)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n\n## About\n\nThe **Neighborhood-Here** project is Map app written in React and Redux. You can search different POI in the area and get basic information about them. The project emphasizes using React and Redux to build the application and the usage of third-party APIs (HereMapsAPI). \n\n## How to run it\n\n#### [Open the App Link](https://andyfv.github.io/neighborhood-map-here/)\n\n<br>\n\n**Or download/clone locally:**\n\n1) Download or Clone the repository\n\n2) Unzip the file if you have downloaded a ZIP\n\n3) Install dependencies using **npm**:\n\n> `npm install`\n\n4) Start the application:\n\n The service worker is only enabled in the production environment, so if you want to use it build the project first. For more information check [Making a Progressive Web App](https://goo.gl/KwvDNy).\n\n> `npm run build`\n\n> `npm install -g serve`\n\n> `serve -s build`\n\n* Otherwise just start the server\n\n    \n\n5) This will open new browser window/tab. If it doesn\'t navigate to:\n\n- `http://localhost:3000/`\n\n## How to use it\n\nOn the page you will see three main elements:\n\n* Map\n* Search Box\n* List\n\n![Page](/a-context/img/projects/neighborhood/desktop_800.jpg)\n\n* To view information about specific venue you can choose item either from the List or from the map Markers. The map will be centered on the opened InfoBubble for you.\n\n![POI](/a-context/img/projects/neighborhood/desktop_info_800.jpg)\n\n***\n\n* To search specific POI you are interested in just type in the Search Box and your results will update in both the **Map** and **List**\n\n<p align="center">\n    <img src="/a-context/img/projects/neighborhood/iphone5_results_200.jpg" width="200" alt="Search results on a phone">\n    <img src="/a-context/img/projects/neighborhood/iphone5_info_200.jpg" width="200" alt="InfoBubble on a phone">\n    <img src="/a-context/img/projects/neighborhood/iphone5_map_200.jpg" width="200" alt="Map results on a phone">\n</p>\n\n## Dependencies\n\n* redux\n* redux-thunk\n* react-redux\n* HereMapsAPI\n* PropTypes\n\n\n## TODO\n\n\n* If HTTP 503 error is given - send another request<br>\nSadly the HTTP 503 Error for ```Places API``` didn\'t go away by reducing the number of requests send.<br>\nAs per [Here Maps Places API Documentation](https://developer.here.com/documentation/places/topics/http-status-codes.html) :\n\n503 Service Unavailable Indicates that the service is temporarily unavailable due to system overload or maintenance.\n\n';
 var $author$project$Projects$NeighborhoodHere$dateAndLink = F2(
 	function (date, link) {
 		return A2(
@@ -8426,7 +8426,7 @@ var $author$project$Projects$SailfishOS$chapter1 = A2(
 				[
 					$elm$html$Html$text('Current Device Line')
 				])),
-			A2($author$project$Center$markdown, '800px', '![Devices](/z-context/img/projects/sailfish/sailfish-current-devices.png)'),
+			A2($author$project$Center$markdown, '800px', '![Devices](/a-context/img/projects/sailfish/sailfish-current-devices.png)'),
 			A2(
 			$elm$html$Html$img,
 			_List_fromArray(
@@ -8458,7 +8458,7 @@ var $author$project$Projects$SailfishOS$chapter1 = A2(
 			$elm$html$Html$img,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$src('/z-context/img/projects/sailfish/sailfish-devices-reachability.svg'),
+					$elm$html$Html$Attributes$src('/a-context/img/projects/sailfish/sailfish-devices-reachability.svg'),
 					$elm$html$Html$Attributes$alt('Reachability')
 				]),
 			_List_Nil),
@@ -8528,7 +8528,7 @@ var $author$project$Projects$SailfishOS$chapter2 = A2(
 					A2($author$project$Projects$SailfishOS$highlightColor, 'gesture based navigation', $author$project$Projects$SailfishOS$red),
 					$elm$html$Html$text('. And in it\'s current state it looks like this: ')
 				])),
-			A2($author$project$Center$markdown, '320px', '![Navigation](/z-context/img/projects/sailfish/sailfish-navigation.svg)'),
+			A2($author$project$Center$markdown, '320px', '![Navigation](/a-context/img/projects/sailfish/sailfish-navigation.svg)'),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
@@ -8609,11 +8609,11 @@ var $author$project$Projects$SailfishOS$systemSearch = A2(
 				]),
 			_List_fromArray(
 				[
-					A2($author$project$Center$markdown, '320px', '![Search](/z-context/img/projects/sailfish/SailfishOS_Search.gif)'),
-					A2($author$project$Center$markdown, '320px', '![Search](/z-context/img/projects/sailfish/SailfishOS_SearchResults.gif)')
+					A2($author$project$Center$markdown, '320px', '![Search](/a-context/img/projects/sailfish/SailfishOS_Search.gif)'),
+					A2($author$project$Center$markdown, '320px', '![Search](/a-context/img/projects/sailfish/SailfishOS_SearchResults.gif)')
 				])),
 			$author$project$Projects$SailfishOS$paragraph('View from above of the proposed navigation improvements:'),
-			A2($author$project$Center$markdown, '640px', '![Sailfish Swipe Comparison](/z-context/img/projects/sailfish/sailfish-proposition-view.png)')
+			A2($author$project$Center$markdown, '640px', '![Sailfish Swipe Comparison](/a-context/img/projects/sailfish/sailfish-proposition-view.png)')
 		]));
 var $author$project$Projects$SailfishOS$centerImage = F3(
 	function (imgSrc, altName, maxWidth) {
@@ -8689,7 +8689,7 @@ var $author$project$Projects$SailfishOS$topMenu = A2(
 								[
 									$elm$html$Html$text('Left Swipe')
 								])),
-							A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/SailfishOS_TopMenuLeft.gif', 'Left Swipe', '200px')
+							A3($author$project$Projects$SailfishOS$centerImage, '/a-context/img/projects/sailfish/SailfishOS_TopMenuLeft.gif', 'Left Swipe', '200px')
 						])),
 					A2(
 					$elm$html$Html$div,
@@ -8703,7 +8703,7 @@ var $author$project$Projects$SailfishOS$topMenu = A2(
 								[
 									$elm$html$Html$text('From Home Swipe')
 								])),
-							A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/SailfishOS_TopMenu.gif', 'Home Swipe', '200px')
+							A3($author$project$Projects$SailfishOS$centerImage, '/a-context/img/projects/sailfish/SailfishOS_TopMenu.gif', 'Home Swipe', '200px')
 						])),
 					A2(
 					$elm$html$Html$div,
@@ -8717,11 +8717,11 @@ var $author$project$Projects$SailfishOS$topMenu = A2(
 								[
 									$elm$html$Html$text('Right Swipe')
 								])),
-							A3($author$project$Projects$SailfishOS$centerImage, '/z-context/img/projects/sailfish/SailfishOS_TopMenuRight.gif', 'Right Swipe', '200px')
+							A3($author$project$Projects$SailfishOS$centerImage, '/a-context/img/projects/sailfish/SailfishOS_TopMenuRight.gif', 'Right Swipe', '200px')
 						]))
 				])),
 			$author$project$Projects$SailfishOS$paragraph('This is not the about the UI (colors, icon shapes. etc), but more about the UX, so here is a little comparison of the proposed vs the old:'),
-			A2($author$project$Center$markdown, '640px', '![Top Menu Comparison](/z-context/img/projects/sailfish/sailfish-topmenu-comparison.svg)'),
+			A2($author$project$Center$markdown, '640px', '![Top Menu Comparison](/a-context/img/projects/sailfish/sailfish-topmenu-comparison.svg)'),
 			A2(
 			$elm$html$Html$p,
 			_List_fromArray(
@@ -8732,7 +8732,7 @@ var $author$project$Projects$SailfishOS$topMenu = A2(
 				[
 					$elm$html$Html$text('Landscape')
 				])),
-			A2($author$project$Center$markdown, '480px', '![Landscape](/z-context/img/projects/sailfish/sailfish-new-topmenu-landscape.svg)'),
+			A2($author$project$Center$markdown, '480px', '![Landscape](/a-context/img/projects/sailfish/sailfish-new-topmenu-landscape.svg)'),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
@@ -8789,7 +8789,7 @@ var $author$project$Projects$SailfishOS$chapter3 = A2(
 				[
 					$elm$html$Html$text('Quick Close')
 				])),
-			A2($author$project$Center$markdown, '320px', '![Quick Close](/z-context/img/projects/sailfish/sailfish-quick-close.svg)'),
+			A2($author$project$Center$markdown, '320px', '![Quick Close](/a-context/img/projects/sailfish/sailfish-quick-close.svg)'),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
@@ -8828,9 +8828,9 @@ var $author$project$Projects$SailfishOS$chapter3 = A2(
 					A2($author$project$Projects$SailfishOS$highlightColor, 'Quick Closing', $author$project$Projects$SailfishOS$red),
 					$elm$html$Html$text(' an App, this will prevent from accidental closing. Let\'s check it.')
 				])),
-			A2($author$project$Center$markdown, '640px', '![Swipe Comparison](/z-context/img/projects/sailfish/sailfish-swipe-comparison.svg)'),
+			A2($author$project$Center$markdown, '640px', '![Swipe Comparison](/a-context/img/projects/sailfish/sailfish-swipe-comparison.svg)'),
 			$author$project$Projects$SailfishOS$paragraph('And here it is a more complete overview, with a hint at the top of the screen, telling the user what is going to happen. '),
-			A2($author$project$Center$markdown, '320px', '![Close App Gesture](/z-context/img/projects/sailfish/SailfishOS_CloseApp.gif)'),
+			A2($author$project$Center$markdown, '320px', '![Close App Gesture](/a-context/img/projects/sailfish/SailfishOS_CloseApp.gif)'),
 			A2(
 			$elm$html$Html$p,
 			_List_Nil,
@@ -8909,7 +8909,7 @@ var $author$project$Projects$SailfishOS$articleBody = function (a) {
 var $author$project$Projects$SailfishOS$view = function (model) {
 	return $author$project$Projects$SailfishOS$articleBody($author$project$Projects$SailfishOS$article);
 };
-var $author$project$Projects$SymbolRecognition$articleText = '\n\n# Symbol Recognition\n\n## Table Of Contents\n \n* [About](#about)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n* [Issues](#issues)\n\n\n## About\n\nThe **Symbol Recognition** project is Web app written in Elm. \nYou can handwrite symbols (the letters from A-Z and numbers 1-9) on\nthe canvas and get it recognized. Second point of the project is to use the time-sequenced\n symbol recognition for gesture navigation UI .The project is inspired by one of the most \nproductive studies in HCI - The [GRAIL/BIOMOD system](https://www.youtube.com/watch?v=2Cq8S3jzJiQ).\n\n![GRAIL System](/z-context/img/projects/symbol-rec/GRAIL_system.png)\n\nThe [text recognition scheme (_Real-Time Recognition of Handprinted Text_, 1966)](https://www.rand.org/pubs/research_memoranda/RM5016.html) was designed and implemented mainly by Garbriel F. Groner to permit an on-line computer user \nto print text naturally and have it recognized accurately. The original scheme was able to recognize a set of\n53 symbols entered with the help of the RAND tablet with its pen as input device.\nRecognition of the symbols was done as analysis of the data in a time-sequenced matter, \nwith a series of test to identify a specific symbol:\n\n<br>\n\n#### 1) Getting Raw Data\n        \nOriginally, pressing the pen against the tablet  surface activated\nthe symbol recognition scheme by indicating the start of a stroke.\nAs the pen was moved data-points were added to the stroke. And finally \nwhen the pen was lifted the recognition scheme was notified that the \nstroke is complete. Next is the series of data analysis of the stroke.\n\n#### 2) Smoothing \n\nAs taken from _Real-Time Recognition of Handprinted Text (Groner, 1966)_ :\n\n"The scheme smooths the data by averaging a newly arrived data-point with the \npreviously smoothed data-point, thus reducing the noise due to discreteness of the pen\nlocation as measured by the tablet. Smoothing is based on the equations"\n\n\n#### 3) Thinning\n\n"Thinning is the process of removing some of the data-points from the pen track.\nThis is accomplished by comparing the position of a new smoothed data-point with the\nposition of the last point in a thinned track. If these points are sufficiently apart,\nthe analysis scheme accepts the smoothed points as part of the thinned track; otherwise, \nit is discarded. Thinning eliminates small perturbation in the track, and reduces \nthe data processing requirements by drastically reducing (by a factor of seven or so) \nthe number of data-points."\n          \n          \n#### 4) Curvature\n\nThis test assigned a *direction* to each point so the stroke/symbol can be represented by \na sequence of directions - eg. UP, DOWN, UP, LEFT which results in the letter A. \n\n"If the same direction occurs twice in succession, and it is not the same as the last \ndirection listed in the sequence, then it is added to the list; otherwise it is discarded." \n\n\n#### 5) Corner Detection\n\nA corner is detected whenever the pen is moves in the same direction for at least \ntwo segments, changes direction by at least 90°, and \nthen proceeds along the new direction for at least two segments.\n\n#### 6) Additional features (Partially implemented, but not used yet)\n\nIn this implementation the Start and End positions of a stroke are stored for\nfurther testing in the decision process of the recognition.\n\nAdditional features were used in the original, such as the size, position and ratio of the stroke.\n\n\n## How to run it\n\n#### [Open the Link](https://andyfv.github.io/symbol-recognition/)\n\n```Or download/clone locally:```\n\n1) Download or Clone the repository\n\n2) Open index.html in a browser\n\n\n## How to use it\n\nOn the page you will see three Boxes:\n\n* Raw Input \n* Smoothed Input\n* Thinned Input \n\nJust draw/write a stroke in one of the boxes (it doesn\'t matter which one).\nBelow is the table of the symbols and their single-stroke representation.\n\n![Symbols](/z-context/img/projects/symbol-rec/table_800.png)\n\n***\n\n## Dependencies\n\n* mdgriffith/elm-ui\n* elm/svg\n\n\n## TODO\n\nThere is much to be done: \n\n* Fix issue in Firefox where the cursor is constantly jumping to top-left of the canvas  \n* The code is not taking full advantage of the Elm features - some "shortcuts" need to be fixed\n* Making the experience more interactive\n* Migrating from elm/svg to elm-vizualization\n* Add more symbols by implementing more recognition features\n\n## Issues\n\n* In Firefox the cursor is constantly jumping to top-left of the canvas.\n\n';
+var $author$project$Projects$SymbolRecognition$articleText = '\n\n# Symbol Recognition\n\n## Table Of Contents\n \n* [About](#about)\n* [How to run it](#how-to-run-it)\n* [How to use it](#how-to-use-it)\n* [Dependencies](#dependencies)\n* [TODO](#todo)\n* [Issues](#issues)\n\n\n## About\n\nThe **Symbol Recognition** project is Web app written in Elm. \nYou can handwrite symbols (the letters from A-Z and numbers 1-9) on\nthe canvas and get it recognized. Second point of the project is to use the time-sequenced\n symbol recognition for gesture navigation UI .The project is inspired by one of the most \nproductive studies in HCI - The [GRAIL/BIOMOD system](https://www.youtube.com/watch?v=2Cq8S3jzJiQ).\n\n![GRAIL System](/a-context/img/projects/symbol-rec/GRAIL_system.png)\n\nThe [text recognition scheme (_Real-Time Recognition of Handprinted Text_, 1966)](https://www.rand.org/pubs/research_memoranda/RM5016.html) was designed and implemented mainly by Garbriel F. Groner to permit an on-line computer user \nto print text naturally and have it recognized accurately. The original scheme was able to recognize a set of\n53 symbols entered with the help of the RAND tablet with its pen as input device.\nRecognition of the symbols was done as analysis of the data in a time-sequenced matter, \nwith a series of test to identify a specific symbol:\n\n<br>\n\n#### 1) Getting Raw Data\n        \nOriginally, pressing the pen against the tablet  surface activated\nthe symbol recognition scheme by indicating the start of a stroke.\nAs the pen was moved data-points were added to the stroke. And finally \nwhen the pen was lifted the recognition scheme was notified that the \nstroke is complete. Next is the series of data analysis of the stroke.\n\n#### 2) Smoothing \n\nAs taken from _Real-Time Recognition of Handprinted Text (Groner, 1966)_ :\n\n"The scheme smooths the data by averaging a newly arrived data-point with the \npreviously smoothed data-point, thus reducing the noise due to discreteness of the pen\nlocation as measured by the tablet. Smoothing is based on the equations"\n\n\n#### 3) Thinning\n\n"Thinning is the process of removing some of the data-points from the pen track.\nThis is accomplished by comparing the position of a new smoothed data-point with the\nposition of the last point in a thinned track. If these points are sufficiently apart,\nthe analysis scheme accepts the smoothed points as part of the thinned track; otherwise, \nit is discarded. Thinning eliminates small perturbation in the track, and reduces \nthe data processing requirements by drastically reducing (by a factor of seven or so) \nthe number of data-points."\n          \n          \n#### 4) Curvature\n\nThis test assigned a *direction* to each point so the stroke/symbol can be represented by \na sequence of directions - eg. UP, DOWN, UP, LEFT which results in the letter A. \n\n"If the same direction occurs twice in succession, and it is not the same as the last \ndirection listed in the sequence, then it is added to the list; otherwise it is discarded." \n\n\n#### 5) Corner Detection\n\nA corner is detected whenever the pen is moves in the same direction for at least \ntwo segments, changes direction by at least 90°, and \nthen proceeds along the new direction for at least two segments.\n\n#### 6) Additional features (Partially implemented, but not used yet)\n\nIn this implementation the Start and End positions of a stroke are stored for\nfurther testing in the decision process of the recognition.\n\nAdditional features were used in the original, such as the size, position and ratio of the stroke.\n\n\n## How to run it\n\n#### [Open the Link](https://andyfv.github.io/symbol-recognition/)\n\n```Or download/clone locally:```\n\n1) Download or Clone the repository\n\n2) Open index.html in a browser\n\n\n## How to use it\n\nOn the page you will see three Boxes:\n\n* Raw Input \n* Smoothed Input\n* Thinned Input \n\nJust draw/write a stroke in one of the boxes (it doesn\'t matter which one).\nBelow is the table of the symbols and their single-stroke representation.\n\n![Symbols](/a-context/img/projects/symbol-rec/table_800.png)\n\n***\n\n## Dependencies\n\n* mdgriffith/elm-ui\n* elm/svg\n\n\n## TODO\n\nThere is much to be done: \n\n* Fix issue in Firefox where the cursor is constantly jumping to top-left of the canvas  \n* The code is not taking full advantage of the Elm features - some "shortcuts" need to be fixed\n* Making the experience more interactive\n* Migrating from elm/svg to elm-vizualization\n* Add more symbols by implementing more recognition features\n\n## Issues\n\n* In Firefox the cursor is constantly jumping to top-left of the canvas.\n\n';
 var $author$project$Projects$SymbolRecognition$dateAndLink = F2(
 	function (date, link) {
 		return A2(

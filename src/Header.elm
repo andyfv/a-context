@@ -92,7 +92,7 @@ viewMenuButton =
         [ id "menu-button"
         , onClick MenuButtonClicked 
         ]
-        [ img [ src "/z-context/img/menu_icon_dark.svg", id "menu-icon" ] []
+        [ img [ src "/a-context/img/menu_icon_dark.svg", id "menu-icon" ] []
         ]
 
 
@@ -123,15 +123,15 @@ logo =
         [ node "picture" [ id "header-icon" ]
             [ source 
                 [ media "(max-width: 750px)"
-                , attribute "srcset" "/z-context/img/icon_mobile_dark.svg"
+                , attribute "srcset" "/a-context/img/icon_mobile_dark.svg"
                 ] 
                 []
             , source 
                 [ media "(min-width: 751px)"
-                , attribute "srcset" "/z-context/img/blog_desktop_dark.svg"
+                , attribute "srcset" "/a-context/img/blog_desktop_dark.svg"
                 ] 
                 []
-            , img [ src "/z-context/img/icon_mobile_dark.svg", alt "logo"] []
+            , img [ src "/a-context/img/icon_mobile_dark.svg", alt "logo"] []
             ] 
         ]
 

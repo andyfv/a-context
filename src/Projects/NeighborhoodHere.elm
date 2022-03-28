@@ -16,7 +16,7 @@ article =
         { title = "Neighborhood Map"
         , subtitle = "Redo with Redux"
         , date = "2019"
-        , image = Image "/z-context/img/projects/neighborhood/desktop_250.png" "Map"
+        , image = Image "/a-context/img/projects/neighborhood/desktop_250.png" "Map"
         , href = "projects/neighborhood-here"
         , summary = ""
         }
@@ -136,20 +136,20 @@ On the page you will see three main elements:
 * Search Box
 * List
 
-![Page](/z-context/img/projects/neighborhood/desktop_800.jpg)
+![Page](/a-context/img/projects/neighborhood/desktop_800.jpg)
 
 * To view information about specific venue you can choose item either from the List or from the map Markers. The map will be centered on the opened InfoBubble for you.
 
-![POI](/z-context/img/projects/neighborhood/desktop_info_800.jpg)
+![POI](/a-context/img/projects/neighborhood/desktop_info_800.jpg)
 
 ***
 
 * To search specific POI you are interested in just type in the Search Box and your results will update in both the **Map** and **List**
 
 <p align="center">
-    <img src="/z-context/img/projects/neighborhood/iphone5_results_200.jpg" width="200" alt="Search results on a phone">
-    <img src="/z-context/img/projects/neighborhood/iphone5_info_200.jpg" width="200" alt="InfoBubble on a phone">
-    <img src="/z-context/img/projects/neighborhood/iphone5_map_200.jpg" width="200" alt="Map results on a phone">
+    <img src="/a-context/img/projects/neighborhood/iphone5_results_200.jpg" width="200" alt="Search results on a phone">
+    <img src="/a-context/img/projects/neighborhood/iphone5_info_200.jpg" width="200" alt="InfoBubble on a phone">
+    <img src="/a-context/img/projects/neighborhood/iphone5_map_200.jpg" width="200" alt="Map results on a phone">
 </p>
 
 ## Dependencies

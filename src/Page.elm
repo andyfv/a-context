@@ -25,7 +25,7 @@ type alias Config msg =
 
 view : Config msg -> Browser.Document msg
 view ({ route, content, header }) = 
-    { title = "Z Context"
+    { title = "A-Context"
     , body = 
         header
         :: viewContent content route
@@ -102,5 +102,5 @@ viewArticle article =
 viewFooter : Html msg
 viewFooter = 
     div [ id "footer" ]
-        [ a [ href "https://github.com/andyfv/z-context" ] [ text "This site source code" ]
+        [ a [ href "https://github.com/andyfv/a-context" ] [ text "This site source code" ]
         ]
