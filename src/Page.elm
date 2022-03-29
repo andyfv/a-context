@@ -25,7 +25,7 @@ type alias Config msg =
 
 view : Config msg -> Browser.Document msg
 view ({ route, content, header }) = 
-    { title = "A-Context"
+    { title = "a-Context"
     , body = 
         header
         :: viewContent content route

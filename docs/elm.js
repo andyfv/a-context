@@ -7801,7 +7801,7 @@ var $author$project$Page$view = function (_v0) {
 				A2($author$project$Page$viewContent, content, route),
 				_List_fromArray(
 					[$author$project$Page$viewFooter]))),
-		title: 'A-Context'
+		title: 'a-Context'
 	};
 };
 var $elm$html$Html$hr = _VirtualDom_node('hr');

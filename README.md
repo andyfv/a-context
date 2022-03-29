@@ -1,4 +1,4 @@
-# A-Context
+# a-Context
 
 ## Table Of Contents
 
@@ -12,7 +12,7 @@
 
 ## About
 
-The **A-Context** personal website is a SPA written in Elm. 
+The **a-Context** personal website is a SPA written in Elm. 
 
 
 
